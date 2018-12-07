@@ -24,12 +24,14 @@ setup() {
   gfx-setup
   sound-setup
   music-setup
+  joystick-setup
 }
 
 teardown() {
   gfx-teardown
   sound-teardown
   music-teardown
+  joystick-teardown
   terminate-all-threads
   trap exit ALRM
   sleep "$DELAY"
