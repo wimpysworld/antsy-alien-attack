@@ -14,7 +14,7 @@ reset-game() {
 }
 
 game-mode() {
-  KEY='\0'
+  KEY=
   DELAY=0.05
   tput clear
   reset-game
@@ -53,7 +53,7 @@ game-loop() {
       gameover-mode
       return 1;;
   esac
-  KEY='\0'
+  KEY=
 
   # Score and entities
   draw 0 0 $STATUS_COLOR "Lives: $lives"

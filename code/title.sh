@@ -8,7 +8,7 @@ sin=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3
 sinc=${#sin[@]}
 
 title-mode() {
-  KEY='\0'
+  KEY=
   DELAY=0
   tput clear
 
@@ -39,7 +39,7 @@ title-loop() {
     for line in "${titleScreen[@]}"; do
       local i=$(((frame / 2 + y) % sinc))
       local x=$((titleScreenOffset + sin["$i"]))
-      draw "$x" "$y" 0 "\e[1K$line\e[K"
+      draw $x $y 0 "\e[1K$line\e[K"
       ((y++))
     done
     render

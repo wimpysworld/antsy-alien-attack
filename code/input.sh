@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-KEY='\0'
+KEY=
 
 joystickThread=
 joy2key=$(which joy2key)

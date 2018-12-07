@@ -3,7 +3,7 @@
 victoryMusicThread=
 
 victory-mode() {
-  KEY='\0'
+  KEY=
   tput clear
 
   music victory
