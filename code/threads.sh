@@ -10,7 +10,7 @@ keep-thread() {
 
 kill-thread() {
   local pid=$1
-  (kill -STOP "$pid" || true) > /dev/null 2>&1
+  (kill -KILL "$pid" || true) > /dev/null 2>&1
 }
 
 terminate-all-threads() {
