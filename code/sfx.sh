@@ -20,7 +20,7 @@ sound() {
 }
 
 sound-mpg123() {
-  mpg123 -q "$*" &
+  mpg123 -q "$*" > /dev/null 2>&1 &
 }
 
 sound-beep() {
