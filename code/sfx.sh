@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+playSound=
+
+sound-setup() {
+  if which mpg123; then
+    playSound='sound-mpg123'
+  else
+    playSound='sound-beep'
+  fi
+}
+
+sound-teardown() {
+  true
+}
+
+sound() {
+  local sound=sfx/$1.mp3
+  $playSound "$sound"
+}
+
+sound-mpg123() {
+  mpg123 -q "$*" &
+}
+
+sound-beep() {
+  echo -en '\a' &
+}
