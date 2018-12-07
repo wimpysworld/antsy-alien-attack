@@ -19,7 +19,7 @@ case ${BASH_VERSINFO[@]::2} in [1-3]' '[0-9][0-9]|[1-3]' '[0-9]|'4 '[0-1])
 esac
 
 setup() {
-  trap teardown EXIT INT
+  trap teardown EXIT INT TERM
   trap start-loop USR1
   gfx-setup
   sound-setup
