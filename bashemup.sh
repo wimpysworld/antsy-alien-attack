@@ -20,7 +20,7 @@ esac
 
 setup() {
   trap teardown EXIT INT
-  trap start-loop ALRM
+  trap start-loop USR1
   gfx-setup
   sound-setup
   music-setup
@@ -33,14 +33,14 @@ teardown() {
   music-teardown
   joystick-teardown
   terminate-all-threads
-  trap exit ALRM
+  trap exit USR1
   sleep "$DELAY"
   exit
 }
 
 start-loop() {
   $LOOP
-  (sleep $DELAY && kill -ALRM $$) &
+  (sleep $DELAY && kill -USR1 $$) &
 }
 
 setup
