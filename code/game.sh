@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-readonly STATUS_COLOR=7
-readonly NOTICE_COLOR=4
+readonly STATUS_COLOR=$BRED$WHT
 readonly HERO='🐧'
 heroX=$(($(tput cols)/2))
 heroY=$(($(tput lines)/2))
@@ -54,10 +53,9 @@ game-loop() {
   KEY='\0'
 
   # Score and entities
-  draw $heroX $heroY 0 "$HERO"
+  draw $heroX $heroY $DEF "$HERO"
   draw 0 0 $STATUS_COLOR "Lives: $lives"
   draw-right 0 $STATUS_COLOR "Score: $score"
-  
   render
 
   if [ $oldheroX -ne $heroX ] || [ $oldheroY -ne $heroY ]; then
