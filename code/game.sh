@@ -38,6 +38,8 @@ game-loop() {
       ((heroX--));;
     'd')
       ((heroX++));;
+    'l')
+      sound laser;;
     'v')
       # Victory condition stub
       kill-thread "$gameMusicThread"
@@ -59,6 +61,6 @@ game-loop() {
   render
 
   if [ $oldheroX -ne $heroX ] || [ $oldheroY -ne $heroY ]; then
-    sound move
+    true
   fi
 }
