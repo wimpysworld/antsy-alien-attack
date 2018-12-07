@@ -21,6 +21,6 @@ joystick-teardown() {
 
 start-input-handler() {
   while :; do
-    read -rsn1 KEY 2>/dev/null || true
+    read -rsn1 KEY 2>/dev/null
   done
 }
