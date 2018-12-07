@@ -5,21 +5,31 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
 ## Requirements
 
   - `kill`
+  - `lolcat`
   - `mpg123`
   - `ogg123`
   - `pkill`
 
-The folloing will get you want you need on Ubuntu.
+The following will get you want you need on Ubuntu.
 
-    sudo apt install mpg123 procps vorbis-tools 
+    sudo apt install lolcat mpg123 procps vorbis-tools 
 
 ## Title Screen
 
-Made with `toilet` and `ponysay`.
+The title graphics are made with `toilet` and `lolcat`.
+
+Create a preview of all the font styles.
 
 ```
-toilet -t -f ascii12.tlf --filter border "Bash 'em Up!" | lolcat -f > ~/snap/ponysay/title.ans
-ponysay --ponyonly --pony philomenaphoenix >> ~/snap/ponysay/title.ans
+for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $(basename $FONT) --filter border "Bash'em Up!" | lolcat -f -F 0.2; done
+```
+
+I settled on `ascii9` for the main title graphic.
+
+```
+toilet -t -f ascii9 --filter border "Bash'em Up!" | lolcat -f -F 0.2 > gfx/title.ans
+toilet -t -f ascii9 --filter border "Game Over!" | lolcat -f -F 0.2 > gfx/gameover.ans
+toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2 > gfx/victory.ans
 ```
 
 ## References
@@ -42,11 +52,9 @@ ponysay --ponyonly --pony philomenaphoenix >> ~/snap/ponysay/title.ans
 
   * https://opengameart.org
   * https://patrickdearteaga.com
-    * Chiptronical           - title.ogg
-    * Intergalactic Odyssey  - level1.ogg
-    * Interstellar Odyssey   - level2.ogg
-    * Interplanetary Odyssey - level3.ogg
-    * Ruined Planet          - gameover.ogg
-    * Friends                - credits.ogg
-
-
+    * Chiptronical           - `title.ogg`
+    * Intergalactic Odyssey  - `level1.ogg`
+    * Interstellar Odyssey   - `level2.ogg`
+    * Interplanetary Odyssey - `level3.ogg`
+    * Ruined Planet          - `gameover.ogg`
+    * Friends                - `victory.ogg`
