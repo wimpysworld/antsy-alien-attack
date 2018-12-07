@@ -4,6 +4,8 @@ readonly STATUS_COLOR=$BRED$WHT
 readonly HERO='🐧'
 heroX=$(($(tput cols)/2))
 heroY=$(($(tput lines)/2))
+oldheroX=$heroX
+oldheroY=$heroY
 heroSize=${#HERO}
 
 reset-game() {
@@ -22,20 +24,21 @@ game-mode() {
 }
 
 game-loop() {
-  oldheroX=$heroX
-  oldheroY=$heroY
-
-  erase "$heroX" "$heroY" "$heroSize"
+  erase $heroX $heroY $heroSize
 
   # Movement
   case $KEY in
     'w')
+      oldheroY=$heroY
       ((heroY--));;
     's')
+      oldheroY=$heroY
       ((heroY++));;
     'a')
+      oldheroX=$heroX
       ((heroX--));;
     'd')
+      oldheroX=$heroX
       ((heroX++));;
     'l')
       sound laser;;
@@ -53,12 +56,8 @@ game-loop() {
   KEY='\0'
 
   # Score and entities
-  draw $heroX $heroY $DEF "$HERO"
   draw 0 0 $STATUS_COLOR "Lives: $lives"
   draw-right 0 $STATUS_COLOR "Score: $score"
+  draw $heroX $heroY $DEF "$HERO"
   render
-
-  if [ $oldheroX -ne $heroX ] || [ $oldheroY -ne $heroY ]; then
-    true
-  fi
 }
