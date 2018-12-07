@@ -11,7 +11,7 @@ music-setup() {
 }
 
 music-teardown() {
-  true
+  pkill -u $USER ogg123 > /dev/null 2>&1
 }
 
 music() {
