@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-readonly SCREEN_WIDTH=$(tput cols)
-readonly SCREEN_HEIGHT=$(tput lines)
-readonly ORIGINAL_TTY=$(stty -g)
-
 framebuffer=
 frame=0
 
@@ -35,15 +31,37 @@ COF='\e[?25l' #Cursor Off                                            |
 CON='\e[?25h' #Cursor On                                             |
 #--------------------------------------------------------------------+
 
+resize-term() {
+  local cols=$1
+  local lines=$2
+  resize -s "$cols" "$lines"
+  stty cols "$cols"
+  stty rows "$lines"
+}
+
 gfx-setup() {
+  readonly ORIGINAL_TTY=$(stty -g)
+  readonly ORIGINAL_SCREEN_WIDTH=$(tput cols)
+  readonly ORIGINAL_SCREEN_HEIGHT=$(tput lines)
+
   stty raw -echo
   tput civis
   tput rmam
-  printf "\e]0;Bash 'em Up!\007"
+
+  # TODO - Perhaps set the terminal size to something game optimised?
+  #resize-term 80 60
+
+  readonly SCREEN_WIDTH=$(tput cols)
+  readonly SCREEN_HEIGHT=$(tput lines)
+
+  printf "\e]0;Bash \'em Up!\007"
 }
 
 gfx-teardown() {
   stty "$ORIGINAL_TTY"
+
+  # TODO - Restore original terminal size.
+  #resize-term "$ORIGINAL_SCREEN_WIDTH" "$ORIGINAL_SCREEN_HEIGHT"
   tput cvvis
   tput smam
   tput sgr0
