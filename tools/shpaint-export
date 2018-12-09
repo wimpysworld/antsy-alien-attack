@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+IMAGE_FILE=$1
+declare -A IMAGE
+
+data=$(sed -e 's/\x1b/E/g;s/E\[0m/\n/g;s/E\[2J//' $IMAGE_FILE | \
+ 	   sed -n -e 's/E\[\(.*\)fE\[\(.*m.\)/IMAGE["\1"]="\2"/ p')
+
+eval $data
+
+for y in {1..30}
+do
+	for x in {1..80}
+	do
+		if [ -z ${IMAGE["$y;$x"]} ] ; then
+			echo -n " "
+		else
+			echo -en "\e[${IMAGE["$y;$x"]}\e[0m"
+		fi
+	done
+	echo
+done
