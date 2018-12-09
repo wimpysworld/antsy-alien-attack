@@ -14,13 +14,13 @@ reset-game() {
 }
 
 game-mode() {
-  KEY=
-  DELAY=0.05
+  export KEY=
+  export DELAY=0.05
   tput clear
   reset-game
-  music level$(shuf -i 1-3 -n 1)
+  music level"$(shuf -i 1-3 -n 1)"
   gameMusicThread=$!
-  LOOP=game-loop
+  export LOOP=game-loop
 }
 
 game-loop() {
@@ -56,8 +56,8 @@ game-loop() {
   KEY=
 
   # Score and entities
-  draw 0 0 $STATUS_COLOR "Lives: $lives"
-  draw-right 0 $STATUS_COLOR "Score: $score"
-  draw $heroX $heroY $DEF "$HERO"
+  draw 0 0 "$STATUS_COLOR" "Lives: $lives"
+  draw-right 0 "$STATUS_COLOR" "Score: $score"
+  draw "$heroX" "$heroY" "$DEF" "$HERO"
   render
 }

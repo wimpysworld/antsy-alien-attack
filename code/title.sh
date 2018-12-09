@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-titleSoundThread=
+titleMusicThread=
 titleScreen=()
 
 # for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
@@ -8,8 +8,8 @@ sin=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3
 sinc=${#sin[@]}
 
 title-mode() {
-  KEY=
-  DELAY=0
+  export KEY=
+  export DELAY=0
   tput clear
 
   music title
@@ -24,7 +24,7 @@ title-mode() {
   readarray -t titleScreen < gfx/title.ans
   titleScreenOffset=$(center 80)
 
-  LOOP=title-loop
+  export LOOP=title-loop
 }
 
 title-loop() {

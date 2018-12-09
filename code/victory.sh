@@ -3,19 +3,19 @@
 victoryMusicThread=
 
 victory-mode() {
-  KEY=
+  export KEY=
   tput clear
 
   music victory
   victoryMusicThread=$!
 
   local victoryScreenOffset=$(center 59)
-  draw-picture $victoryScreenOffset 1 victory
+  draw-picture "$victoryScreenOffset" 1 victory
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You defeated the alien horde! Hurray!"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press 🇷  to reminisce about the old times or 🇶  to Quit"
 
-  LOOP=victory-loop
+  export LOOP=victory-loop
 }
 
 victory-loop() {

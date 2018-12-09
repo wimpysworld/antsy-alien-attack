@@ -3,7 +3,7 @@
 playMusic=
 
 music-setup() {
-  if which ogg123; then
+  if command -v ogg123; then
     playMusic='music-ogg123'
   else
     playMusic='music-silence'
@@ -11,7 +11,7 @@ music-setup() {
 }
 
 music-teardown() {
-  pkill -u $USER ogg123 > /dev/null 2>&1
+  pkill -u "$USER" ogg123 > /dev/null 2>&1
 }
 
 music() {

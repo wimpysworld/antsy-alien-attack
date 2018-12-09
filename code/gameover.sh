@@ -3,19 +3,19 @@
 gameoverMusicThread=
 
 gameover-mode() {
-  KEY=
+  export KEY=
   tput clear
 
   music gameover
   gameoverMusicThread=$!
 
   local gameoverScreenOffset=$(center 73)
-  draw-picture $gameoverScreenOffset 1 gameover
+  draw-picture "$gameoverScreenOffset" 1 gameover
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You failed! But you may try again."
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press 🇷  to seek revenge or 🇶  to Quit"
 
-  LOOP=gameover-loop
+  export LOOP=gameover-loop
 }
 
 gameover-loop() {

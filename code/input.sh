@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-KEY=
+export KEY=
 
 joystickThread=
-joy2key=$(which joy2key)
+joy2key=$(command -v joy2key)
 
 joystick-setup() {
   # Is joy2key in the path and is there joystick connected
@@ -14,7 +14,7 @@ joystick-setup() {
 }
 
 joystick-teardown() {
-  if [ -n $joystickThread ]; then
+  if [ -n "$joystickThread" ]; then
     kill-thread $joystickThread
   fi
 }
