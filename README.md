@@ -4,12 +4,14 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
 
 ## Requirements
 
+  - `coreutils` for `stty`
   - [`joy2key`](https://sourceforge.net/projects/joy2key/)
-  - `kill`
   - `lolcat`
   - `mpg123`
+  - `ncurses-bin` for `tput`
   - `ogg123`
-  - `pkill`
+  - `procpc` for `kill`, `pkill`
+  - `xterm` fr `resize`
 
 The following will get you want you need on Ubuntu.
 
@@ -71,19 +73,6 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2 > gfx/victory.
 
 ## References
 
-  * http://xion.io/post/code/bash-flappy-bird.html
-  * https://unix.stackexchange.com/questions/350132/using-a-shell-script-with-jstest-how-can-i-get-a-gamepad-to-interact-with-my-sc
-  * http://bruxy.regnet.cz/web/linux/EN/housenka-bash-game/
-  * https://www.vidarholen.net/contents/blog/?p=370 <- FRAMEBUFFER tput!
-  * https://www.root.cz/clanky/historie-vyvoje-pocitacovych-her-59-cast-hry-pro-ibm-pc-pracujici-v-textovem-rezimu/
-  * http://wp.subnetzero.org/?p=269
-  * https://github.com/vaniacer/piu-piu-SH
-    * https://habr.com/post/335960/
-      * https://translate.google.com/translate?hl=en&sl=auto&tl=en&u=https%3A%2F%2Fhabr.com%2Fpost%2F335960%2F
-    * https://habr.com/post/337896/
-      * https://translate.google.com/translate?hl=en&sl=auto&tl=en&u=https%3A%2F%2Fhabr.com%2Fpost%2F337896%2F
-  * https://github.com/zenoamaro/arkanoid.sh
-
 ### Applications
 
   * https://www.gnu.org/software/termutils/manual/termutils-2.0/html_chapter/tput_1.html
@@ -99,3 +88,47 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2 > gfx/victory.
     * Interplanetary Odyssey - `level3.ogg`
     * Ruined Planet          - `gameover.ogg`
     * Friends                - `victory.ogg`
+
+### Fonts
+
+Consolas TTF Looks like a Unicode complete option.
+
+#### Terminal fonts
+
+  * https://int10h.org/oldschool-pc-fonts/
+  * http://www.fixedsysexcelsior.com/
+  * https://github.com/ansilove/BlockZone
+
+### ANSI & ASCII
+
+#### Editors
+
+  * http://bruxy.regnet.cz/web/linux/EN/ansi-art-sh-paint/
+  * http://www.syaross.org/thedraw/
+  * http://picoe.ca/products/pablodraw/
+  * http://tetradraw.sourceforge.net/
+  * https://sourceforge.net/projects/tundradraw/
+  * https://sourceforge.net/projects/mysticdraw/
+  * http://syncdraw.bbsdev.net/
+  * https://www.gridsagegames.com/rexpaint/index.html
+
+#### Fonts
+
+  * http://patorjk.com/blog/2014/01/22/thedraws-lost-ansi-art-fonts/
+    * http://patorjk.com/software/taag
+  * https://www.roysac.com/thedrawfonts-tdf.html
+
+#### Artwork
+
+  * https://theasciicode.com.ar/
+  * https://textart.io/
+  * https://asciiart.website/
+  * http://ascii.co.uk/
+  * http://www.ascii-art.de/
+  * http://asciiartist.com/
+  * http://www.asciiworld.com/
+  * https://www.asciiart.eu
+  * https://text-symbols.com
+  * https://www.ansilove.org/
+  * https://asciiart.club/
+  * https://16colo.rs
