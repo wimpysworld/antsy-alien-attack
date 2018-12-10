@@ -3,7 +3,7 @@
 playMusic=
 
 music-setup() {
-  if command -v ogg123; then
+  if command -v ogg123 > /dev/null 2>&1; then
     playMusic='music-ogg123'
   else
     playMusic='music-silence'

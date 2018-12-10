@@ -3,7 +3,7 @@
 playSound=
 
 sound-setup() {
-  if command -v mpg123; then
+  if command -v mpg123 > /dev/null 2>&1; then
     playSound='sound-mpg123'
   else
     playSound='sound-beep'
