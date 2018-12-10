@@ -161,6 +161,7 @@ draw-sprite() {
   local sprite=("$@")
   local i=
   for (( i=0; i<${#sprite[@]}; i++ )); do
+    # The spaces either side are to scrub old position.
     raw-draw "${x}" "$(($y + $i))" " ${sprite[$i]} "
   done
 }
