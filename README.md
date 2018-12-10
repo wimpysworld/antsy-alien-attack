@@ -101,6 +101,8 @@ Consolas TTF Looks like a Unicode complete option.
 
 ### ANSI & ASCII
 
+  * https://shiroyasha.svbtle.com/escape-sequences-a-quick-guide-1
+
 #### Editors
 
   * http://bruxy.regnet.cz/web/linux/EN/ansi-art-sh-paint/
