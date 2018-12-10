@@ -7,8 +7,8 @@ reset-game() {
   lives=3
   heroX=$(( (SCREEN_WIDTH) /2 ))
   heroY=$(( (SCREEN_HEIGHT) /2 ))
-  heroEndX=$(( SCREEN_WIDTH  - (7 + 2) ))
-  heroEndY=$(( SCREEN_HEIGHT - 7 ))
+  heroEndX=$(( SCREEN_WIDTH  - (${#HERO[0]} + 2) ))
+  heroEndY=$(( SCREEN_HEIGHT - ${#HERO[@]} ))
   oldheroX=$heroX
   oldheroY=$heroY
 }
@@ -40,7 +40,7 @@ game-loop() {
       oldheroX=$heroX
       ((heroX--))
       # Prevent leaving screen left
-      [ $heroX -lt 1 ] && heroX=1;;
+      [ $heroX -lt 0 ] && heroX=0;;
     'd')
       oldheroX=$heroX
       ((heroX++))
