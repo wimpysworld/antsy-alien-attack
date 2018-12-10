@@ -4,6 +4,7 @@ victoryMusicThread=
 
 victory-mode() {
   export KEY=
+  export DELAY=0
   tput clear
 
   music victory
