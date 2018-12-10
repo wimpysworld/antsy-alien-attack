@@ -83,6 +83,13 @@ draw() {
   framebuffer="${framebuffer}\e[$((y+1));$((x+1))H\e[$color${str}\e[m"
 }
 
+raw-draw() {
+  local x=$1
+  local y=$2
+  local str=${*:3}
+  framebuffer="${framebuffer}\e[$((y+1));$((x+1))H${str}"
+}
+
 lol-draw() {
   local x=$1
   local y=$2
@@ -96,6 +103,13 @@ draw-centered() {
   local str=${*:3}
   local offset=$(center ${#str})
   draw "$offset" "$y" "$color" "$str"
+}
+
+raw-draw-centered() {
+  local y=$1
+  local str=${*:2}
+  local offset=$(center ${#str})
+  raw-draw "$offset" "$y" "$str"
 }
 
 lol-draw-centered() {
@@ -113,6 +127,14 @@ draw-right() {
   draw "$offset" "$y" "$color" "$str"
 }
 
+raw-draw-right() {
+  local y=$1
+  local str=${*:2}
+  local offset=$((SCREEN_WIDTH - ${#str}))
+  raw-draw "$offset" "$y" "$str"
+}
+
+
 lol-draw-right() {
   local y=$1
   local str=${3}
@@ -128,7 +150,7 @@ draw-picture() {
   local offset=0
   readarray -t contents < "$filename"
   for line in "${contents[@]}"; do
-    draw "$x" "$((y+offset))" 0 "$line"
+    raw-draw "$x" "$((y+offset))" "$line"
     ((offset++))
   done
 }
