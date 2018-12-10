@@ -3,6 +3,7 @@
 source code/threads.sh
 source code/input.sh
 source code/gfx.sh
+source gfx/sprites.sh
 source code/sfx.sh
 source code/music.sh
 source code/title.sh

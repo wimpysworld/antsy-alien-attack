@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 readonly STATUS_COLOR=$BRED$WHT
-readonly HERO='🐧'
 heroX=$(($(tput cols)/2))
 heroY=$(($(tput lines)/2))
 oldheroX=$heroX
@@ -24,7 +23,7 @@ game-mode() {
 }
 
 game-loop() {
-  erase $heroX $heroY $heroSize
+  local i=0
 
   # Movement
   case $KEY in
@@ -58,6 +57,8 @@ game-loop() {
   # Score and entities
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
-  draw "$heroX" "$heroY" "$DEF" "$HERO"
+  for (( i=0; i<${#HERO[@]}; i++ )); do
+    raw-draw ${heroX} $(($heroY + $i)) " ${HERO[$i]} "
+  done
   render
 }
