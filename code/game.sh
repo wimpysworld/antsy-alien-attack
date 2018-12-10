@@ -7,6 +7,8 @@ reset-game() {
   lives=3
   heroX=$(( (SCREEN_WIDTH) /2 ))
   heroY=$(( (SCREEN_HEIGHT) /2 ))
+  heroEndX=$(( SCREEN_WIDTH  - (7 + 2) ))
+  heroEndY=$(( SCREEN_HEIGHT - 7 ))
   oldheroX=$heroX
   oldheroY=$heroY
 }
@@ -26,16 +28,24 @@ game-loop() {
   case $KEY in
     'w')
       oldheroY=$heroY
-      ((heroY--));;
+      ((heroY--))
+      # Prevent leaving the top of the screen
+      [ $heroY -lt 1 ] && heroY=1;;
     's')
       oldheroY=$heroY
-      ((heroY++));;
+      ((heroY++))
+      # Prevent leaving the bottom of the screen
+      [ $heroY -gt $heroEndY ] && heroY=$heroEndY;;
     'a')
       oldheroX=$heroX
-      ((heroX--));;
+      ((heroX--))
+      # Prevent leaving screen left
+      [ $heroX -lt 1 ] && heroX=1;;
     'd')
       oldheroX=$heroX
-      ((heroX++));;
+      ((heroX++))
+      # Prevent leaving screne right
+      [ $heroX -gt $heroEndX ] && heroX=$heroEndX;;
     'l')
       sound laser;;
     'v')
