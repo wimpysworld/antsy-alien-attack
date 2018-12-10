@@ -13,7 +13,7 @@ gameover-mode() {
   draw-picture "$gameoverScreenOffset" 1 gameover
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You failed! But you may try again."
-  lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press 🇷  to seek revenge or 🇶  to Quit"
+  lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to seek revenge or [Q] to Quit"
 
   export LOOP=gameover-loop
 }

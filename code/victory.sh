@@ -13,7 +13,7 @@ victory-mode() {
   draw-picture "$victoryScreenOffset" 1 victory
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You defeated the alien horde! Hurray!"
-  lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press 🇷  to reminisce about the old times or 🇶  to Quit"
+  lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to reminisce about the old times or [Q] to Quit"
 
   export LOOP=victory-loop
 }

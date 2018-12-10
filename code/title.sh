@@ -17,9 +17,9 @@ title-mode() {
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N T R O L S"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "W"
-  lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "A  🎮  D"  
+  lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "A     D"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "S" 
-  lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) " Press 🇵  to Play or 🇶  to Quit"
+  lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) " Press [P] to Play or [Q] to Quit"
 
   readarray -t titleScreen < gfx/title.ans
   titleScreenOffset=$(center 80)
