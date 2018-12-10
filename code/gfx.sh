@@ -54,7 +54,7 @@ gfx-setup() {
   readonly SCREEN_WIDTH=$(tput cols)
   readonly SCREEN_HEIGHT=$(tput lines)
 
-  printf "\e]0;Bash \'em Up!\007"
+  echo -ne "\e]0;Bash 'em Up!\007"
 }
 
 gfx-teardown() {
@@ -152,6 +152,16 @@ draw-picture() {
   for line in "${contents[@]}"; do
     raw-draw "$x" "$((y+offset))" "$line"
     ((offset++))
+  done
+}
+
+draw-sprite() {
+  local x=$1; shift
+  local y=$1; shift
+  local sprite=("$@")
+  local i=
+  for (( i=0; i<${#sprite[@]}; i++ )); do
+    raw-draw "${x}" "$(($y + $i))" " ${sprite[$i]} "
   done
 }
 
