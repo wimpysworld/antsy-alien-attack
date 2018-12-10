@@ -39,7 +39,10 @@ title-loop() {
     for line in "${titleScreen[@]}"; do
       local i=$(((frame / 2 + y) % sinc))
       local x=$((titleScreenOffset + sin["$i"]))
-      draw $x $y 0 "\e[1K$line\e[K"
+      # Technically correct, since it clears characters
+      # raw-draw $x $y "\e[1K$line\e[K"
+      # But my wave only increments 1 char per-cycle.
+      raw-draw $x $y " $line "
       ((y++))
     done
     render
