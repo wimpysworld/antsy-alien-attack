@@ -15,8 +15,10 @@ reset-game() {
 
 game-mode() {
   export KEY=
-  export DELAY=0.05
+  export DELAY=0.04
   tput clear
+
+  reset-timers
   reset-game
   music level"$(shuf -i 1-3 -n 1)"
   gameMusicThread=$!
@@ -60,7 +62,6 @@ game-loop() {
       return 1;;
   esac
   KEY=
-
   # Score and entities
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
