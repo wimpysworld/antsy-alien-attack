@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 framebuffer=
+# for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
+readonly sin=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
+readonly sinc=${#sin[@]}
 
 #--------------------------------------------------------------------+
 #Color picker, usage: printf ${BLD}${CUR}${RED}${BBLU}"Hello!)"${DEF}|
@@ -99,7 +102,6 @@ render() {
   draw-right $SCREEN_HEIGHT "$wht$bblk" " FPS: $FPS LOW: $LOW_FPS MAX: $MAX_FPS "
   echo -en "${framebuffer}"
   framebuffer=
-  ((FRAME++))
 }
 
 draw() {
@@ -167,6 +169,22 @@ lol-draw-right() {
   local str=${3}
   local offset=$((SCREEN_WIDTH - ${#str}))
   lol-draw "$offset" "$y" "$str"
+}
+
+wave-picture() {
+  local offset=$1; shift
+  local picture_arr=("$@")
+  local y=1
+  for line in "${picture_arr[@]}"; do
+    local i=$(((FRAME / 2 + y) % sinc))
+    local x=$((offset + sin["$i"]))
+    # Technically correct, since it clears characters
+    # raw-draw $x $y "\e[1K$line\e[K"
+    # But my wave only increments 1 char per-cycle.
+    raw-draw $x $y " $line "
+    ((y++))
+  done
+  ((FRAME++))
 }
 
 draw-picture() {

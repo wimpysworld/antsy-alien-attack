@@ -3,10 +3,6 @@
 titleMusicThread=
 titleScreen=()
 
-# for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
-sin=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
-sinc=${#sin[@]}
-
 title-mode() {
   export KEY=
   export DELAY=0
@@ -36,16 +32,7 @@ title-loop() {
     kill-thread $titleMusicThread
     teardown
   else
-    local y=1
-    for line in "${titleScreen[@]}"; do
-      local i=$(((FRAME / 2 + y) % sinc))
-      local x=$((titleScreenOffset + sin["$i"]))
-      # Technically correct, since it clears characters
-      # raw-draw $x $y "\e[1K$line\e[K"
-      # But my wave only increments 1 char per-cycle.
-      raw-draw $x $y " $line "
-      ((y++))
-    done
+    wave-picture $titleScreenOffset "${titleScreen[@]}"
     render
   fi
 }
