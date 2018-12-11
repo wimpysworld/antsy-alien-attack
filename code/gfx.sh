@@ -74,7 +74,7 @@ gfx-teardown() {
 function reset-timers() {
   # Second marker from which to measure FPS.
   # Set slightly in the future to let FPS settle on transitions
-  SEC=$(( $SECONDS + 2 ))
+  SEC=$(( SECONDS + 2 ))
   # Lowest FPS reached
   LOW_FPS=999
   # Maximum FPS reached
@@ -207,7 +207,7 @@ draw-sprite() {
   local i=
   for (( i=0; i<${#sprite[@]}; i++ )); do
     # The spaces either side are to scrub old position.
-    raw-draw "${x}" "$(($y + $i))" " ${sprite[$i]} "
+    raw-draw "${x}" "$((y + i))" " ${sprite[$i]} "
   done
 }
 
