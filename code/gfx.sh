@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 framebuffer=
-frame=0
 
 #--------------------------------------------------------------------+
 #Color picker, usage: printf ${BLD}${CUR}${RED}${BBLU}"Hello!)"${DEF}|
@@ -69,10 +68,38 @@ gfx-teardown() {
   echo -en "\e[0m"
 }
 
+function reset-timers() {
+  # Second marker from which to measure FPS.
+  # Set slightly in the future to let FPS settle on transitions
+  SEC=$(( $SECONDS + 2 ))
+  # Lowest FPS reached
+  LOW_FPS=999
+  # Maximum FPS reached
+  MAX_FPS=0
+  # FPS counter
+  FPSC=0
+  # Frames rendered - used for sin wave
+  FRAME=0
+}
+
+function fps-counter() {
+  if [ $SECONDS -gt $SEC ]; then
+    FPS=$FPSC
+    [[ $FPS -gt $MAX_FPS ]] && MAX_FPS=$FPS
+    [[ $FPS -lt $LOW_FPS ]] && LOW_FPS=$FPS
+    SEC=$SECONDS
+    FPSC=0
+  else
+    ((FPSC++))
+  fi
+}
+
 render() {
+  fps-counter
+  draw-right $SCREEN_HEIGHT "$wht$bblk" " FPS: $FPS LOW: $LOW_FPS MAX: $MAX_FPS "
   echo -en "${framebuffer}"
   framebuffer=
-  ((frame++))
+  ((FRAME++))
 }
 
 draw() {
