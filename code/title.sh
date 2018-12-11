@@ -32,7 +32,7 @@ title-loop() {
     kill-thread $titleMusicThread
     teardown
   else
-    wave-picture $titleScreenOffset "${titleScreen[@]}"
+    wave-picture "$titleScreenOffset" "${titleScreen[@]}"
     render
   fi
 }
