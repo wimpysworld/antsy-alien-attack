@@ -12,6 +12,7 @@ title-mode() {
   export DELAY=0
   tput clear
 
+  reset-timers
   music title
   titleMusicThread=$!
 
@@ -37,7 +38,7 @@ title-loop() {
   else
     local y=1
     for line in "${titleScreen[@]}"; do
-      local i=$(((frame / 2 + y) % sinc))
+      local i=$(((FRAME / 2 + y) % sinc))
       local x=$((titleScreenOffset + sin["$i"]))
       # Technically correct, since it clears characters
       # raw-draw $x $y "\e[1K$line\e[K"

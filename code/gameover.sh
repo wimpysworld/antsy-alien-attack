@@ -7,6 +7,7 @@ gameover-mode() {
   export DELAY=0
   tput clear
 
+  reset-timers
   music gameover
   gameoverMusicThread=$!
 
