@@ -4,7 +4,7 @@ gameoverMusicThread=
 
 gameover-mode() {
   export KEY=
-  export DELAY=0
+  export DELAY=0.01
   tput clear
 
   reset-timers
