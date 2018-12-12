@@ -95,11 +95,11 @@ function fps-counter() {
   else
     ((FPSC++))
   fi
+  draw-right "$SCREEN_HEIGHT" "$wht$bblk" " FPS: $FPS LOW: $LOW_FPS MAX: $MAX_FPS "
 }
 
 render() {
   fps-counter
-  draw-right "$SCREEN_HEIGHT" "$wht$bblk" " FPS: $FPS LOW: $LOW_FPS MAX: $MAX_FPS "
   echo -en "${framebuffer}"
   framebuffer=
 }
