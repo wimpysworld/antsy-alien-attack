@@ -5,12 +5,12 @@ readonly STATUS_COLOR=$BRED$WHT
 reset-game() {
   score=0
   lives=3
-  heroX=$(( (SCREEN_WIDTH) /2 ))
-  heroY=$(( (SCREEN_HEIGHT) /2 ))
-  heroEndX=$(( SCREEN_WIDTH  - (HERO_WIDTH + 2) ))
-  heroEndY=$(( SCREEN_HEIGHT - HERO_HEIGHT ))
-  oldheroX=$heroX
-  oldheroY=$heroY
+  P1_X=$(( (SCREEN_WIDTH) /2 ))
+  P1_Y=$(( (SCREEN_HEIGHT) /2 ))
+  P1_EndX=$(( SCREEN_WIDTH  - (PLAYER1_WIDTH + 2) ))
+  P1_EndY=$(( SCREEN_HEIGHT - PLAYER1_HEIGHT ))
+  P1_OldX=$P1_X
+  P1_OldY=$P1_Y
 }
 
 game-mode() {
@@ -29,25 +29,25 @@ game-loop() {
   # Movement
   case $KEY in
     'w')
-      oldheroY=$heroY
-      ((heroY--))
+      P1_OldY=$P1_Y
+      ((P1_Y--))
       # Prevent leaving the top of the screen
-      [ $heroY -lt 1 ] && heroY=1;;
+      [ $P1_Y -lt 1 ] && P1_Y=1;;
     's')
-      oldheroY=$heroY
-      ((heroY++))
+      P1_OldY=$P1_Y
+      ((P1_Y++))
       # Prevent leaving the bottom of the screen
-      [ $heroY -gt $heroEndY ] && heroY=$heroEndY;;
+      [ $P1_Y -gt $P1_EndY ] && P1_Y=$P1_EndY;;
     'a')
-      oldheroX=$heroX
-      ((heroX--))
+      P1_OldX=$P1_X
+      ((P1_X--))
       # Prevent leaving screen left
-      [ $heroX -lt 0 ] && heroX=0;;
+      [ $P1_X -lt 0 ] && P1_X=0;;
     'd')
-      oldheroX=$heroX
-      ((heroX++))
+      P1_OldX=$P1_X
+      ((P1_X++))
       # Prevent leaving screne right
-      [ $heroX -gt $heroEndX ] && heroX=$heroEndX;;
+      [ $P1_X -gt $P1_EndX ] && P1_X=$P1_EndX;;
     'l')
       sound laser;;
     'v')
@@ -66,6 +66,6 @@ game-loop() {
   # Score and entities
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
-  draw-sprite "$heroX" "$heroY" "${HERO[@]}"
+  draw-sprite "$P1_X" "$P1_Y" "${PLAYER1[@]}"
   render
 }

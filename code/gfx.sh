@@ -102,6 +102,7 @@ render() {
   fps-counter
   echo -en "${framebuffer}"
   framebuffer=
+  ((FRAME++))
 }
 
 draw() {
@@ -184,7 +185,6 @@ wave-picture() {
     raw-draw $x $y " $line "
     ((y++))
   done
-  ((FRAME++))
 }
 
 draw-picture() {
