@@ -2,6 +2,52 @@
 
 A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully.
 
+## Plans
+
+  - Tick
+    - Hardware interuppt trap to govern the game loop
+  - Input handler
+    - Keyboard
+    - Xbox360 Controller
+  - Graphics
+    - ANSI sprite engine
+    - Framebuffer
+    - Sprite collision detection
+    - Starfield with twinkling start
+    - Performance metrics
+  - Audio
+    - Sound effects engine
+    - Music engine
+  - Title screen engine
+    - Main screen
+    - Game over
+    - Victory
+  - Enemies
+    - Fighters
+    - Gun turrets
+    - Boss ships
+  - Animators
+    - Player ship thrust and roll
+    - Impact animations
+    - Explosion animations
+  - Level progression
+    - Number of enemies rises
+    - Enemy firepower increases
+    - Canyon levels, narrow playable area
+  - 2P
+  - Title screen attract mode
+    - Highscores
+    - Configuration
+    - Credits
+  - Power ups
+    - Bonus points
+    - Weapon upgrades
+    - Shields
+    - Smartbomb
+  - Snap
+    - Bundle alacritty and fonts
+    - Desktop Launcher
+
 ## Requirements
 
   - `coreutils` for `stty`
@@ -10,12 +56,12 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
   - `mpg123`
   - `ncurses-bin` for `tput`
   - `ogg123`
-  - `procpc` for `kill`, `pkill`
+  - `procps` for `kill`, `pkill`
   - `xterm` fr `resize`
 
 The following will get you want you need on Ubuntu.
 
-    sudo apt install lolcat mpg123 procps vorbis-tools 
+    sudo apt install lolcat mpg123 ncurses-bin procps vorbis-tools
 
 ### Compile joy2key
 
