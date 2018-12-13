@@ -182,7 +182,7 @@ wave-picture() {
     # Technically correct, since it clears characters
     # raw-draw $x $y "\e[1K$line\e[K"
     # But my wave only increments 1 char per-cycle.
-    raw-draw $x $y " $line "
+    raw-draw $x $y "$DEF $line $DEF"
     ((y++))
   done
 }
