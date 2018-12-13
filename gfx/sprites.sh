@@ -25,24 +25,12 @@ export P1_LASER_SPRITE=(
 "$RED░"
 "$DEF "
 )
-export P1_LASER_MASK=(
-"$DEF "
-"$DEF "
-"$DEF "
-"$DEF "
-)
 readonly P1_LASER_HEIGHT=$(( ${#P1_LASER_SPRITE[@]} ))
 
 export P2_LASER_SPRITE=(
 "$BLU▓"
 "$BLU▒"
 "$BLU░"
-"$DEF "
-)
-export P2_LASER_MASK=(
-"$DEF "
-"$DEF "
-"$DEF "
 "$DEF "
 )
 readonly P2_LASER_HEIGHT=$(( ${#P2_LASER_SPRITE[@]} ))
