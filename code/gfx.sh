@@ -211,6 +211,21 @@ draw-sprite() {
   done
 }
 
+erase-sprite() {
+  local x=$1; shift
+  local y=$1; shift
+  local sprite=("$@")
+  local i=
+  local row=
+  local erase=
+  for (( i=0; i<${#sprite[@]}; i++ )); do
+    row=(${sprite[$i]})
+    erase=$(printf ' %.0s' $(seq 1 ${#row[0]}))
+    # The spaces either side are to scrub old position.
+    raw-draw "${x}" "$((y + i))" "$DEF ${erase}$DEF "
+  done
+}
+
 erase() {
   local x=$1
   local y=$2
