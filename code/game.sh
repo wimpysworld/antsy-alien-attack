@@ -49,7 +49,10 @@ game-loop() {
       # Prevent leaving screne right
       [ $P1_X -gt $P1_EndX ] && P1_X=$P1_EndX;;
     'l')
-      sound laser;;
+      sound laser
+      L1_X=$((P1_X + 3))
+      L1_Y=$((P1_Y - 3))
+      draw-sprite "$L1_X" "$L1_Y" "${PLAYER1_LASER[@]}";;
     'v')
       # Victory condition stub
       kill-thread "$gameMusicThread"
