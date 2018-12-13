@@ -11,6 +11,10 @@ reset-game() {
   P1_EndY=$(( SCREEN_HEIGHT - PLAYER1_HEIGHT ))
   P1_OldX=$P1_X
   P1_OldY=$P1_Y
+  P1_LASERS=()
+  P2_LASERS=()
+  P1_LASER_CEILING=0
+  P2_LASER_CEILING=0
 }
 
 game-mode() {
@@ -23,6 +27,29 @@ game-mode() {
   music level"$(shuf -i 1-3 -n 1)"
   gameMusicThread=$!
   export LOOP=game-loop
+}
+
+player-lasers() {
+  local IN_FLIGHT=${#P1_LASERS[@]}
+  for (( LASER=0; LASER<${IN_FLIGHT}; LASER++ )); do
+
+    LASER_INSTANCE=(${P1_LASERS[$LASER]})
+    LASER_X=${LASER_INSTANCE[0]}
+    LASER_Y=${LASER_INSTANCE[1]}
+
+    ((LASER_Y--))
+
+    if [ $LASER_Y -le $P1_LASER_CEILING ]; then
+      erase-sprite "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
+      unset P1_LASERS[$LASER]
+      P1_LASERS=("${P1_LASERS[@]}")
+      ((IN_FLIGHT--))
+      continue
+    else
+      P1_LASERS[$LASER]="$LASER_X $LASER_Y"
+    fi
+    draw-sprite "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
+  done
 }
 
 game-loop() {
@@ -50,9 +77,7 @@ game-loop() {
       [ $P1_X -gt $P1_EndX ] && P1_X=$P1_EndX;;
     'l')
       sound laser
-      L1_X=$((P1_X + 3))
-      L1_Y=$((P1_Y - 3))
-      draw-sprite "$L1_X" "$L1_Y" "${PLAYER1_LASER[@]}";;
+      P1_LASERS+=("$((P1_X + 3)) $((P1_Y - 1))");;
     'v')
       # Victory condition stub
       kill-thread "$gameMusicThread"
@@ -70,5 +95,6 @@ game-loop() {
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
   draw-sprite "$P1_X" "$P1_Y" "${PLAYER1[@]}"
+  player-lasers
   render
 }
