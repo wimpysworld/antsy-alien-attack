@@ -7,8 +7,8 @@ reset-game() {
   lives=3
   heroX=$(( (SCREEN_WIDTH) /2 ))
   heroY=$(( (SCREEN_HEIGHT) /2 ))
-  heroEndX=$(( SCREEN_WIDTH  - (${#HERO[0]} + 2) ))
-  heroEndY=$(( SCREEN_HEIGHT - ${#HERO[@]} ))
+  heroEndX=$(( SCREEN_WIDTH  - (HERO_WIDTH + 2) ))
+  heroEndY=$(( SCREEN_HEIGHT - HERO_HEIGHT ))
   oldheroX=$heroX
   oldheroY=$heroY
 }
@@ -62,6 +62,7 @@ game-loop() {
       return 1;;
   esac
   KEY=
+  compose-sprites
   # Score and entities
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
