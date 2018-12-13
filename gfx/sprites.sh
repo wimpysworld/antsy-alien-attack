@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-export PLAYER1_WIDTH=7
+export PLAYER1_WIDTH=6
 export PLAYER1_HEIGHT=7
-export PLAYER2_WIDTH=7
+export PLAYER2_WIDTH=6
 export PLAYER2_HEIGHT=7
 
 readonly THRUST=(
