@@ -19,19 +19,33 @@ readonly THRUST=(
 export THRUST_FRAME=0
 readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
 
-export PLAYER1_LASER=(
+export P1_LASER_SPRITE=(
 "$RED▓"
 "$RED▒"
 "$RED░"
+"$DEF "
 )
-readonly PLAYER1_LASER_HEIGHT=$(( ${#PLAYER1_LASER[@]} ))
+export P1_LASER_MASK=(
+"$DEF "
+"$DEF "
+"$DEF "
+"$DEF "
+)
+readonly P1_LASER_HEIGHT=$(( ${#P1_LASER_SPRITE[@]} ))
 
-export PLAYER2_LASER=(
+export P2_LASER_SPRITE=(
 "$BLU▓"
 "$BLU▒"
 "$BLU░"
+"$DEF "
 )
-readonly PLAYER2_LASER_HEIGHT=$(( ${#PLAYER2_LASER[@]} ))
+export P2_LASER_MASK=(
+"$DEF "
+"$DEF "
+"$DEF "
+"$DEF "
+)
+readonly P2_LASER_HEIGHT=$(( ${#P2_LASER_SPRITE[@]} ))
 
 compose-sprites() {
 #       
