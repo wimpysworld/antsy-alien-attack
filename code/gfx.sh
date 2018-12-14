@@ -201,17 +201,23 @@ draw-picture() {
 }
 
 draw-sprite() {
+  local mask=$1; shift
   local x=$1; shift
   local y=$1; shift
   local sprite=("$@")
   local i=
   for (( i=0; i<${#sprite[@]}; i++ )); do
-    # The spaces either side are to scrub old position.
-    raw-draw "${x}" "$((y + i))" "$DEF ${sprite[$i]}$DEF "
+    if [ $mask -eq 1 ]; then
+      # The spaces either side are to scrub old position.
+      raw-draw "${x}" "$((y + i))" "$DEF ${sprite[$i]}$DEF "
+    else
+      raw-draw "${x}" "$((y + i))" "${sprite[$i]}"
+    fi
   done
 }
 
 erase-sprite() {
+  local mask=$1; shift
   local x=$1; shift
   local y=$1; shift
   local sprite=("$@")
@@ -221,8 +227,12 @@ erase-sprite() {
   for (( i=0; i<${#sprite[@]}; i++ )); do
     row=(${sprite[$i]})
     erase=$(printf ' %.0s' $(seq 1 ${#row[0]}))
-    # The spaces either side are to scrub old position.
-    raw-draw "${x}" "$((y + i))" "$DEF ${erase}$DEF "
+    if [ $mask -eq 1 ]; then
+      # The spaces either side are to scrub old position.
+      raw-draw "${x}" "$((y + i))" "$DEF ${erase}$DEF "
+    else
+      raw-draw "${x}" "$((y + i))" "${erase}"
+    fi
   done
 }
 
@@ -291,7 +301,7 @@ animate-starfield() {
     if [ $STAR_FIELD_ANIM_SPEED -eq 0 ]; then
       if [ $STAR_Y -ge $STAR_FLOOR ]; then
         # Remove the dead star
-        erase-sprite "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
+        erase-sprite 0 "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
         unset STAR_FIELD[$STAR]
         STAR_FIELD=("${STAR_FIELD[@]}")
 
@@ -304,7 +314,7 @@ animate-starfield() {
         STAR_FIELD[$STAR]="$STAR_X $STAR_Y $STAR_CHAR $STAR_COLOR"
       fi
     fi
-    draw-sprite "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
+    draw-sprite 0 "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
   done
 
   # Increment the star field animation speed control

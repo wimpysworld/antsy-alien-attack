@@ -47,7 +47,7 @@ player-lasers() {
     ((LASER_Y--))
 
     if [ $LASER_Y -le $P1_LASER_CEILING ]; then
-      erase-sprite "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
+      erase-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
       unset P1_LASERS[$LASER]
       P1_LASERS=("${P1_LASERS[@]}")
       ((IN_FLIGHT--))
@@ -55,7 +55,7 @@ player-lasers() {
     else
       P1_LASERS[$LASER]="$LASER_X $LASER_Y"
     fi
-    draw-sprite "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
+    draw-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
   done
 }
 
@@ -93,7 +93,7 @@ game-loop() {
     'l')
       if [ $P1_RECENTLY_FIRED -eq 0 ]; then
         sound laser
-        P1_LASERS+=("$((P1_X + 3)) $((P1_Y - 1))")
+        P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
         ((P1_RECENTLY_FIRED+=${P1_LASER_LATENCY}))
       fi
       P1_LAST_KEY=$KEY
@@ -122,7 +122,7 @@ game-loop() {
   animate-starfield
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
-  draw-sprite "$P1_X" "$P1_Y" "${PLAYER1[@]}"
+  draw-sprite 1 "$P1_X" "$P1_Y" "${PLAYER1[@]}"
   player-lasers
   render
 }
