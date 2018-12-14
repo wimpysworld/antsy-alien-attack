@@ -81,8 +81,8 @@ function reset-timers() {
   MAX_FPS=0
   # FPS counter
   FPSC=0
-  # Frames rendered - used for sin wave
-  FRAME=0
+  # Frames rendered by wave-pictre()
+  WAVE_CYCLE=0
 }
 
 function fps-counter() {
@@ -102,7 +102,6 @@ render() {
   fps-counter
   echo -en "${framebuffer}"
   framebuffer=
-  ((FRAME++))
 }
 
 draw() {
@@ -177,7 +176,7 @@ wave-picture() {
   local picture_arr=("$@")
   local y=1
   for line in "${picture_arr[@]}"; do
-    local i=$(((FRAME / 2 + y) % sinc))
+    local i=$(((WAVE_CYCLE / 2 + y) % sinc))
     local x=$((offset + sin["$i"]))
     # Technically correct, since it clears characters
     # raw-draw $x $y "\e[1K$line\e[K"
@@ -185,6 +184,7 @@ wave-picture() {
     raw-draw $x $y "$DEF $line $DEF"
     ((y++))
   done
+  ((WAVE_CYCLE++))
 }
 
 draw-picture() {

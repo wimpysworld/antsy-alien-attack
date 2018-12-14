@@ -7,16 +7,11 @@ export PLAYER2_HEIGHT=7
 
 readonly THRUST=(
 "$DEF  $ylw▀$DEF $ylw▀  "
-"$DEF  $ylw▀$DEF $ylw▀  "
-"$DEF  $ylw▀$DEF $ylw▀  "
 "$DEF  $ylw$bred▓$DEF $ylw$bred▓$DEF  "
-"$DEF  $ylw$bred▓$DEF $ylw$bred▓$DEF  "
-"$DEF  $ylw$bred▓$DEF $ylw$bred▓$DEF  "
-"$DEF  $red$bylw▓$DEF $red$bylw▓$DEF  "
-"$DEF  $red$bylw▓$DEF $red$bylw▓$DEF  "
 "$DEF  $red$bylw▓$DEF $red$bylw▓$DEF  "
 )
 export THRUST_FRAME=0
+export THRUST_ANIM_SPEED=0
 readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
 
 export P1_LASER_SPRITE=(
@@ -64,7 +59,9 @@ compose-sprites() {
     "$DEF       ")
   fi
 
-  if (( FRAME % 2 )); then
+  # Increment the play thrust animation speed control
+  #[[ $THRUST_ANIM_SPEED -ge 1 ]] && THRUST_ANIM_SPEED=0 || ((THRUST_ANIM_SPEED++))
+  if [ $THRUST_ANIM_SPEED -eq 0 ]; then
     [[ $THRUST_FRAME -ge $THRUST_FRAMES ]] && THRUST_FRAME=0 || ((THRUST_FRAME++))
   fi
 }
