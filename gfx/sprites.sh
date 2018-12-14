@@ -59,6 +59,20 @@ compose-sprites() {
     "$DEF       ")
   fi
 
+#      
+#░▌ ▐░
+#▀▒█▒▀
+# ▀▀▀
+#      
+
+  FIGHTER=(
+  "$DEF     "
+  "$blk$BWHT░$blk$BBLK▌$DEF $blk▐$blk$BWHT░"
+  "$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
+  "$DEF $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$DEF "
+  "$DEF     "
+  )
+
   # Increment the play thrust animation speed control
   #[[ $THRUST_ANIM_SPEED -ge 1 ]] && THRUST_ANIM_SPEED=0 || ((THRUST_ANIM_SPEED++))
   if [ $THRUST_ANIM_SPEED -eq 0 ]; then
