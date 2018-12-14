@@ -245,3 +245,68 @@ center() {
   if ((padding < 0)); then ((padding = 0)); fi
   echo $padding
 }
+
+a-star-is-born() {
+  local START_Y=$1
+  NEW_STAR_X=$(shuf -i 0-$SCREEN_WIDTH -n 1)
+  if [ $START_Y -ne 0 ]; then
+    NEW_STAR_Y=0
+  else
+    NEW_STAR_Y=$(shuf -i 0-$STAR_FLOOR -n 1)
+  fi
+  local RAND_CHAR=$[$RANDOM % ${#STAR_CHARS[@]}]
+  NEW_STAR_CHAR="${STAR_CHARS[$RAND_CHAR]}"
+  local RAND_COLOR=$[$RANDOM % ${#STAR_COLORS[@]}]
+  NEW_STAR_COLOR="${STAR_COLORS[$RAND_COLOR]}"
+}
+
+create-starfield() {
+  export STAR_FIELD_ANIM_SPEED=0
+  export STAR_FIELD=()
+  export STAR_CHARS=("·" "+")
+  export STAR_COLORS=("$WHT" "$wht" "$blk")
+  readonly STAR_MAX=$((SCREEN_HEIGHT / 3 ))
+  readonly STAR_FLOOR=$((SCREEN_HEIGHT - 3))
+  local STAR=0
+  for (( STAR=0; STAR < $STAR_MAX; STAR++ )); do
+    a-star-is-born 0
+    STAR_FIELD+=("$NEW_STAR_X $NEW_STAR_Y $NEW_STAR_CHAR $NEW_STAR_COLOR")
+  done
+}
+
+animate-starfield() {
+  local TOTAL_STARS=${#STAR_FIELD[@]}
+  local STAR=0
+  for (( STAR=0; STAR<$TOTAL_STARS; STAR++ )); do
+    local STAR_INSTANCE=(${STAR_FIELD[$STAR]})
+    local STAR_X=${STAR_INSTANCE[0]}
+    local STAR_Y=${STAR_INSTANCE[1]}
+    local STAR_CHAR=${STAR_INSTANCE[2]}
+    local STAR_COLOR=${STAR_INSTANCE[3]}
+    local STAR_SPRITE=(
+      "$DEF "
+      "${STAR_COLOR}${STAR_CHAR}"
+    )
+
+    if [ $STAR_FIELD_ANIM_SPEED -eq 0 ]; then
+      if [ $STAR_Y -ge $STAR_FLOOR ]; then
+        # Remove the dead star
+        erase-sprite "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
+        unset STAR_FIELD[$STAR]
+        STAR_FIELD=("${STAR_FIELD[@]}")
+
+        # Birth a new star
+        a-star-is-born 1
+        STAR_FIELD+=("$NEW_STAR_X $NEW_STAR_Y $NEW_STAR_CHAR $NEW_STAR_COLOR")
+        continue
+      else
+        ((STAR_Y++))
+        STAR_FIELD[$STAR]="$STAR_X $STAR_Y $STAR_CHAR $STAR_COLOR"
+      fi
+    fi
+    draw-sprite "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
+  done
+
+  # Increment the star field animation speed control
+  [[ $STAR_FIELD_ANIM_SPEED -ge 5 ]] && STAR_FIELD_ANIM_SPEED=0 || ((STAR_FIELD_ANIM_SPEED++))
+}

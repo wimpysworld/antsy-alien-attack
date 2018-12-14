@@ -15,6 +15,7 @@ reset-game() {
   P2_LASERS=()
   P1_LASER_CEILING=0
   P2_LASER_CEILING=0
+  create-starfield
 }
 
 game-mode() {
@@ -91,7 +92,7 @@ game-loop() {
   esac
   KEY=
   compose-sprites
-  # Score and entities
+  animate-starfield
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
   draw-sprite "$P1_X" "$P1_Y" "${PLAYER1[@]}"
