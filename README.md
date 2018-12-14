@@ -168,7 +168,7 @@ Consolas TTF Looks like a Unicode complete option.
 
 #### Artwork
 
-  * https://theasciicode.com.ar/
+  * [ASCII table , ascii codes](https://theasciicode.com.ar/)
   * https://textart.io/
   * https://asciiart.website/
   * http://ascii.co.uk/
