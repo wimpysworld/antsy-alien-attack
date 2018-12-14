@@ -52,7 +52,7 @@ compose-sprites() {
     PLAYER2=(
     "$DEF       "
     "$DEF   $BLU▄$DEF   "
-    "$DEF  $blk▄$red█$blk▄  "
+    "$DEF  $blk▄$blu█$blk▄  "
     "$DEF $BLU▄$blk█$BLU█$blk█$BLU▄ "
     "$BLU▐█$blk█$BLU█$blk█$BLU█▌"
     "${THRUST[$THRUST_FRAME]}"
