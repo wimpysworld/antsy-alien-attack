@@ -263,7 +263,7 @@ a-star-is-born() {
 create-starfield() {
   export STAR_FIELD_ANIM_SPEED=0
   export STAR_FIELD=()
-  export STAR_CHARS=("·" "+")
+  export STAR_CHARS=("·" "•" "+")
   export STAR_COLORS=("$WHT" "$wht" "$blk")
   readonly STAR_MAX=$((SCREEN_HEIGHT / 3 ))
   readonly STAR_FLOOR=$((SCREEN_HEIGHT - 3))
