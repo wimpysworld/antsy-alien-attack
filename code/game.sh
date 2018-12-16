@@ -22,10 +22,14 @@ reset-game() {
   P1_LAST_KEY=
   P2_LAST_KEY=
   FIGHTERS=()
-  MAX_FIGHTERS=2
+  MAX_FIGHTERS=1
   FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
   FIGHTER_MAX_Y=$(( SCREEN_HEIGHT  - FIGHTER_HEIGHT ))
-  readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT - FIGHTER_HEIGHT))
+  readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
+  FIGHTER_ANIM_SPEED=0
+  FIGHTER_CURRENT_SPEED=10
+  FIGHTER_SPAWN_DELAY=0
+  FIGHTER_MAX_SPAWN_DELAY=100
   create-starfield
 }
 
@@ -50,33 +54,42 @@ spawn-fighter() {
 fighter-ai() {
   local IN_FLIGHT=${#FIGHTERS[@]}
   local FIGHTER=0
-  if [ $IN_FLIGHT -lt $MAX_FIGHTERS ]; then
+  if [ ${IN_FLIGHT} -lt ${MAX_FIGHTERS} ] && [ ${FIGHTER_SPAWN_DELAY} -eq 0 ]; then
     spawn-fighter
+    ((IN_FLIGHT++))
   fi
 
-  for (( FIGHTER=0; FIGHTER<${IN_FLIGHT}; FIGHTER++ )); do
+  for (( FIGHTER=0; FIGHTER < IN_FLIGHT; FIGHTER++ )); do
     local FIGHTER_INSTANCE=(${FIGHTERS[$FIGHTER]})
     local FIGHTER_X=${FIGHTER_INSTANCE[0]}
     local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
 
-    if [ $FIGHTER_Y -ge $FIGHTER_FLOOR ]; then
-      # Remove the fighter
-      erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
-      unset FIGHTERS[$FIGHTER]
-      FIGHTERS=("${FIGHTERS[@]}")
-      spawn-fighter
-      continue
-    else
-      ((FIGHTER_Y++))
-      FIGHTERS[$FIGHTER]="$FIGHTER_X $FIGHTER_Y"
+    if [ $FIGHTER_ANIM_SPEED -eq 0 ]; then
+      if [ "$FIGHTER_Y" -ge "$FIGHTER_FLOOR" ]; then
+        # Remove the fighter
+        erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
+        unset FIGHTERS[$FIGHTER]
+        FIGHTERS=("${FIGHTERS[@]}")
+        spawn-fighter
+        continue
+      else
+        ((FIGHTER_Y++))
+        FIGHTERS[$FIGHTER]="$FIGHTER_X $FIGHTER_Y"
+      fi
     fi
     draw-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
   done
+
+  # Increment the fighter movement
+  [[ $FIGHTER_ANIM_SPEED -ge $FIGHTER_CURRENT_SPEED ]] && FIGHTER_ANIM_SPEED=0 || ((FIGHTER_ANIM_SPEED++))
+
+  # Increant the fighter spawn delay
+  [[ $FIGHTER_SPAWN_DELAY -ge $FIGHTER_MAX_SPAWN_DELAY ]] && FIGHTER_SPAWN_DELAY=0 || ((FIGHTER_SPAWN_DELAY++))
 }
 
 player-lasers() {
   local IN_FLIGHT=${#P1_LASERS[@]}
-  for (( LASER=0; LASER<${IN_FLIGHT}; LASER++ )); do
+  for (( LASER=0; LASER < IN_FLIGHT; LASER++ )); do
 
     LASER_INSTANCE=(${P1_LASERS[$LASER]})
     LASER_X=${LASER_INSTANCE[0]}
@@ -132,7 +145,7 @@ game-loop() {
       if [ $P1_RECENTLY_FIRED -eq 0 ]; then
         sound laser
         P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
-        ((P1_RECENTLY_FIRED+=${P1_LASER_LATENCY}))
+        ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
       fi
       P1_LAST_KEY=$KEY
       ;;
