@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-export PLAYER1_WIDTH=6
-export PLAYER1_HEIGHT=7
-export PLAYER2_WIDTH=6
-export PLAYER2_HEIGHT=7
+export P1_WIDTH=6
+export P1_HEIGHT=7
+export P2_WIDTH=6
+export P2_HEIGHT=7
 
 readonly THRUST=(
 "$DEF  $ylw▀$DEF $ylw▀  "
@@ -52,7 +52,7 @@ compose-sprites() {
 #▐█████▌
 #  ▀ ▀  
 #       
-  PLAYER1=(
+  P1_SPRITE=(
   "$DEF       "
   "$DEF   $RED▄$DEF   "
   "$DEF  $blk▄$red█$blk▄  "
@@ -62,7 +62,7 @@ compose-sprites() {
   "$DEF       ")
 
   # This is a potential blue player
-  #PLAYER2=(
+  #P2_SPRITE=(
   #  "$DEF       "
   #  "$DEF   $BLU▄$DEF   "
   #  "$DEF  $blk▄$blu█$blk▄  "
