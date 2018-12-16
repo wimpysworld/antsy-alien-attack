@@ -119,6 +119,10 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2 > gfx/victory.
 
 ## References
 
+### Bash
+
+  * https://devhints.io/bash
+
 ### Applications
 
   * https://www.gnu.org/software/termutils/manual/termutils-2.0/html_chapter/tput_1.html
@@ -127,13 +131,23 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2 > gfx/victory.
 ### Game Assets
 
   * https://opengameart.org
-  * https://patrickdearteaga.com
+
+#### Music
+
+  * [Patrick de Arteaga](https://patrickdearteaga.com)
     * Chiptronical           - `title.ogg`
     * Intergalactic Odyssey  - `level1.ogg`
     * Interstellar Odyssey   - `level2.ogg`
     * Interplanetary Odyssey - `level3.ogg`
     * Ruined Planet          - `gameover.ogg`
     * Friends                - `victory.ogg`
+
+#### Sound effects
+
+  * [Kenney Vleugels](http://www.kenney.nl)
+    * `laser.mp3`
+  * Viktor Hahn
+    * `fighter-explosion.mp3`
 
 ### Fonts
 
