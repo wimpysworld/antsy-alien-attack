@@ -54,7 +54,7 @@ spawn-fighter() {
 fighter-ai() {
   local IN_FLIGHT=${#FIGHTERS[@]}
   local FIGHTER=0
-  if [ ${IN_FLIGHT} -lt ${MAX_FIGHTERS} ] && [ ${FIGHTER_SPAWN_DELAY} -eq 0 ]; then
+  if ((IN_FLIGHT < MAX_FIGHTERS && FIGHTER_SPAWN_DELAY == 0)); then
     spawn-fighter
     ((IN_FLIGHT++))
   fi
@@ -64,13 +64,13 @@ fighter-ai() {
     local FIGHTER_X=${FIGHTER_INSTANCE[0]}
     local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
 
-    if [ $FIGHTER_ANIM_SPEED -eq 0 ]; then
-      if [ "$FIGHTER_Y" -ge "$FIGHTER_FLOOR" ]; then
+    if ((FIGHTER_ANIM_SPEED == 0)); then
+      if ((FIGHTER_Y > FIGHTER_FLOOR)); then
         # Remove the fighter
         erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
         unset FIGHTERS[$FIGHTER]
         FIGHTERS=("${FIGHTERS[@]}")
-        spawn-fighter
+        ((IN_FLIGHT--))
         continue
       else
         ((FIGHTER_Y++))
@@ -114,19 +114,25 @@ player-lasers() {
   local IN_FLIGHT=${#P1_LASERS[@]}
   for (( LASER=0; LASER < IN_FLIGHT; LASER++ )); do
 
-    LASER_INSTANCE=(${P1_LASERS[$LASER]})
-    LASER_X=${LASER_INSTANCE[0]}
-    LASER_Y=${LASER_INSTANCE[1]}
+    local LASER_INSTANCE=(${P1_LASERS[$LASER]})
+    local LASER_X=${LASER_INSTANCE[0]}
+    local LASER_Y=${LASER_INSTANCE[1]}
 
-    ((LASER_Y--))
-
-    if [ $LASER_Y -le $P1_LASER_CEILING ]; then
+    if ((LASER_Y <= P1_LASER_CEILING)); then
       erase-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
       unset P1_LASERS[$LASER]
       P1_LASERS=("${P1_LASERS[@]}")
       ((IN_FLIGHT--))
       continue
+    elif check-laser-impact-fighter "${LASER_X}" "${LASER_Y}"; then
+      erase-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
+      unset P1_LASERS[$LASER]
+      P1_LASERS=("${P1_LASERS[@]}")
+      ((score++))
+      ((IN_FLIGHT--))
+      continue
     else
+      ((LASER_Y--))
       P1_LASERS[$LASER]="$LASER_X $LASER_Y"
     fi
     draw-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
@@ -165,7 +171,7 @@ game-loop() {
       P1_LAST_KEY=$KEY
       ;;
     'l')
-      if [ $P1_RECENTLY_FIRED -eq 0 ]; then
+      if ((P1_RECENTLY_FIRED == 0 )); then
         sound laser
         P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
         ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
@@ -188,7 +194,7 @@ game-loop() {
   # Regulate Player 1 laser fire frequency
   if [ "$P1_LAST_KEY" != 'l' ]; then
     P1_RECENTLY_FIRED=0
-  elif [ $P1_RECENTLY_FIRED -gt 0 ]; then
+  elif ((P1_RECENTLY_FIRED > 0)); then
     ((P1_RECENTLY_FIRED--))
   fi
 
