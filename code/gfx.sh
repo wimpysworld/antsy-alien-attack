@@ -34,11 +34,11 @@ CON='\e[?25h' #Cursor On                                             |
 #--------------------------------------------------------------------+
 
 resize-term() {
-  local cols=$1
-  local lines=$2
-  resize -s "$cols" "$lines"
-  stty cols "$cols"
-  stty rows "$lines"
+  local COLS=${1}
+  local LINES=${2}
+  resize -s "${COLS}" "${LINES}"
+  stty cols "${COLS}"
+  stty rows "${LINES}"
 }
 
 gfx-setup() {
@@ -60,7 +60,7 @@ gfx-setup() {
 }
 
 gfx-teardown() {
-  stty "$ORIGINAL_TTY"
+  stty "${ORIGINAL_TTY}"
 
   # TODO - Restore original terminal size.
   #resize-term "$ORIGINAL_SCREEN_WIDTH" "$ORIGINAL_SCREEN_HEIGHT"
@@ -74,7 +74,7 @@ gfx-teardown() {
 function reset-timers() {
   # Second marker from which to measure FPS.
   # Set slightly in the future to let FPS settle on transitions
-  SEC=$(( SECONDS + 2 ))
+  SEC=$(( SECONDS + 1 ))
   # Lowest FPS reached
   LOW_FPS=999
   # Maximum FPS reached
@@ -86,16 +86,16 @@ function reset-timers() {
 }
 
 function fps-counter() {
-  if [ $SECONDS -gt $SEC ]; then
-    FPS=$FPSC
-    [[ $FPS -gt $MAX_FPS ]] && MAX_FPS=$FPS
-    [[ $FPS -lt $LOW_FPS ]] && LOW_FPS=$FPS
-    SEC=$SECONDS
+  if ((SECONDS > SEC)); then
+    FPS=${FPSC}
+    ((FPS > MAX_FPS))  && MAX_FPS=${FPS}
+    ((FPS < LOW_FPS)) && LOW_FPS=${FPS}
+    SEC=${SECONDS}
     FPSC=0
   else
     ((FPSC++))
   fi
-  draw-right "$SCREEN_HEIGHT" "$wht$bblk" " FPS: $FPS LOW: $LOW_FPS MAX: $MAX_FPS "
+  draw-right "${SCREEN_HEIGHT}" "$wht$bblk" " FPS: ${FPS} LOW: ${LOW_FPS} MAX: ${MAX_FPS} "
 }
 
 render() {
@@ -105,166 +105,169 @@ render() {
 }
 
 draw() {
-  local x=$1
-  local y=$2
-  local color=$3
-  local str=${*:4}
-  framebuffer="${framebuffer}\e[$((y+1));$((x+1))H\e[$color${str}\e[m"
+  local X=$(( ${1}+1 ))
+  local Y=$(( ${2}+1 ))
+  local COLOR=${3}
+  local STR=${*:4}
+  framebuffer="${framebuffer}\e[${Y};${X}H\e[$COLOR${STR}\e[m"
 }
 
 raw-draw() {
-  local x=$1
-  local y=$2
-  local str=${*:3}
-  framebuffer="${framebuffer}\e[$((y+1));$((x+1))H${str}"
+  local X=$(( ${1}+1 ))
+  local Y=$(( ${2}+1 ))
+  local STR=${*:3}
+  framebuffer="${framebuffer}\e[${Y};${X}H${STR}"
 }
 
 lol-draw() {
-  local x=$1
-  local y=$2
-  local str=
-  str=$(echo "$3" | lolcat -f -F 0.2)
-  framebuffer="${framebuffer}\e[$((y+1));$((x+1))H${str}"
+  local X=$(( ${1}+1 ))
+  local Y=$(( ${2}+1 ))
+  local STR=
+  STR=$(echo "${3}" | lolcat -f -F 0.2)
+  framebuffer="${framebuffer}\e[${Y};${X}H${STR}"
 }
 
 draw-centered() {
-  local y=$1
-  local color=$2
-  local str=${*:3}
-  local offset=
-  offset=$(center ${#str})
-  draw "$offset" "$y" "$color" "$str"
+  local Y=${1}
+  local COLOR=${2}
+  local STR=${*:3}
+  local OFFSET=
+  OFFSET=$(center ${#STR})
+  draw "${OFFSET}" "${Y}" "${COLOR}" "${STR}"
 }
 
 raw-draw-centered() {
-  local y=$1
-  local str=${*:2}
-  local offset=
-  offset=$(center ${#str})
-  raw-draw "$offset" "$y" "$str"
+  local Y=${1}
+  local STR=${*:2}
+  local OFFSET=
+  OFFSET=$(center ${#STR})
+  raw-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
 lol-draw-centered() {
-  local y=$1
-  local str="$2"
-  local offset=
-  offset=$(center ${#str})
-  lol-draw "$offset" "$y" "$str"
+  local Y=${1}
+  local STR="${2}"
+  local OFFSET=
+  OFFSET=$(center ${#STR})
+  lol-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
 draw-right() {
-  local y=$1
-  local color=$2
-  local str=${*:3}
-  local offset=
-  offset=$((SCREEN_WIDTH - ${#str}))
-  draw "$offset" "$y" "$color" "$str"
+  local Y=${1}
+  local COLOR=${2}
+  local STR=${*:3}
+  local OFFSET=
+  OFFSET=$((SCREEN_WIDTH - ${#STR}))
+  draw "${OFFSET}" "${Y}" "${COLOR}" "${STR}"
 }
 
 raw-draw-right() {
-  local y=$1
-  local str=${*:2}
-  local offset=
-  offset=$((SCREEN_WIDTH - ${#str}))
-  raw-draw "$offset" "$y" "$str"
+  local Y=${1}
+  local STR=${*:2}
+  local OFFSET=
+  OFFSET=$((SCREEN_WIDTH - ${#STR}))
+  raw-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
 
 lol-draw-right() {
-  local y=$1
-  local str=${3}
-  local offset=
-  offset=$((SCREEN_WIDTH - ${#str}))
-  lol-draw "$offset" "$y" "$str"
+  local Y=${1}
+  local STR=${2}
+  local OFFSET=
+  OFFSET=$((SCREEN_WIDTH - ${#STR}))
+  lol-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
 wave-picture() {
-  local offset=$1; shift
-  local picture_arr=("$@")
-  local y=1
-  for line in "${picture_arr[@]}"; do
-    local i=$(((WAVE_CYCLE / 2 + y) % sinc))
-    local x=$((offset + sin["$i"]))
+  local OFFSET=${1}; shift
+  local PICTURE=("$@")
+  local Y=1
+  for LINE in "${PICTURE[@]}"; do
+    local i=$(((WAVE_CYCLE / 2 + Y) % sinc))
+    local X=$((OFFSET + sin["${i}"]))
     # Technically correct, since it clears characters
     # raw-draw $x $y "\e[1K$line\e[K"
     # But my wave only increments 1 char per-cycle.
-    raw-draw $x $y "$DEF $line $DEF"
-    ((y++))
+    raw-draw ${X} ${Y} "$DEF ${LINE} $DEF"
+    ((Y++))
   done
   ((WAVE_CYCLE++))
 }
 
 draw-picture() {
-  local x=$1
-  local y=$2
-  local filename=gfx/$3.ans
-  local contents=()
-  local offset=0
-  readarray -t contents < "$filename"
-  for line in "${contents[@]}"; do
-    raw-draw "$x" "$((y+offset))" "$line"
-    ((offset++))
+  local X=${1}
+  local Y=${2}
+  local FILENAME=gfx/${3}.ans
+  local CONTENT=()
+  local OFFSET=0
+  readarray -t CONTENT < "${FILENAME}"
+  for LINE in "${CONTENT[@]}"; do
+    raw-draw "${X}" "$((Y+OFFSET))" "${LINE}"
+    ((OFFSET++))
   done
 }
 
 draw-sprite() {
-  local mask=$1; shift
-  local x=$1; shift
-  local y=$1; shift
-  local sprite=("$@")
+  local MASK=${1}; shift
+  local X=${1}; shift
+  local Y=${1}; shift
+  local SPRITE=("$@")
   local i=
-  for (( i=0; i<${#sprite[@]}; i++ )); do
-    if ((mask == 1)); then
+  for (( i=0; i< ${#SPRITE[@]}; i++ )); do
+    if ((MASK == 1)); then
       # The spaces either side are to scrub old position.
-      raw-draw "${x}" "$((y + i))" "$DEF ${sprite[$i]}$DEF "
+      raw-draw "${X}" "$((Y + i))" "$DEF ${SPRITE[${i}]}$DEF "
     else
-      raw-draw "${x}" "$((y + i))" "${sprite[$i]}"
+      raw-draw "${X}" "$((Y + i))" "${SPRITE[${i}]}"
     fi
   done
 }
 
 erase-sprite() {
-  local mask=$1; shift
-  local x=$1; shift
-  local y=$1; shift
-  local sprite=("$@")
+  local MASK=${1}; shift
+  local X=${1}; shift
+  local Y=${1}; shift
+  local SPRITE=("$@")
   local i=
-  local row=
-  local erase=
-  for (( i=0; i<${#sprite[@]}; i++ )); do
-    row=("${sprite[${i}]}")
-    erase=$(printf ' %.0s' $(seq 1 ${#row[0]}))
-    if (( mask == 1 )); then
+  local ROW=
+  local ERASE=
+  # TODO - Optimise this if possible. Don't use seq.
+  ROW=("${SPRITE[0]}")
+  ERASE=$(printf ' %.0s' $(seq 1 ${#ROW[0]}))
+  for (( i=0; i < ${#SPRITE[@]}; i++ )); do
+    if (( MASK == 1 )); then
       # The spaces either side are to scrub old position.
-      raw-draw "${x}" "$((y + i))" "$DEF ${erase}$DEF "
+      raw-draw "${X}" "$((Y + i))" "$DEF ${ERASE}$DEF "
     else
-      raw-draw "${x}" "$((y + i))" "${erase}"
+      raw-draw "${X}" "$((Y + i))" "${ERASE}"
     fi
   done
 }
 
 erase() {
-  local x=$1
-  local y=$2
-  local len=$3
-  framebuffer="${framebuffer}\e[$((y+1));$((x+1))H\e[${len}X"
+  local X=$(( ${1}+1 ))
+  local Y=$(( ${2}+1 ))
+  local LEN=${3}
+  framebuffer="${framebuffer}\e[${Y};${X}H\e[${LEN}X"
 }
 
 repeat() {
-  local c=$1
-  local n=$2
-  printf "%0.s$c" $(seq 1 "$n")
+  local CHAR=${1}
+  local NUM=${2}
+  printf "%0.s${CHAR}" $(seq 1 "${NUM}")
 }
 
 center() {
-  local size=$1
-  local padding=$(( (SCREEN_WIDTH-size) / 2 ))
-  if ((padding < 0)); then ((padding = 0)); fi
-  echo $padding
+  local SIZE=${1}
+  local PADDING=$(( (SCREEN_WIDTH - SIZE) / 2 ))
+  if ((PADDING < 0)); then
+    PADDING=0
+  fi
+  echo "${PADDING}"
 }
 
 a-star-is-born() {
-  local START_Y=$1
+  local START_Y=${1}
   NEW_STAR_X=$(shuf -i 0-"${SCREEN_WIDTH}" -n 1)
   if (( START_Y != 0 )); then
     NEW_STAR_Y=0
@@ -272,9 +275,9 @@ a-star-is-born() {
     NEW_STAR_Y=$(shuf -i 0-"${STAR_FLOOR}" -n 1)
   fi
   local RAND_CHAR=$((RANDOM % ${#STAR_CHARS[@]}))
-  NEW_STAR_CHAR="${STAR_CHARS[$RAND_CHAR]}"
+  NEW_STAR_CHAR="${STAR_CHARS[${RAND_CHAR}]}"
   local RAND_COLOR=$((RANDOM % ${#STAR_COLORS[@]}))
-  NEW_STAR_COLOR="${STAR_COLORS[$RAND_COLOR]}"
+  NEW_STAR_COLOR="${STAR_COLORS[${RAND_COLOR}]}"
 }
 
 create-starfield() {
@@ -287,7 +290,7 @@ create-starfield() {
   local STAR=0
   for (( STAR=0; STAR < STAR_MAX; STAR++ )); do
     a-star-is-born 0
-    STAR_FIELD+=("$NEW_STAR_X $NEW_STAR_Y $NEW_STAR_CHAR $NEW_STAR_COLOR")
+    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_CHAR} ${NEW_STAR_COLOR}")
   done
 }
 
@@ -297,7 +300,7 @@ animate-starfield() {
   if ((TOTAL_STARS < STAR_MAX)); then
     # Birth a new star
     a-star-is-born 1
-    STAR_FIELD+=("$NEW_STAR_X $NEW_STAR_Y $NEW_STAR_CHAR $NEW_STAR_COLOR")
+    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_CHAR} ${NEW_STAR_COLOR}")
     ((TOTAL_STARS++))
   fi
 
@@ -315,19 +318,19 @@ animate-starfield() {
     if ((STAR_FIELD_ANIM_SPEED == 0)); then
       if ((STAR_Y >= STAR_FLOOR)); then
         # Remove the dead star
-        erase-sprite 0 "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
+        erase-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
         unset STAR_FIELD[${STAR}]
         STAR_FIELD=("${STAR_FIELD[@]}")
         ((TOTAL_STARS--))
         continue
       else
         ((STAR_Y++))
-        STAR_FIELD[$STAR]="$STAR_X $STAR_Y $STAR_CHAR $STAR_COLOR"
+        STAR_FIELD[$STAR]="${STAR_X} ${STAR_Y} ${STAR_CHAR} ${STAR_COLOR}"
       fi
     fi
-    draw-sprite 0 "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
+    draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
   done
 
   # Increment the star field animation speed control
-  [[ $STAR_FIELD_ANIM_SPEED -ge 5 ]] && STAR_FIELD_ANIM_SPEED=0 || ((STAR_FIELD_ANIM_SPEED++))
+  ((STAR_FIELD_ANIM_SPEED > 5)) && STAR_FIELD_ANIM_SPEED=0 || ((STAR_FIELD_ANIM_SPEED++))
 }
