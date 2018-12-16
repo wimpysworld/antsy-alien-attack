@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-playSound=
+SOUND_BACKEND=
 
 sound-setup() {
   if command -v mpg123 > /dev/null 2>&1; then
-    playSound='sound-mpg123'
+    SOUND_BACKEND='sound-mpg123'
   else
-    playSound='sound-beep'
+    SOUND_BACKEND='sound-beep'
   fi
 }
 
@@ -15,8 +15,8 @@ sound-teardown() {
 }
 
 sound() {
-  local sound=sfx/$1.mp3
-  $playSound "$sound"
+  local SOUND=sfx/$1.mp3
+  ${SOUND_BACKEND} "${SOUND}"
 }
 
 sound-mpg123() {

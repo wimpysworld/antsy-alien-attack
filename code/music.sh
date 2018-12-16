@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-playMusic=
+MUSIC_BACKEND=
 
 music-setup() {
   if command -v ogg123 > /dev/null 2>&1; then
-    playMusic='music-ogg123'
+    MUSIC_BACKEND='music-ogg123'
   else
-    playMusic='music-silence'
+    MUSIC_BACKEND='music-silence'
   fi
 }
 
 music-teardown() {
-  pkill -u "$USER" ogg123 > /dev/null 2>&1
+  pkill -u "${USER}" ogg123 > /dev/null 2>&1
 }
 
 music() {
-  local music=music/$1.ogg
-  $playMusic "$music"
+  local MUSIC=music/$1.ogg
+  ${MUSIC_BACKEND} "${MUSIC}"
 }
 
 music-ogg123() {
