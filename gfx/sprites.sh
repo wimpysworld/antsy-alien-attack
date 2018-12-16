@@ -58,7 +58,7 @@ compose-sprites() {
   "$DEF  $blk▄$red█$blk▄  "
   "$DEF $RED▄$blk█$RED█$blk█$RED▄ "
   "$RED▐█$blk█$RED█$blk█$RED█▌"
-  "${THRUST[$THRUST_FRAME]}"
+  "${THRUST[${THRUST_FRAME}]}"
   "$DEF       ")
 
   # This is a potential blue player
@@ -68,10 +68,10 @@ compose-sprites() {
   #  "$DEF  $blk▄$blu█$blk▄  "
   #  "$DEF $BLU▄$blk█$BLU█$blk█$BLU▄ "
   #  "$BLU▐█$blk█$BLU█$blk█$BLU█▌"
-  #  "${THRUST[$THRUST_FRAME]}"
+  #  "${THRUST[${THRUST_FRAME}]}"
   #  "$DEF       ")
   #fi
 
   # Increment the play thrust animation speed control
-  [[ $THRUST_FRAME -ge $THRUST_FRAMES ]] && THRUST_FRAME=0 || ((THRUST_FRAME++))
+  [[ ${THRUST_FRAME} -ge ${THRUST_FRAMES} ]] && THRUST_FRAME=0 || ((THRUST_FRAME++))
 }
