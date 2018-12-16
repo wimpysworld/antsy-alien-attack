@@ -30,17 +30,17 @@ teardown() {
   joystick-teardown
   terminate-all-threads
   trap exit USR1
-  sleep "$DELAY"
+  sleep ${DELAY}
   exit
 }
 
 start-loop() {
-  $LOOP
-  (sleep $DELAY && kill -USR1 $$) &
+  ${LOOP}
+  (sleep ${DELAY} && kill -USR1 $$) &
 }
 
 case ${BASH_VERSINFO[@]::2} in [1-3]' '[0-9][0-9]|[1-3]' '[0-9]|'4 '[0-1])
-  echo -e "\nYour Bash is too low! 4.2+ is required to run this game, yours is $BASH_VERSION"
+  echo -e "\nYour Bash version is too old! Bash 4.2+ is required to run this game, you have ${BASH_VERSION} installed."
   exit 1;;
 esac
 
