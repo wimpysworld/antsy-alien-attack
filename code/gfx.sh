@@ -122,7 +122,8 @@ raw-draw() {
 lol-draw() {
   local x=$1
   local y=$2
-  local str=$(echo "$3" | lolcat -f -F 0.2)
+  local str=
+  str=$(echo "$3" | lolcat -f -F 0.2)
   framebuffer="${framebuffer}\e[$((y+1));$((x+1))H${str}"
 }
 
@@ -130,21 +131,24 @@ draw-centered() {
   local y=$1
   local color=$2
   local str=${*:3}
-  local offset=$(center ${#str})
+  local offset=
+  offset=$(center ${#str})
   draw "$offset" "$y" "$color" "$str"
 }
 
 raw-draw-centered() {
   local y=$1
   local str=${*:2}
-  local offset=$(center ${#str})
+  local offset=
+  offset=$(center ${#str})
   raw-draw "$offset" "$y" "$str"
 }
 
 lol-draw-centered() {
   local y=$1
   local str="$2"
-  local offset=$(center ${#str})
+  local offset=
+  offset=$(center ${#str})
   lol-draw "$offset" "$y" "$str"
 }
 
@@ -152,14 +156,16 @@ draw-right() {
   local y=$1
   local color=$2
   local str=${*:3}
-  local offset=$((SCREEN_WIDTH - ${#str}))
+  local offset=
+  offset=$((SCREEN_WIDTH - ${#str}))
   draw "$offset" "$y" "$color" "$str"
 }
 
 raw-draw-right() {
   local y=$1
   local str=${*:2}
-  local offset=$((SCREEN_WIDTH - ${#str}))
+  local offset=
+  offset=$((SCREEN_WIDTH - ${#str}))
   raw-draw "$offset" "$y" "$str"
 }
 
@@ -167,7 +173,8 @@ raw-draw-right() {
 lol-draw-right() {
   local y=$1
   local str=${3}
-  local offset=$((SCREEN_WIDTH - ${#str}))
+  local offset=
+  offset=$((SCREEN_WIDTH - ${#str}))
   lol-draw "$offset" "$y" "$str"
 }
 
@@ -207,7 +214,7 @@ draw-sprite() {
   local sprite=("$@")
   local i=
   for (( i=0; i<${#sprite[@]}; i++ )); do
-    if [ $mask -eq 1 ]; then
+    if ((mask == 1)); then
       # The spaces either side are to scrub old position.
       raw-draw "${x}" "$((y + i))" "$DEF ${sprite[$i]}$DEF "
     else
@@ -225,9 +232,9 @@ erase-sprite() {
   local row=
   local erase=
   for (( i=0; i<${#sprite[@]}; i++ )); do
-    row=(${sprite[$i]})
+    row=("${sprite[${i}]}")
     erase=$(printf ' %.0s' $(seq 1 ${#row[0]}))
-    if [ $mask -eq 1 ]; then
+    if (( mask == 1 )); then
       # The spaces either side are to scrub old position.
       raw-draw "${x}" "$((y + i))" "$DEF ${erase}$DEF "
     else
@@ -258,15 +265,15 @@ center() {
 
 a-star-is-born() {
   local START_Y=$1
-  NEW_STAR_X=$(shuf -i 0-$SCREEN_WIDTH -n 1)
-  if [ $START_Y -ne 0 ]; then
+  NEW_STAR_X=$(shuf -i 0-"${SCREEN_WIDTH}" -n 1)
+  if (( START_Y != 0 )); then
     NEW_STAR_Y=0
   else
-    NEW_STAR_Y=$(shuf -i 0-$STAR_FLOOR -n 1)
+    NEW_STAR_Y=$(shuf -i 0-"${STAR_FLOOR}" -n 1)
   fi
-  local RAND_CHAR=$[$RANDOM % ${#STAR_CHARS[@]}]
+  local RAND_CHAR=$((RANDOM % ${#STAR_CHARS[@]}))
   NEW_STAR_CHAR="${STAR_CHARS[$RAND_CHAR]}"
-  local RAND_COLOR=$[$RANDOM % ${#STAR_COLORS[@]}]
+  local RAND_COLOR=$((RANDOM % ${#STAR_COLORS[@]}))
   NEW_STAR_COLOR="${STAR_COLORS[$RAND_COLOR]}"
 }
 
@@ -278,7 +285,7 @@ create-starfield() {
   readonly STAR_MAX=$((SCREEN_HEIGHT / 4 ))
   readonly STAR_FLOOR=$((SCREEN_HEIGHT - 3))
   local STAR=0
-  for (( STAR=0; STAR < $STAR_MAX; STAR++ )); do
+  for (( STAR=0; STAR < STAR_MAX; STAR++ )); do
     a-star-is-born 0
     STAR_FIELD+=("$NEW_STAR_X $NEW_STAR_Y $NEW_STAR_CHAR $NEW_STAR_COLOR")
   done
@@ -294,8 +301,8 @@ animate-starfield() {
     ((TOTAL_STARS++))
   fi
 
-  for (( STAR=0; STAR<$TOTAL_STARS; STAR++ )); do
-    local STAR_INSTANCE=(${STAR_FIELD[$STAR]})
+  for (( STAR=0; STAR < TOTAL_STARS; STAR++ )); do
+    local STAR_INSTANCE=(${STAR_FIELD[${STAR}]})
     local STAR_X=${STAR_INSTANCE[0]}
     local STAR_Y=${STAR_INSTANCE[1]}
     local STAR_CHAR=${STAR_INSTANCE[2]}
@@ -309,7 +316,7 @@ animate-starfield() {
       if ((STAR_Y >= STAR_FLOOR)); then
         # Remove the dead star
         erase-sprite 0 "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
-        unset STAR_FIELD[$STAR]
+        unset STAR_FIELD[${STAR}]
         STAR_FIELD=("${STAR_FIELD[@]}")
         ((TOTAL_STARS--))
         continue
