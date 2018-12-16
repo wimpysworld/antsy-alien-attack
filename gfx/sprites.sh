@@ -35,14 +35,15 @@ readonly P2_LASER_HEIGHT=$(( ${#P2_LASER_SPRITE[@]} ))
 #▀▒█▒▀
 # ▀▀▀
 #      
-
-  FIGHTER=(
-  "$DEF     "
-  "$blk$BWHT░$blk$BBLK▌$DEF $blk▐$blk$BWHT░"
-  "$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
-  "$DEF $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$DEF "
-  "$DEF     "
-  )
+export FIGHTER_WIDTH=6
+export FIGHTER_HEIGHT=5
+FIGHTER_SPRITE=(
+"$DEF     "
+"$blk$BWHT░$blk$BBLK▌$DEF $blk▐$blk$BWHT░"
+"$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
+"$DEF $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$DEF "
+"$DEF     "
+)
 
 compose-sprites() {
 #       
