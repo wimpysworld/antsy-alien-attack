@@ -41,7 +41,7 @@ game-mode() {
   reset-timers
   reset-game
   music level"$(shuf -i 1-3 -n 1)"
-  gameMusicThread=$!
+  GAME_MUSIC_THREAD=$!
   export LOOP=game-loop
 }
 
@@ -177,12 +177,12 @@ game-loop() {
       ;;
     'v')
       # Victory condition stub
-      kill-thread "$gameMusicThread"
+      kill-thread ${GAME_MUSIC_THREAD}
       victory-mode
       return 1;;
     'o')
       # Game over condition stub
-      kill-thread "$gameMusicThread"
+      kill-thread ${GAME_MUSIC_THREAD}
       gameover-mode
       return 1;;
   esac

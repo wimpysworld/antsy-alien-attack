@@ -10,7 +10,7 @@ title-mode() {
 
   reset-timers
   music title
-  titleMusicThread=$!
+  TITLE_MUSIC_THREAD=$!
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N T R O L S"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "W"
@@ -29,10 +29,10 @@ title-mode() {
 
 title-loop() {
   if [[ $KEY == 'p' ]]; then
-    kill-thread $titleMusicThread
+    kill-thread ${TITLE_MUSIC_THREAD}
     game-mode
   elif [[ $KEY == 'q' ]]; then
-    kill-thread $titleMusicThread
+    kill-thread ${TITLE_MUSIC_THREAD}
     teardown
   else
     wave-picture "$titleScreenOffset" "${titleScreen[@]}"

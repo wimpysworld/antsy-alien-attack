@@ -9,7 +9,7 @@ gameover-mode() {
 
   reset-timers
   music gameover
-  gameoverMusicThread=$!
+  GAMEOVER_MUSIC_THREAD=$!
 
   local gameoverScreenOffset=$(center 73)
   draw-picture "$gameoverScreenOffset" 1 gameover
@@ -22,10 +22,10 @@ gameover-mode() {
 
 gameover-loop() {
   if [[ $KEY == 'r' ]]; then
-    kill-thread $gameoverMusicThread
+    kill-thread ${GAMEOVER_MUSIC_THREAD}
     title-mode
   elif [[ $KEY == 'q' ]]; then
-    kill-thread $gameoverMusicThread
+    kill-thread ${GAMEOVER_MUSIC_THREAD}
     teardown
   else
     render

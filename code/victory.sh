@@ -9,7 +9,7 @@ victory-mode() {
 
   reset-timers
   music victory
-  victoryMusicThread=$!
+  VICTORY_MUSIC_THREAD=$!
 
   local victoryScreenOffset=$(center 59)
   draw-picture "$victoryScreenOffset" 1 victory
@@ -22,10 +22,10 @@ victory-mode() {
 
 victory-loop() {
   if [[ $KEY == 'r' ]]; then
-    kill-thread $victoryMusicThread
+    kill-thread ${VICTORY_MUSIC_THREAD}
     title-mode
   elif [[ $KEY == 'q' ]]; then
-    kill-thread $victoryMusicThread
+    kill-thread ${VICTORY_MUSIC_THREAD}
     teardown
   else
     render
