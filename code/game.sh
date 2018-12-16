@@ -99,6 +99,7 @@ check-laser-impact-fighter() {
     if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH)); then
       if ((LASER_Y >= FIGHTER_Y && LASER_Y <= FIGHTER_Y + FIGHTER_HEIGHT)); then
         # Remove the fighter
+        sound fighter-explosion
         erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
         unset FIGHTERS[$FIGHTER]
         FIGHTERS=("${FIGHTERS[@]}")
