@@ -87,24 +87,6 @@ fighter-ai() {
   [[ $FIGHTER_SPAWN_DELAY -ge $FIGHTER_MAX_SPAWN_DELAY ]] && FIGHTER_SPAWN_DELAY=0 || ((FIGHTER_SPAWN_DELAY++))
 }
 
-check-laser-impact-fighter() {
-  local LASER_X=$1
-  local LASER_Y=$2
-  local IN_FLIGHT=${#FIGHTERS[@]}
-  local FIGHTER=0
-  for (( FIGHTER=0; FIGHTER < IN_FLIGHT; FIGHTER++ )); do
-    local FIGHTER_INSTANCE=(${FIGHTERS[$FIGHTER]})
-    local FIGHTER_X=${FIGHTER_INSTANCE[0]}
-    local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
-    if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH)); then
-      if ((LASER_Y >= FIGHTER_Y && LASER_Y <= FIGHTER_Y + FIGHTER_HEIGHT)); then
-        return 0
-      fi
-    fi
-  done
-  return 1
-}
-
 player-lasers() {
   local IN_FLIGHT=${#P1_LASERS[@]}
   for (( LASER=0; LASER < IN_FLIGHT; LASER++ )); do
@@ -116,6 +98,11 @@ player-lasers() {
     ((LASER_Y--))
 
     if [ $LASER_Y -le $P1_LASER_CEILING ]; then
+        # Remove the fighter
+        erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
+        unset FIGHTERS[$FIGHTER]
+        FIGHTERS=("${FIGHTERS[@]}")
+        ((IN_FLIGHT--))
       erase-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
       unset P1_LASERS[$LASER]
       P1_LASERS=("${P1_LASERS[@]}")
