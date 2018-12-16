@@ -30,6 +30,20 @@ export P2_LASER_SPRITE=(
 )
 readonly P2_LASER_HEIGHT=$(( ${#P2_LASER_SPRITE[@]} ))
 
+#      
+#░▌ ▐░
+#▀▒█▒▀
+# ▀▀▀
+#      
+
+  FIGHTER=(
+  "$DEF     "
+  "$blk$BWHT░$blk$BBLK▌$DEF $blk▐$blk$BWHT░"
+  "$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
+  "$DEF $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$DEF "
+  "$DEF     "
+  )
+
 compose-sprites() {
 #       
 #   ▄   
@@ -58,20 +72,6 @@ compose-sprites() {
     "${THRUST[$THRUST_FRAME]}"
     "$DEF       ")
   fi
-
-#      
-#░▌ ▐░
-#▀▒█▒▀
-# ▀▀▀
-#      
-
-  FIGHTER=(
-  "$DEF     "
-  "$blk$BWHT░$blk$BBLK▌$DEF $blk▐$blk$BWHT░"
-  "$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
-  "$DEF $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$DEF "
-  "$DEF     "
-  )
 
   # Increment the play thrust animation speed control
   #[[ $THRUST_ANIM_SPEED -ge 1 ]] && THRUST_ANIM_SPEED=0 || ((THRUST_ANIM_SPEED++))
