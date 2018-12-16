@@ -47,7 +47,8 @@ game-mode() {
 
 spawn-fighter() {
   local SPAWN_Y=0
-  local SPAWN_X=$(shuf -i 0-$FIGHTER_MAX_X -n 1)
+  local SPAWN_X=
+  SPAWN_X=$(shuf -i 0-$FIGHTER_MAX_X -n 1)
   FIGHTERS+=("$SPAWN_X $SPAWN_Y")
 }
 
@@ -60,7 +61,7 @@ fighter-ai() {
   fi
 
   for (( FIGHTER=0; FIGHTER < IN_FLIGHT; FIGHTER++ )); do
-    local FIGHTER_INSTANCE=(${FIGHTERS[$FIGHTER]})
+    local FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
     local FIGHTER_X=${FIGHTER_INSTANCE[0]}
     local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
 
@@ -68,7 +69,7 @@ fighter-ai() {
       if ((FIGHTER_Y > FIGHTER_FLOOR)); then
         # Remove the fighter
         erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[$FIGHTER]
+        unset FIGHTERS[${FIGHTER}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((IN_FLIGHT--))
         continue
@@ -93,7 +94,7 @@ check-laser-impact-fighter() {
   local IN_FLIGHT=${#FIGHTERS[@]}
   local FIGHTER=0
   for (( FIGHTER=0; FIGHTER < IN_FLIGHT; FIGHTER++ )); do
-    local FIGHTER_INSTANCE=(${FIGHTERS[$FIGHTER]})
+    local FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
     local FIGHTER_X=${FIGHTER_INSTANCE[0]}
     local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
     if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH)); then
@@ -101,7 +102,7 @@ check-laser-impact-fighter() {
         # Remove the fighter
         sound fighter-explosion
         erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[$FIGHTER]
+        unset FIGHTERS[${FIGHTER}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((IN_FLIGHT--))
         return 0
@@ -115,19 +116,19 @@ player-lasers() {
   local IN_FLIGHT=${#P1_LASERS[@]}
   for (( LASER=0; LASER < IN_FLIGHT; LASER++ )); do
 
-    local LASER_INSTANCE=(${P1_LASERS[$LASER]})
+    local LASER_INSTANCE=(${P1_LASERS[${LASER}]})
     local LASER_X=${LASER_INSTANCE[0]}
     local LASER_Y=${LASER_INSTANCE[1]}
 
     if ((LASER_Y <= P1_LASER_CEILING)); then
       erase-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
-      unset P1_LASERS[$LASER]
+      unset P1_LASERS[${LASER}]
       P1_LASERS=("${P1_LASERS[@]}")
       ((IN_FLIGHT--))
       continue
     elif check-laser-impact-fighter "${LASER_X}" "${LASER_Y}"; then
       erase-sprite 0 "$LASER_X" "$LASER_Y" "${P1_LASER_SPRITE[@]}"
-      unset P1_LASERS[$LASER]
+      unset P1_LASERS[${LASER}]
       P1_LASERS=("${P1_LASERS[@]}")
       ((P1_SCORE++))
       ((IN_FLIGHT--))
