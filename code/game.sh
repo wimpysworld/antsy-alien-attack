@@ -21,6 +21,11 @@ reset-game() {
   P2_LASER_LATENCY=6
   P1_LAST_KEY=
   P2_LAST_KEY=
+  FIGHTERS=()
+  MAX_FIGHTERS=2
+  FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
+  FIGHTER_MAX_Y=$(( SCREEN_HEIGHT  - FIGHTER_HEIGHT ))
+  readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT - FIGHTER_HEIGHT))
   create-starfield
 }
 
@@ -34,6 +39,39 @@ game-mode() {
   music level"$(shuf -i 1-3 -n 1)"
   gameMusicThread=$!
   export LOOP=game-loop
+}
+
+spawn-fighter() {
+  local SPAWN_Y=0
+  local SPAWN_X=$(shuf -i 0-$FIGHTER_MAX_X -n 1)
+  FIGHTERS+=("$SPAWN_X $SPAWN_Y")
+}
+
+fighter-ai() {
+  local IN_FLIGHT=${#FIGHTERS[@]}
+  local FIGHTER=0
+  if [ $IN_FLIGHT -lt $MAX_FIGHTERS ]; then
+    spawn-fighter
+  fi
+
+  for (( FIGHTER=0; FIGHTER<${IN_FLIGHT}; FIGHTER++ )); do
+    local FIGHTER_INSTANCE=(${FIGHTERS[$FIGHTER]})
+    local FIGHTER_X=${FIGHTER_INSTANCE[0]}
+    local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
+
+    if [ $FIGHTER_Y -ge $FIGHTER_FLOOR ]; then
+      # Remove the fighter
+      erase-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
+      unset FIGHTERS[$FIGHTER]
+      FIGHTERS=("${FIGHTERS[@]}")
+      spawn-fighter
+      continue
+    else
+      ((FIGHTER_Y++))
+      FIGHTERS[$FIGHTER]="$FIGHTER_X $FIGHTER_Y"
+    fi
+    draw-sprite 1 "$FIGHTER_X" "$FIGHTER_Y" "${FIGHTER_SPRITE[@]}"
+  done
 }
 
 player-lasers() {
@@ -123,6 +161,7 @@ game-loop() {
   draw 0 0 "$STATUS_COLOR" "Lives: $lives"
   draw-right 0 "$STATUS_COLOR" "Score: $score"
   draw-sprite 1 "$P1_X" "$P1_Y" "${PLAYER1[@]}"
+  fighter-ai
   player-lasers
   render
 }
