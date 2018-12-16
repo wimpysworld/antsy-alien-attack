@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-titleMusicThread=
-titleScreen=()
+export TITLE_MUSIC_THREAD=
+export TITLE_SCREEN=()
 
 title-mode() {
   export KEY=
@@ -21,8 +21,9 @@ title-mode() {
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[L] Unleash the lasers"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) " Press [P] to Play or [Q] to Quit"
 
-  readarray -t titleScreen < gfx/title.ans
-  titleScreenOffset=$(center 80)
+  readarray -t TITLE_SCREEN < gfx/title.ans
+  TITLE_SCREEN_OFFSET=
+  TITLE_SCREEN_OFFSET=$(center 80)
 
   export LOOP=title-loop
 }
@@ -35,7 +36,7 @@ title-loop() {
     kill-thread ${TITLE_MUSIC_THREAD}
     teardown
   else
-    wave-picture "$titleScreenOffset" "${titleScreen[@]}"
+    wave-picture "${TITLE_SCREEN_OFFSET}" "${TITLE_SCREEN[@]}"
     render
   fi
 }

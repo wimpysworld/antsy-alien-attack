@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-victoryMusicThread=
+export VICTORY_MUSIC_THREAD=
 
 victory-mode() {
   export KEY=
@@ -11,8 +11,9 @@ victory-mode() {
   music victory
   VICTORY_MUSIC_THREAD=$!
 
-  local victoryScreenOffset=$(center 59)
-  draw-picture "$victoryScreenOffset" 1 victory
+  local VICTORY_SCREEN_OFFSET=
+  VICTORY_SCREEN_OFFSET=$(center 59)
+  draw-picture "${VICTORY_SCREEN_OFFSET}" 1 victory
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You defeated the alien horde! Hurray!"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to reminisce about the old times or [Q] to Quit"

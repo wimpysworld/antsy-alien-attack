@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-gameoverMusicThread=
+export GAMEOVER_MUSIC_THREAD=
 
 gameover-mode() {
   export KEY=
@@ -11,8 +11,9 @@ gameover-mode() {
   music gameover
   GAMEOVER_MUSIC_THREAD=$!
 
-  local gameoverScreenOffset=$(center 73)
-  draw-picture "$gameoverScreenOffset" 1 gameover
+  local GAMEOVER_SCREEN_OFFSET=
+  GAMEOVER_SCREEN_OFFSET=$(center 73)
+  draw-picture "${GAMEOVER_SCREEN_OFFSET}" 1 gameover
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You failed! But you may try again."
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to seek revenge or [Q] to Quit"
