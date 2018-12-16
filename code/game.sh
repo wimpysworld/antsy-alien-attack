@@ -7,10 +7,10 @@ reset-game() {
   P2_SCORE=0
   P1_LIVES=3
   P3_LIVES=3
-  P1_X=$(( (SCREEN_WIDTH) /2 ))
-  P1_Y=$(( (SCREEN_HEIGHT) /2 ))
-  P1_MAX_X=$(( SCREEN_WIDTH  - (PLAYER1_WIDTH + 2) ))
-  P1_MAX_Y=$(( SCREEN_HEIGHT - PLAYER1_HEIGHT ))
+  P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
+  P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+  P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
+  P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
   P1_LASERS=()
   P2_LASERS=()
   P1_LASER_CEILING=0
@@ -199,7 +199,7 @@ game-loop() {
   animate-starfield
   draw 0 0 "$STATUS_COLOR" "Lives: $P1_LIVES"
   draw-right 0 "$STATUS_COLOR" "Score: $P1_SCORE"
-  draw-sprite 1 "$P1_X" "$P1_Y" "${PLAYER1[@]}"
+  draw-sprite 1 "$P1_X" "$P1_Y" "${P1_SPRITE[@]}"
   fighter-ai
   player-lasers
   render
