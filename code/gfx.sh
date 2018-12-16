@@ -275,7 +275,7 @@ create-starfield() {
   export STAR_FIELD=()
   export STAR_CHARS=("·" "•" "+")
   export STAR_COLORS=("$WHT" "$wht" "$blk")
-  readonly STAR_MAX=$((SCREEN_HEIGHT / 3 ))
+  readonly STAR_MAX=$((SCREEN_HEIGHT / 4 ))
   readonly STAR_FLOOR=$((SCREEN_HEIGHT - 3))
   local STAR=0
   for (( STAR=0; STAR < $STAR_MAX; STAR++ )); do
@@ -287,6 +287,13 @@ create-starfield() {
 animate-starfield() {
   local TOTAL_STARS=${#STAR_FIELD[@]}
   local STAR=0
+  if ((TOTAL_STARS < STAR_MAX)); then
+    # Birth a new star
+    a-star-is-born 1
+    STAR_FIELD+=("$NEW_STAR_X $NEW_STAR_Y $NEW_STAR_CHAR $NEW_STAR_COLOR")
+    ((TOTAL_STARS++))
+  fi
+
   for (( STAR=0; STAR<$TOTAL_STARS; STAR++ )); do
     local STAR_INSTANCE=(${STAR_FIELD[$STAR]})
     local STAR_X=${STAR_INSTANCE[0]}
@@ -298,16 +305,13 @@ animate-starfield() {
       "${STAR_COLOR}${STAR_CHAR}"
     )
 
-    if [ $STAR_FIELD_ANIM_SPEED -eq 0 ]; then
-      if [ $STAR_Y -ge $STAR_FLOOR ]; then
+    if ((STAR_FIELD_ANIM_SPEED == 0)); then
+      if ((STAR_Y >= STAR_FLOOR)); then
         # Remove the dead star
         erase-sprite 0 "$STAR_X" "$STAR_Y" "${STAR_SPRITE[@]}"
         unset STAR_FIELD[$STAR]
         STAR_FIELD=("${STAR_FIELD[@]}")
-
-        # Birth a new star
-        a-star-is-born 1
-        STAR_FIELD+=("$NEW_STAR_X $NEW_STAR_Y $NEW_STAR_CHAR $NEW_STAR_COLOR")
+        ((TOTAL_STARS--))
         continue
       else
         ((STAR_Y++))
