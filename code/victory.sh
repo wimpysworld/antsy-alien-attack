@@ -4,7 +4,6 @@ export VICTORY_MUSIC_THREAD=
 
 victory-mode() {
   export KEY=
-  export DELAY=0.01
   tput clear
 
   reset-timers

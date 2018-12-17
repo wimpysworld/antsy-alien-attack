@@ -5,7 +5,6 @@ export TITLE_SCREEN=()
 
 title-mode() {
   export KEY=
-  export DELAY=0.01
   tput clear
 
   reset-timers

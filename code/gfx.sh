@@ -308,6 +308,10 @@ animate-starfield() {
     local STAR_INSTANCE=(${STAR_FIELD[${STAR}]})
     local STAR_X=${STAR_INSTANCE[0]}
     local STAR_Y=${STAR_INSTANCE[1]}
+
+    # TODO
+    #  - Optimise this.
+    #  - Create stars with a correctly formed sprite array?
     local STAR_CHAR=${STAR_INSTANCE[2]}
     local STAR_COLOR=${STAR_INSTANCE[3]}
     local STAR_SPRITE=(

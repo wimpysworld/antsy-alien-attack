@@ -12,7 +12,7 @@ source code/gameover.sh
 source code/victory.sh
 
 export LOOP=
-export DELAY=0.05
+export DELAY=0.001
 
 setup() {
   trap teardown EXIT INT TERM
