@@ -5,7 +5,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
 ## Plans
 
   - Tick
-    - Hardware interuppt trap to govern the game loop
+    - Hardware interuppt trap to govern the game loop via a sub shell.
   - Input handler
     - Keyboard
     - Xbox360 Controller
@@ -33,6 +33,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
   - Level progression
     - Number of enemies rises
     - Enemy firepower increases
+    - Enemy speed increases
     - Canyon levels, narrow playable area
   - 2P
   - Title screen attract mode
