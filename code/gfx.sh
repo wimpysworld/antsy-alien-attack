@@ -34,13 +34,6 @@ CON='\e[?25h' #Cursor On                                             |
 #--------------------------------------------------------------------+
 SPC="${BLK}${BBLK}"
 
-blank-screen() {
-  local i=0
-  for ((i=0; i < SCREEN_HEIGHT; i++)); do
-    printf "${SPC}%${SCREEN_WIDTH}s"
-  done
-}
-
 resize-term() {
   local COLS=${1}
   local LINES=${2}
@@ -118,6 +111,14 @@ draw() {
   local COLOR=${3}
   local STR=${*:4}
   framebuffer="${framebuffer}\e[${Y};${X}H\e[$COLOR${STR}\e[m"
+}
+
+blank-screen() {
+  local Y=0
+  local STR=$(repeat " " "${SCREEN_WIDTH}")
+  for ((Y=0; Y < SCREEN_HEIGHT; Y++)); do
+    draw "0" "${Y}" "${SPC}" "${STR}"
+  done
 }
 
 raw-draw() {
