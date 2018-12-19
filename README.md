@@ -7,8 +7,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
 Stuff the needs doing next or can't be forgotten.
 
   * Fighter movement
-  * Fighter lasers
-  * Ship collisions
+  * Ship to ship collisions
   * Optimise star field sprite creation
 
 ## Plans
