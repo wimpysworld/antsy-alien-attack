@@ -32,6 +32,14 @@ INV='\e[7m'   #Inverted                                              |
 COF='\e[?25l' #Cursor Off                                            |
 CON='\e[?25h' #Cursor On                                             |
 #--------------------------------------------------------------------+
+SPC="${BLK}${BBLK}"
+
+blank-screen() {
+  local i=0
+  for ((i=0; i < SCREEN_HEIGHT; i++)); do
+    printf "${SPC}%${SCREEN_WIDTH}s"
+  done
+}
 
 resize-term() {
   local COLS=${1}
