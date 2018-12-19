@@ -197,7 +197,7 @@ wave-picture() {
     # Technically correct, since it clears characters
     # raw-draw $x $y "\e[1K$line\e[K"
     # But my wave only increments 1 char per-cycle.
-    raw-draw ${X} ${Y} "$DEF ${LINE} $DEF"
+    raw-draw ${X} ${Y} "$SPC ${LINE} $SPC"
     ((Y++))
   done
   ((WAVE_CYCLE++))
@@ -225,7 +225,7 @@ draw-sprite() {
   for (( i=0; i< ${#SPRITE[@]}; i++ )); do
     if ((MASK == 1)); then
       # The spaces either side are to scrub old position.
-      raw-draw "${X}" "$((Y + i))" "$DEF ${SPRITE[${i}]}$DEF "
+      raw-draw "${X}" "$((Y + i))" "$SPC ${SPRITE[${i}]}$SPC "
     else
       raw-draw "${X}" "$((Y + i))" "${SPRITE[${i}]}"
     fi
@@ -246,7 +246,7 @@ erase-sprite() {
   for (( i=0; i < ${#SPRITE[@]}; i++ )); do
     if (( MASK == 1 )); then
       # The spaces either side are to scrub old position.
-      raw-draw "${X}" "$((Y + i))" "$DEF ${ERASE}$DEF "
+      raw-draw "${X}" "$((Y + i))" "$SPC ${ERASE}$SPC "
     else
       raw-draw "${X}" "$((Y + i))" "${ERASE}"
     fi
