@@ -29,6 +29,14 @@ export P2_LASER_SPRITE=(
 )
 readonly P2_LASER_HEIGHT=$(( ${#P2_LASER_SPRITE[@]} ))
 
+export FIGHTER_LASER_SPRITE=(
+"$DEF "
+"$MGN░"
+"$MGN▒"
+"$MGN▓"
+)
+readonly FIGHTER_LASER_HEIGHT=$(( ${#FIGHTER_LASER_SPRITE[@]} ))
+
 #      
 #░▌ ▐░
 #▀▒█▒▀
