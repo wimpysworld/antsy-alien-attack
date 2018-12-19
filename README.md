@@ -5,7 +5,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
 ## Plans
 
   - Tick
-    - Hardware interuppt trap to govern the game loop via a sub shell.
+    - Hardware interuppt trap to govern the game loop via a subshell.
   - Input handler
     - Keyboard
     - Xbox360 Controller
@@ -123,6 +123,8 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2 > gfx/victory.
 ### Bash
 
   * https://devhints.io/bash
+  * Subshells
+    - [subshell Explained](https://unix.stackexchange.com/questions/138463/do-parentheses-really-put-the-command-in-a-subshell?answertab=votes#tab-top)
 
 ### Applications
 
@@ -151,8 +153,6 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2 > gfx/victory.
     * `fighter-explosion.mp3`
 
 ### Fonts
-
-Consolas TTF Looks like a Unicode complete option.
 
 #### Terminal fonts
 
