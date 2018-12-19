@@ -3,7 +3,10 @@
 SOUND_BACKEND=
 
 sound-setup() {
-  if command -v mpg123 > /dev/null 2>&1; then
+  # Is this connection remote?
+  if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
+    MUSIC_BACKEND='sound-silence'
+  elif command -v mpg123 > /dev/null 2>&1; then
     SOUND_BACKEND='sound-mpg123'
   else
     SOUND_BACKEND='sound-beep'
@@ -25,4 +28,8 @@ sound-mpg123() {
 
 sound-beep() {
   echo -en '\a' &
+}
+
+sound-silence() {
+  :
 }
