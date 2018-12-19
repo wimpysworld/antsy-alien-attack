@@ -277,16 +277,13 @@ center() {
 
 a-star-is-born() {
   local START_Y=${1}
-  NEW_STAR_X=$(shuf -i 0-"${SCREEN_WIDTH}" -n 1)
+  NEW_STAR_X=$((RANDOM % ${SCREEN_WIDTH}))
   if (( START_Y != 0 )); then
     NEW_STAR_Y=0
   else
-    NEW_STAR_Y=$(shuf -i 0-"${STAR_FLOOR}" -n 1)
+    NEW_STAR_Y=$((RANDOM % ${STAR_FLOOR}))
   fi
-  local RAND_CHAR=$((RANDOM % ${#STAR_CHARS[@]}))
-  NEW_STAR_CHAR="${STAR_CHARS[${RAND_CHAR}]}"
-  local RAND_COLOR=$((RANDOM % ${#STAR_COLORS[@]}))
-  NEW_STAR_COLOR="${STAR_COLORS[${RAND_COLOR}]}"
+  NEW_STAR_SPRITE_INDEX=$((RANDOM % ${NUM_OF_STAR_SPRITES}))
 }
 
 create-starfield() {
@@ -294,22 +291,43 @@ create-starfield() {
   export STAR_FIELD=()
   export STAR_CHARS=("·" "•" "+")
   export STAR_COLORS=("$WHT" "$wht" "$blk")
+  export STAR_SPRITES=()
+  export NUM_OF_STAR_SPRITES=-1
   readonly STAR_MAX=$((SCREEN_HEIGHT / 4 ))
-  readonly STAR_FLOOR=$((SCREEN_HEIGHT - 3))
+  readonly STAR_FLOOR=$((SCREEN_HEIGHT -3))
   local STAR=0
+  local CHAR_LOOP=0
+  local COL_LOOP=0
+  
+  # Build array of star sprites
+  for (( COL_LOOP=0; COL_LOOP < ${#STAR_COLORS[@]}; COL_LOOP++ )); do
+    for (( CHAR_LOOP=0; CHAR_LOOP < ${#STAR_CHARS[@]}; CHAR_LOOP++ )); do
+      ((NUM_OF_STAR_SPRITES++))
+      local STAR_CHAR="${STAR_CHARS[${CHAR_LOOP}]}"
+      local STAR_COLOR="${STAR_COLORS[${COL_LOOP}]}"
+      STAR_SPRITES+=("${STAR_COLOR}${STAR_CHAR}")
+    done
+  done
+
   for (( STAR=0; STAR < STAR_MAX; STAR++ )); do
     a-star-is-born 0
-    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_CHAR} ${NEW_STAR_COLOR}")
+    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_SPRITE_INDEX}")
   done
 }
 
 animate-starfield() {
   local TOTAL_STARS=${#STAR_FIELD[@]}
   local STAR=0
+  local STAR_INSTANCE=0
+  local STAR_X=0
+  local STAR_Y=0
+  local STAR_SPRITE_INDEX=0
+  local STAR_SPRITE=()
+
   if ((TOTAL_STARS < STAR_MAX)); then
     # Birth a new star
     a-star-is-born 1
-    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_CHAR} ${NEW_STAR_COLOR}")
+    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_SPRITE_INDEX}")
     ((TOTAL_STARS++))
   fi
 
@@ -317,15 +335,10 @@ animate-starfield() {
     local STAR_INSTANCE=(${STAR_FIELD[${STAR}]})
     local STAR_X=${STAR_INSTANCE[0]}
     local STAR_Y=${STAR_INSTANCE[1]}
-
-    # TODO
-    #  - Optimise this.
-    #  - Create stars with a correctly formed sprite array?
-    local STAR_CHAR=${STAR_INSTANCE[2]}
-    local STAR_COLOR=${STAR_INSTANCE[3]}
+    local STAR_SPRITE_INDEX=${STAR_INSTANCE[2]}
     local STAR_SPRITE=(
-      "$DEF "
-      "${STAR_COLOR}${STAR_CHAR}"
+      "$SPC "
+      "${STAR_SPRITES[$STAR_SPRITE_INDEX]}"
     )
 
     if ((STAR_FIELD_ANIM_SPEED == 0)); then
@@ -338,7 +351,7 @@ animate-starfield() {
         continue
       else
         ((STAR_Y++))
-        STAR_FIELD[$STAR]="${STAR_X} ${STAR_Y} ${STAR_CHAR} ${STAR_COLOR}"
+        STAR_FIELD[$STAR]="${STAR_X} ${STAR_Y} ${STAR_SPRITE_INDEX}"
       fi
     fi
     draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
