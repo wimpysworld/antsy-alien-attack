@@ -5,7 +5,7 @@ export TITLE_SCREEN=()
 
 title-mode() {
   export KEY=
-  tput clear
+  blank-screen
 
   reset-timers
   music title

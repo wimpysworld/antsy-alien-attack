@@ -4,7 +4,7 @@ export VICTORY_MUSIC_THREAD=
 
 victory-mode() {
   export KEY=
-  tput clear
+  blank-screen
 
   reset-timers
   music victory

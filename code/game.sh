@@ -35,7 +35,7 @@ reset-game() {
 
 game-mode() {
   export KEY=
-  tput clear
+  blank-screen
 
   reset-timers
   reset-game

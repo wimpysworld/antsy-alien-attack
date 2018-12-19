@@ -4,7 +4,7 @@ export GAMEOVER_MUSIC_THREAD=
 
 gameover-mode() {
   export KEY=
-  tput clear
+  blank-screen
 
   reset-timers
   music gameover
