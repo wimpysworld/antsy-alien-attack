@@ -2,52 +2,69 @@
 
 A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully.
 
+## TODO
+
+Stuff the needs doing next or can't be forgotten.
+
+  * Fighter movement
+  * Fighter lasers
+  * Ship collisions
+  * Optimise star field sprite creation
+
 ## Plans
 
-  - Tick
-    - Hardware interuppt trap to govern the game loop via a subshell.
-  - Input handler
-    - Keyboard
-    - Xbox360 Controller
-  - Graphics
-    - ANSI sprite engine
-    - Framebuffer
-    - Sprite collision detection
-    - Starfield with twinkling start
-    - Performance metrics
-  - Audio
-    - Sound effects engine
-    - Music engine
-  - Title screen engine
-    - Main screen
-    - Game over
-    - Victory
-  - Enemies
-    - Fighters
-    - Gun turrets
-    - Boss ships
-  - Animators
-    - Player ship thrust and roll
-    - Impact animations
-    - Explosion animations
-  - Level progression
-    - Number of enemies rises
-    - Enemy firepower increases
-    - Enemy speed increases
-    - Canyon levels, narrow playable area
-  - 2P
-  - Title screen attract mode
-    - Highscores
-    - Configuration
-    - Credits
-  - Power ups
-    - Bonus points
-    - Weapon upgrades
-    - Shields
-    - Smartbomb
-  - Snap
-    - Bundle alacritty and fonts
-    - Desktop Launcher
+  - [x] Tick
+    - [x] Hardware interrupt trap to govern the game loop via a subshell.
+  - [x] Input handler
+    - [x] Keyboard
+    - [x] Xbox360 Controller
+  - [ ] Graphics
+    - [x] ANSI sprite engine
+    - [ ] Sprite overlays
+    - [x] Framebuffer
+    - [ ] Sprite collision detection
+    - [ ] Starfield with twinkling stars
+    - [x] Performance metrics
+  - [x] Audio
+    - [x] Sound effects engine
+    - [x] Music engine
+    - [x] Disable audio for remote connections
+  - [x] Title screen engine
+    - [ ] Main screen artwork
+    - [ ] Game over artwork
+    - [ ] Victory artwork
+  - [ ] Enemies
+    - [x] Fighters
+    - [ ] Fighter AI
+    - [ ] Gun turrets
+    - [ ] Gun turret AI
+    - [ ] Boss ships
+    - [ ] Boos ship AI
+  - [ ] Animators
+    - [x] Player thrust
+    - [ ] Player roll
+    - [ ] Impact animations
+    - [ ] Explosion animations
+  - [ ] Level progression
+    - [ ] Number of enemies rises
+    - [ ] Enemy firepower increases
+    - [ ] Enemy speed increases
+    - [ ] Canyon levels, narrow playable area
+  - [ ] 2P
+    - [ ] Local
+    - [ ] Network
+  - [ ] Title screen attract mode
+    - [ ] Highscores
+    - [ ] Configuration
+    - [ ] Credits
+  - [ ] Power ups
+    - [ ] Bonus points
+    - [ ] Weapon upgrades
+    - [ ] Shields
+    - [ ] Smartbomb
+  - [ ] Snap
+    - [ ] Bundle alacritty and fonts
+    - [ ] Desktop Launcher
 
 ## Requirements
 
