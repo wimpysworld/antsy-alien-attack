@@ -6,9 +6,9 @@ export P2_WIDTH=6
 export P2_HEIGHT=7
 
 readonly THRUST=(
-"$DEF  $ylw▀$DEF $ylw▀  "
-"$DEF  $ylw$bred▓$DEF $ylw$bred▓$DEF  "
-"$DEF  $red$bylw▓$DEF $red$bylw▓$DEF  "
+"$SPC  $ylw▀$SPC $ylw▀  "
+"$SPC  $ylw$bred▓$SPC $ylw$bred▓$SPC  "
+"$SPC  $red$bylw▓$SPC $red$bylw▓$SPC  "
 )
 export THRUST_FRAME=0
 readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
@@ -17,7 +17,7 @@ export P1_LASER_SPRITE=(
 "$RED▓"
 "$RED▒"
 "$RED░"
-"$DEF "
+"$SPC "
 )
 readonly P1_LASER_HEIGHT=$(( ${#P1_LASER_SPRITE[@]} ))
 
@@ -25,12 +25,12 @@ export P2_LASER_SPRITE=(
 "$BLU▓"
 "$BLU▒"
 "$BLU░"
-"$DEF "
+"$SPC "
 )
 readonly P2_LASER_HEIGHT=$(( ${#P2_LASER_SPRITE[@]} ))
 
 export FIGHTER_LASER_SPRITE=(
-"$DEF "
+"$SPC "
 "$MGN░"
 "$MGN▒"
 "$MGN▓"
@@ -45,11 +45,11 @@ readonly FIGHTER_LASER_HEIGHT=$(( ${#FIGHTER_LASER_SPRITE[@]} ))
 export FIGHTER_WIDTH=6
 export FIGHTER_HEIGHT=5
 readonly FIGHTER_SPRITE=(
-"$DEF     "
-"$blk$BWHT░$blk$BBLK▌$DEF $blk▐$blk$BWHT░"
+"$SPC     "
+"$blk$BWHT░$blk$BBLK▌$SPC $blk▐$blk$BWHT░"
 "$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
-"$DEF $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$DEF "
-"$DEF     "
+"$SPC $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$SPC "
+"$SPC     "
 )
 
 compose-sprites() {
@@ -61,23 +61,23 @@ compose-sprites() {
 #  ▀ ▀  
 #       
   P1_SPRITE=(
-  "$DEF       "
-  "$DEF   $RED▄$DEF   "
-  "$DEF  $blk▄$red█$blk▄  "
-  "$DEF $RED▄$blk█$RED█$blk█$RED▄ "
+  "$SPC       "
+  "$SPC   $RED▄$SPC   "
+  "$SPC  $blk▄$red█$blk▄  "
+  "$SPC $RED▄$blk█$RED█$blk█$RED▄ "
   "$RED▐█$blk█$RED█$blk█$RED█▌"
   "${THRUST[${THRUST_FRAME}]}"
-  "$DEF       ")
+  "$SPC       ")
 
   # This is a potential blue player
   #P2_SPRITE=(
-  #  "$DEF       "
-  #  "$DEF   $BLU▄$DEF   "
-  #  "$DEF  $blk▄$blu█$blk▄  "
-  #  "$DEF $BLU▄$blk█$BLU█$blk█$BLU▄ "
+  #  "$SPC       "
+  #  "$SPC   $BLU▄$SPC   "
+  #  "$SPC  $blk▄$blu█$blk▄  "
+  #  "$SPC $BLU▄$blk█$BLU█$blk█$BLU▄ "
   #  "$BLU▐█$blk█$BLU█$blk█$BLU█▌"
   #  "${THRUST[${THRUST_FRAME}]}"
-  #  "$DEF       ")
+  #  "$SPC       ")
   #fi
 
   # Increment the play thrust animation speed control
