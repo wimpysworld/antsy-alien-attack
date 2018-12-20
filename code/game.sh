@@ -3,6 +3,7 @@
 readonly STATUS_COLOR=$BRED$WHT
 
 reset-game() {
+  LEVEL=0
   P1_SCORE=0
   P2_SCORE=0
   P1_LIVES=3
@@ -33,10 +34,9 @@ reset-game() {
   FIGHTER_SPAWN_DELAY=0
   FIGHTER_MAX_SPAWN_DELAY=100
   FIGHTER_LASERS=()
-  FIGHTER_LASERS_TICK=0
-  FIGHTER_LASERS_MODULO=500
-  FIGHTER_LASERS_MODULO_MULIPLIER=10
-  MAX_FIGHTER_LASERS=2
+  MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
+  ((LEVEL++))
+  ALIEN_FIRE_RATE=$((200 / LEVEL))
   create-starfield
 }
 
@@ -53,10 +53,10 @@ game-mode() {
 }
 
 fighter-laser-hit-player() {
-  local LASER_X=${1}
-  local LASER_Y=${2}
-  if ((LASER_X >= P1_X && LASER_X <= P1_X + P1_WIDTH )); then
-    if ((LASER_Y >= P1_Y && LASER_Y <= P1_Y + P1_HEIGHT)); then
+  local FIGHTER_LASER_X=${1}
+  local FIGHTER_LASER_Y=${2}
+  if ((FIGHTER_LASER_X >= P1_X && FIGHTER_LASER_X <= P1_X + P1_WIDTH )); then
+    if ((FIGHTER_LASER_Y >= P1_Y && FIGHTER_LASER_Y <= P1_Y + P1_HEIGHT)); then
       sound player-explosion
       ((P1_LIVES--))
       return 0
@@ -66,31 +66,34 @@ fighter-laser-hit-player() {
 }
 
 fighter-lasers() {
-  local IN_FLIGHT=${#FIGHTER_LASERS[@]}
-  local LASER=0
-  for (( LASER=0; LASER < IN_FLIGHT; LASER++ )); do
+  local TOTAL_FIGHTER_LASERS=${#FIGHTER_LASERS[@]}
+  local FIGHTER_LASER_LOOP=0
+  local FIGHTER_LASER_INSTANCE=0
+  local FIGHTER_LASER_X=0
+  local FIGHTER_LASER_Y=0
+  for (( FIGHTER_LASER_LOOP=0; FIGHTER_LASER_LOOP < TOTAL_FIGHTER_LASERS; FIGHTER_LASER_LOOP++ )); do
 
-    local LASER_INSTANCE=(${FIGHTER_LASERS[${LASER}]})
-    local LASER_X=${LASER_INSTANCE[0]}
-    local LASER_Y=${LASER_INSTANCE[1]}
+    local FIGHTER_LASER_INSTANCE=(${FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]})
+    local FIGHTER_LASER_X=${FIGHTER_LASER_INSTANCE[0]}
+    local FIGHTER_LASER_Y=${FIGHTER_LASER_INSTANCE[1]}
 
-    if ((LASER_Y >= SCREEN_HEIGHT)); then
-      erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
-      unset FIGHTER_LASERS[${LASER}]
-      FIGHTER_LASERS=("${FIGTER_LASERS[@]}")
-      ((IN_FLIGHT--))
-      continue
-    elif fighter-laser-hit-player "${LASER_X}" "${LASER_Y}"; then
-      erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
-      unset FIGHTER_LASERS[${LASER}]
+    if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
+      erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
+      unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
       FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
-      ((IN_FLIGHT--))
+      ((TOTAL_FIGHTER_LASERS--))
+      continue
+    elif fighter-laser-hit-player "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+      erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
+      unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+      FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+      ((TOTAL_FIGHTER_LASERS--))
       continue
     else
-      ((LASER_Y++))
-      FIGHTER_LASERS[${LASER}]="${LASER_X} ${LASER_Y}"
+      ((FIGHTER_LASER_Y++))
+      FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y}"
     fi
-    draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
+    draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
   done
 }
 
@@ -105,18 +108,18 @@ fighter-ai() {
   local IN_FLIGHT=${#FIGHTERS[@]}
   local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
   local FIGHTER=0
+  local FIGHTER_INSTANCE=0
+  local FIGHTER_X=0
+  local FIGHTER_Y=0
   if ((IN_FLIGHT < MAX_FIGHTERS && FIGHTER_SPAWN_DELAY == 0)); then
     spawn-fighter
     ((IN_FLIGHT++))
   fi
 
-  # Link fighter laser fire frequency to frame rate
-  FIGHTER_LASERS_MODULO=$((FPSC * FIGHTER_LASERS_MODULO_MULIPLIER))
-
   for (( FIGHTER=0; FIGHTER < IN_FLIGHT; FIGHTER++ )); do
-    local FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
-    local FIGHTER_X=${FIGHTER_INSTANCE[0]}
-    local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
+    FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
+    FIGHTER_X=${FIGHTER_INSTANCE[0]}
+    FIGHTER_Y=${FIGHTER_INSTANCE[1]}
 
     if ((FIGHTER_ANIM_SPEED == 0)); then
       if ((FIGHTER_Y > FIGHTER_FLOOR)); then
@@ -132,12 +135,9 @@ fighter-ai() {
       fi
     fi
 
-    # Increment the fighter laser tick which controls fire rate
-    ((FIGHTER_LASERS_TICK++))
-
     # Should the fighter unleash a laser?
-    if ((FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS)); then
-      if (( FIGHTER_LASERS_TICK % FIGHTER_LASERS_MODULO == 0 )); then
+    if ((FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && FIGHTER_Y <= (P1_Y - P1_HEIGHT) )); then
+      if ((RANDOM % ALIEN_FIRE_RATE == 0)); then
         sound fighter-laser
         FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4))")
         ((FIGHTER_LASER_COUNT++))
