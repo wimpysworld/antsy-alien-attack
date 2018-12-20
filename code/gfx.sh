@@ -212,7 +212,7 @@ draw-picture() {
   local OFFSET=0
   readarray -t CONTENT < "${FILENAME}"
   for LINE in "${CONTENT[@]}"; do
-    raw-draw "${X}" "$((Y+OFFSET))" "${LINE}"
+    raw-draw "${X}" "$((Y+OFFSET))" "${SPC}${LINE}"
     ((OFFSET++))
   done
 }
