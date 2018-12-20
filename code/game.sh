@@ -8,13 +8,19 @@ level-up() {
   ((FIGHTER_CURRENT_SPEED--))
   export P1_KILLS=0
   export P2_KILLS=0
+
+  # Fighters have increased fire power as the levels progress.
   export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
+  # The rgion where smart fighter originate enlarges as levels progress.
+  export FIGHTER_SMART_REGION=$((SCREEN_WIDTH / (LAST_LEVEL + 2 + LEVEL) ))
+  # Alien spawn rate and fire rate increase with level progression
   export ALIEN_FIRE_RATE=$((200 / LEVEL))
   export ALIEN_SPAWN_RATE=$((300 / LEVEL))
 }
 
 reset-game() {
   export LEVEL=0
+  export LAST_LEVEL=5
   export P1_SCORE=0
   export P2_SCORE=0
   export P1_LIVES=3
@@ -114,13 +120,21 @@ fighter-ai() {
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
+  local FIGHTER_SMART=0
   local FIGHTER_LOOP=0
 
   # Is it time to spawn a new alien fighter?
   if ((TOTAL_FIGHTERS < MAX_FIGHTERS)); then
     if ((RANDOM % ALIEN_SPAWN_RATE == 0)); then
       FIGHTER_X=$((RANDOM % FIGHTER_MAX_X))
-      FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y}")
+
+      # Does this fighter have smarts?
+      if ((FIGHTER_X <= FIGHTER_SMART_REGION)) || ((FIGHTER_X >= (SCREEN_WIDTH - FIGHTER_SMART_REGION) )); then
+        FIGHTER_SMART=1
+      else
+        FIGHTER_SMART=0
+      fi
+      FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART}")
       ((TOTAL_FIGHTERS++))
     fi
   fi
@@ -129,6 +143,7 @@ fighter-ai() {
     FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
+    FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
 
     if ((FIGHTER_ANIM_SPEED == 0)); then
       if ((FIGHTER_Y > FIGHTER_FLOOR)); then
@@ -154,7 +169,28 @@ fighter-ai() {
         continue
       else
         ((FIGHTER_Y++))
-        FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y}"
+
+        # Hunt the player.
+        if ((FIGHTER_SMART == 1)); then
+          if ((FIGHTER_X <= P1_X)); then
+            ((FIGHTER_X++))
+          elif ((FIGHTER_X >= P1_X)); then
+            ((FIGHTER_X--))
+          fi
+        else
+          # OK dummy, time to make a random lateral movement?
+          case $((RANDOM % 5)) in
+            0) ((FIGHTER_X--));;
+            4) ((FIGHTER_X++));;
+          esac
+        fi
+
+        # Prevent leaving screen left
+        ((FIGHTER_X < 0)) && FIGHTER_X=0
+        # Prevent leaving screen right
+        ((FIGHTER_X > FIGHTER_MAX_X)) && FIGHTER_X=${FIGHTER_MAX_X}
+
+        FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART}"
       fi
     fi
 
@@ -283,7 +319,7 @@ game-loop() {
   fi
 
   # Victory condition stub
-  if ((LEVEL > 5)); then
+  if ((LEVEL > LAST_LEVEL)); then
       kill-thread ${GAME_MUSIC_THREAD}
       victory-mode
       return 1
