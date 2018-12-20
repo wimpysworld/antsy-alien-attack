@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
 export FRAME_BUFFER=
-# for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
-readonly sin=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
-readonly sinc=${#sin[@]}
 
 #--------------------------------------------------------------------+
 #Color picker, usage: printf ${BLD}${CUR}${RED}${BBLU}"Hello!)"${DEF}|
@@ -188,17 +185,25 @@ lol-draw-right() {
   lol-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
+wave-init() {
+  # for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
+  readonly SIN=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
+  readonly SIN_SIZE=${#SIN[@]}
+}
+
 wave-picture() {
   local OFFSET=${1}; shift
   local PICTURE=("$@")
+  local X=0
   local Y=1
+  local i=0
   for LINE in "${PICTURE[@]}"; do
-    local i=$(((WAVE_CYCLE / 2 + Y) % sinc))
-    local X=$((OFFSET + sin["${i}"]))
+    i=$(((WAVE_CYCLE / 2 + Y) % SIN_SIZE))
+    X=$((OFFSET + SIN["${i}"]))
     # Technically correct, since it clears characters
     # raw-draw $x $y "\e[1K$line\e[K"
     # But my wave only increments 1 char per-cycle.
-    raw-draw ${X} ${Y} "$SPC ${LINE} $SPC"
+    raw-draw ${X} ${Y} "${SPC} ${LINE}${SPC} "
     ((Y++))
   done
   ((WAVE_CYCLE++))
