@@ -8,7 +8,7 @@ Stuff the needs doing next or can't be forgotten.
 
   * Fighter movement
   * Ship to ship collisions
-  * Optimise star field sprite creation
+  * Level up condition
 
 ## Plans
 
@@ -22,7 +22,9 @@ Stuff the needs doing next or can't be forgotten.
     - [ ] Sprite overlays
     - [x] Framebuffer
     - [ ] Sprite collision detection
-    - [ ] Starfield with twinkling stars
+    - [x] Starfield
+    - [ ] Random twinkling stars
+    - [ ] Parallax scrolling
     - [x] Performance metrics
   - [x] Audio
     - [x] Sound effects engine
