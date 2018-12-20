@@ -7,6 +7,8 @@ reset-game() {
   P2_SCORE=0
   P1_LIVES=3
   P3_LIVES=3
+  P1_KILLS=0
+  P2_KILLS=0
   P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
   P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
   P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
@@ -53,7 +55,7 @@ fighter-laser-hit-player() {
   local LASER_Y=${2}
   if ((LASER_X >= P1_X && LASER_X <= P1_X + P1_WIDTH )); then
     if ((LASER_Y >= P1_Y && LASER_Y <= P1_Y + P1_HEIGHT)); then
-      sound fighter-explosion
+      sound player-explosion
       ((P1_LIVES--))
       return 0
     fi
@@ -131,7 +133,7 @@ fighter-ai() {
     # Should the fighter unleash a laser?
     if ((FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS)); then
       if (( FIGHTER_LASERS_TICK % FIGHTER_LASERS_MODULO == 0 )); then
-        sound laser
+        sound fighter-laser
         FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4))")
         ((FIGHTER_LASER_COUNT++))
       fi
@@ -190,6 +192,7 @@ player-lasers() {
       unset P1_LASERS[${LASER}]
       P1_LASERS=("${P1_LASERS[@]}")
       ((P1_SCORE++))
+      ((P1_KILLS++))
       ((IN_FLIGHT--))
       continue
     else
@@ -229,22 +232,12 @@ game-loop() {
       ;;
     'l')
       if ((P1_RECENTLY_FIRED == 0 )); then
-        sound laser
+        sound player-laser
         P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
         ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
       fi
       P1_LAST_KEY=${KEY}
       ;;
-    'v')
-      # Victory condition stub
-      kill-thread ${GAME_MUSIC_THREAD}
-      victory-mode
-      return 1;;
-    'o')
-      # Game over condition stub
-      kill-thread ${GAME_MUSIC_THREAD}
-      gameover-mode
-      return 1;;
   esac
   KEY=
 
@@ -253,6 +246,20 @@ game-loop() {
     P1_RECENTLY_FIRED=0
   elif ((P1_RECENTLY_FIRED > 0)); then
     ((P1_RECENTLY_FIRED--))
+  fi
+
+  # Victory condition stub
+  if ((P1_KILLS >= 10)); then    
+      kill-thread ${GAME_MUSIC_THREAD}
+      victory-mode
+      return 1
+  fi
+
+  # Game over condition stub
+  if ((P1_LIVES <= 0)); then
+    kill-thread ${GAME_MUSIC_THREAD}
+    gameover-mode
+    return 1
   fi
 
   compose-sprites
