@@ -34,7 +34,8 @@ reset-game() {
   FIGHTER_MAX_SPAWN_DELAY=100
   FIGHTER_LASERS=()
   FIGHTER_LASERS_TICK=0
-  FIGHTER_LASERS_MODULO=100
+  FIGHTER_LASERS_MODULO=500
+  FIGHTER_LASERS_MODULO_MULIPLIER=10
   MAX_FIGHTER_LASERS=2
   create-starfield
 }
@@ -107,6 +108,9 @@ fighter-ai() {
     spawn-fighter
     ((IN_FLIGHT++))
   fi
+
+  # Link fighter laser fire frequency to frame rate
+  FIGHTER_LASERS_MODULO=$((FPSC * FIGHTER_LASERS_MODULO_MULIPLIER))
 
   for (( FIGHTER=0; FIGHTER < IN_FLIGHT; FIGHTER++ )); do
     local FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
