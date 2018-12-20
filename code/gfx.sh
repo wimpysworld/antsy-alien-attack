@@ -102,7 +102,7 @@ function fps-counter() {
 render() {
   fps-counter
   echo -en "${FRAME_BUFFER}"
-  FRAME_BUFFER=
+  unset FRAME_BUFFER
 }
 
 draw() {
