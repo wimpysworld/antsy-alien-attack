@@ -112,14 +112,14 @@ fighter-ai() {
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
-  local FIGHTER=0
+  local FIGHTER_LOOP=0
   if ((TOTAL_FIGHTERS < MAX_FIGHTERS && FIGHTER_SPAWN_DELAY == 0)); then
     spawn-fighter
     ((TOTAL_FIGHTERS++))
   fi
 
-  for (( FIGHTER=0; FIGHTER < TOTAL_FIGHTERS; FIGHTER++ )); do
-    FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
+  for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do
+    FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
 
@@ -127,14 +127,14 @@ fighter-ai() {
       if ((FIGHTER_Y > FIGHTER_FLOOR)); then
         # Remove the fighter
         erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[${FIGHTER}]
+        unset FIGHTERS[${FIGHTER_LOOP}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((TOTAL_FIGHTERS--))
         continue
       elif object-collides-player "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
         # Remove the fighter
         erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[${FIGHTER}]
+        unset FIGHTERS[${FIGHTER_LOOP}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((TOTAL_FIGHTERS--))
 
@@ -176,9 +176,9 @@ player-laser-hit-fighter() {
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
-  local FIGHTER=0
-  for (( FIGHTER=0; FIGHTER < TOTAL_FIGHTERS; FIGHTER++ )); do
-    FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
+  local FIGHTER_LOOP=0
+  for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do
+    FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
     if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH)); then
@@ -186,7 +186,7 @@ player-laser-hit-fighter() {
         # Remove the fighter
         sound fighter-explosion
         erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[${FIGHTER}]
+        unset FIGHTERS[${FIGHTER_LOOP}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((TOTAL_FIGHTERS--))
         return 0
@@ -201,20 +201,20 @@ player-lasers() {
   local LASER_INSTANCE=()
   local LASER_X=0
   local LASER_Y=0
-  local LASER=0
-  for (( LASER=0; LASER < TOTAL_P1_LASERS; LASER++ )); do
-    LASER_INSTANCE=(${P1_LASERS[${LASER}]})
+  local LASER_LOOP=0
+  for (( LASER_LOOP=0; LASER_LOOP < TOTAL_P1_LASERS; LASER_LOOP++ )); do
+    LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]})
     LASER_X=${LASER_INSTANCE[0]}
     LASER_Y=${LASER_INSTANCE[1]}
     if ((LASER_Y <= P1_LASER_CEILING)); then
       erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-      unset P1_LASERS[${LASER}]
+      unset P1_LASERS[${LASER_LOOP}]
       P1_LASERS=("${P1_LASERS[@]}")
       ((TOTAL_P1_LASERS--))
       continue
     elif player-laser-hit-fighter "${LASER_X}" "${LASER_Y}"; then
       erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-      unset P1_LASERS[${LASER}]
+      unset P1_LASERS[${LASER_LOOP}]
       P1_LASERS=("${P1_LASERS[@]}")
       ((P1_SCORE++))
       ((P1_KILLS++))
@@ -222,7 +222,7 @@ player-lasers() {
       continue
     else
       ((LASER_Y--))
-      P1_LASERS[$LASER]="${LASER_X} ${LASER_Y}"
+      P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
     fi
     draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
   done
