@@ -6,6 +6,8 @@ music-setup() {
   # Is this connection remote?
   if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
     MUSIC_BACKEND='music-silence'
+  elif [ ${MUSIC_ENABLED} -eq 0 ]; then
+    MUSIC_BACKEND='music-silence'
   elif command -v ogg123 > /dev/null 2>&1; then
     MUSIC_BACKEND='music-ogg123'
   else

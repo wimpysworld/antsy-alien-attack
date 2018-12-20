@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+source cfg/config.sh
 source code/threads.sh
 source code/input.sh
 source code/gfx.sh
@@ -12,7 +13,6 @@ source code/gameover.sh
 source code/victory.sh
 
 export LOOP=
-export DELAY=0.001
 
 setup() {
   trap teardown EXIT INT TERM
