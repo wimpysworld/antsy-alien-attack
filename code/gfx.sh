@@ -40,6 +40,10 @@ resize-term() {
 }
 
 gfx-setup() {
+  # for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
+  readonly SIN=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
+  readonly SIN_SIZE=${#SIN[@]}
+
   readonly ORIGINAL_TTY=$(stty -g)
   readonly ORIGINAL_SCREEN_WIDTH=$(tput cols)
   readonly ORIGINAL_SCREEN_HEIGHT=$(tput lines)
@@ -183,12 +187,6 @@ lol-draw-right() {
   local OFFSET=
   OFFSET=$((SCREEN_WIDTH - ${#STR}))
   lol-draw "${OFFSET}" "${Y}" "${STR}"
-}
-
-wave-init() {
-  # for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
-  readonly SIN=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
-  readonly SIN_SIZE=${#SIN[@]}
 }
 
 wave-picture() {
