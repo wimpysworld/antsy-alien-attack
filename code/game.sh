@@ -249,7 +249,7 @@ game-loop() {
   fi
 
   # Victory condition stub
-  if ((P1_KILLS >= 10)); then    
+  if ((P1_KILLS >= 10)); then
       kill-thread ${GAME_MUSIC_THREAD}
       victory-mode
       return 1
