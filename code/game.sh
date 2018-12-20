@@ -31,8 +31,6 @@ reset-game() {
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
   FIGHTER_ANIM_SPEED=0
   FIGHTER_CURRENT_SPEED=10
-  FIGHTER_SPAWN_DELAY=0
-  FIGHTER_MAX_SPAWN_DELAY=100
   FIGHTER_LASERS=()
   MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
   ((LEVEL++))
@@ -162,9 +160,6 @@ fighter-ai() {
 
   # Increment the fighter movement
   [[ ${FIGHTER_ANIM_SPEED} -ge ${FIGHTER_CURRENT_SPEED} ]] && FIGHTER_ANIM_SPEED=0 || ((FIGHTER_ANIM_SPEED++))
-
-  # Increant the fighter spawn delay
-  [[ ${FIGHTER_SPAWN_DELAY} -ge ${FIGHTER_MAX_SPAWN_DELAY} ]] && FIGHTER_SPAWN_DELAY=0 || ((FIGHTER_SPAWN_DELAY++))
 }
 
 player-laser-hit-fighter() {
