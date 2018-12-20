@@ -23,7 +23,7 @@ music() {
 }
 
 music-ogg123() {
-  ogg123 -q -r "$*" > /dev/null 2>&1 &
+  ogg123 -q -r "${1}" > /dev/null 2>&1 &
 }
 
 music-silence() {
