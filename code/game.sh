@@ -65,15 +65,14 @@ object-collides-player() {
 
 fighter-lasers() {
   local TOTAL_FIGHTER_LASERS=${#FIGHTER_LASERS[@]}
-  local FIGHTER_LASER_LOOP=0
-  local FIGHTER_LASER_INSTANCE=0
+  local FIGHTER_LASER_INSTANCE=()
   local FIGHTER_LASER_X=0
   local FIGHTER_LASER_Y=0
+  local FIGHTER_LASER_LOOP=0
   for (( FIGHTER_LASER_LOOP=0; FIGHTER_LASER_LOOP < TOTAL_FIGHTER_LASERS; FIGHTER_LASER_LOOP++ )); do
-
-    local FIGHTER_LASER_INSTANCE=(${FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]})
-    local FIGHTER_LASER_X=${FIGHTER_LASER_INSTANCE[0]}
-    local FIGHTER_LASER_Y=${FIGHTER_LASER_INSTANCE[1]}
+    FIGHTER_LASER_INSTANCE=(${FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]})
+    FIGHTER_LASER_X=${FIGHTER_LASER_INSTANCE[0]}
+    FIGHTER_LASER_Y=${FIGHTER_LASER_INSTANCE[1]}
 
     if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
       erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
@@ -110,10 +109,10 @@ spawn-fighter() {
 fighter-ai() {
   local IN_FLIGHT=${#FIGHTERS[@]}
   local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
-  local FIGHTER=0
-  local FIGHTER_INSTANCE=0
+  local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
+  local FIGHTER=0
   if ((IN_FLIGHT < MAX_FIGHTERS && FIGHTER_SPAWN_DELAY == 0)); then
     spawn-fighter
     ((IN_FLIGHT++))
@@ -174,11 +173,14 @@ player-laser-hit-fighter() {
   local LASER_X=${1}
   local LASER_Y=${2}
   local IN_FLIGHT=${#FIGHTERS[@]}
+  local FIGHTER_INSTANCE=()
+  local FIGHTER_X=0
+  local FIGHTER_Y=0
   local FIGHTER=0
   for (( FIGHTER=0; FIGHTER < IN_FLIGHT; FIGHTER++ )); do
-    local FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
-    local FIGHTER_X=${FIGHTER_INSTANCE[0]}
-    local FIGHTER_Y=${FIGHTER_INSTANCE[1]}
+    FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER}]})
+    FIGHTER_X=${FIGHTER_INSTANCE[0]}
+    FIGHTER_Y=${FIGHTER_INSTANCE[1]}
     if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH)); then
       if ((LASER_Y >= FIGHTER_Y && LASER_Y <= FIGHTER_Y + FIGHTER_HEIGHT)); then
         # Remove the fighter
@@ -196,13 +198,14 @@ player-laser-hit-fighter() {
 
 player-lasers() {
   local IN_FLIGHT=${#P1_LASERS[@]}
+  local LASER_INSTANCE=()
+  local LASER_X=0
+  local LASER_Y=0
   local LASER=0
   for (( LASER=0; LASER < IN_FLIGHT; LASER++ )); do
-
-    local LASER_INSTANCE=(${P1_LASERS[${LASER}]})
-    local LASER_X=${LASER_INSTANCE[0]}
-    local LASER_Y=${LASER_INSTANCE[1]}
-
+    LASER_INSTANCE=(${P1_LASERS[${LASER}]})
+    LASER_X=${LASER_INSTANCE[0]}
+    LASER_Y=${LASER_INSTANCE[1]}
     if ((LASER_Y <= P1_LASER_CEILING)); then
       erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
       unset P1_LASERS[${LASER}]
