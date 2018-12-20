@@ -46,7 +46,8 @@ game-mode() {
 
   reset-timers
   reset-game
-  music level"$(shuf -i 1-3 -n 1)"
+  MUSIC_TRACK=$(((RANDOM % 3) + 1))
+  music "level${MUSIC_TRACK}"
   GAME_MUSIC_THREAD=$!
   export LOOP=game-loop
 }
@@ -96,7 +97,7 @@ fighter-lasers() {
 spawn-fighter() {
   local SPAWN_Y=0
   local SPAWN_X=
-  SPAWN_X=$(shuf -i 0-${FIGHTER_MAX_X} -n 1)
+  SPAWN_X=$((RANDOM % FIGHTER_MAX_X))
   FIGHTERS+=("${SPAWN_X} ${SPAWN_Y}")
 }
 
