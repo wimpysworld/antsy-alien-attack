@@ -115,7 +115,8 @@ draw() {
 
 blank-screen() {
   local Y=0
-  local STR=$(repeat " " "${SCREEN_WIDTH}")
+  local STR=
+  STR=$(repeat " " "${SCREEN_WIDTH}")
   for ((Y=0; Y < SCREEN_HEIGHT; Y++)); do
     draw "0" "${Y}" "${SPC}" "${STR}"
   done
@@ -277,13 +278,13 @@ center() {
 
 a-star-is-born() {
   local START_Y=${1}
-  NEW_STAR_X=$((RANDOM % ${SCREEN_WIDTH}))
+  NEW_STAR_X=$((RANDOM % SCREEN_WIDTH))
   if (( START_Y != 0 )); then
     NEW_STAR_Y=0
   else
-    NEW_STAR_Y=$((RANDOM % ${STAR_FLOOR}))
+    NEW_STAR_Y=$((RANDOM % STAR_FLOOR))
   fi
-  NEW_STAR_SPRITE_INDEX=$((RANDOM % ${NUM_OF_STAR_SPRITES}))
+  NEW_STAR_SPRITE_INDEX=$((RANDOM % NUM_OF_STAR_SPRITES))
 }
 
 create-starfield() {
