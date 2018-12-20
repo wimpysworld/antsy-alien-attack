@@ -125,7 +125,7 @@ blank-screen() {
 raw-draw() {
   local X=$(( ${1}+1 ))
   local Y=$(( ${2}+1 ))
-  local STR=${*:3}
+  local STR=${3}
   FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H${STR}"
 }
 
@@ -239,17 +239,14 @@ erase-sprite() {
   local Y=${1}; shift
   local SPRITE=("$@")
   local i=
-  local ROW=
-  local ERASE=
-  # TODO - Optimise this if possible. Don't use seq.
-  ROW=("${SPRITE[0]}")
-  ERASE=$(printf ' %.0s' $(seq 1 ${#ROW[0]}))
+  local ERASE=""
+  ERASE=$(repeat " " "${#SPRITE[0]}")
   for (( i=0; i < ${#SPRITE[@]}; i++ )); do
     if (( MASK == 1 )); then
       # The spaces either side are to scrub old position.
       raw-draw "${X}" "$((Y + i))" "$SPC ${ERASE}$SPC "
     else
-      raw-draw "${X}" "$((Y + i))" "${ERASE}"
+      raw-draw "${X}" "$((Y + i))" "${SPC}${ERASE}"
     fi
   done
 }
