@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-framebuffer=
+export FRAME_BUFFER=
 # for A in $(seq 0 36); do perl -e "printf '%.0f ', cos($A / 3) * 3"; done
 readonly sin=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
 readonly sinc=${#sin[@]}
@@ -101,8 +101,8 @@ function fps-counter() {
 
 render() {
   fps-counter
-  echo -en "${framebuffer}"
-  framebuffer=
+  echo -en "${FRAME_BUFFER}"
+  FRAME_BUFFER=
 }
 
 draw() {
@@ -110,7 +110,7 @@ draw() {
   local Y=$(( ${2}+1 ))
   local COLOR=${3}
   local STR=${*:4}
-  framebuffer="${framebuffer}\e[${Y};${X}H\e[$COLOR${STR}\e[m"
+  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H\e[$COLOR${STR}\e[m"
 }
 
 blank-screen() {
@@ -126,7 +126,7 @@ raw-draw() {
   local X=$(( ${1}+1 ))
   local Y=$(( ${2}+1 ))
   local STR=${*:3}
-  framebuffer="${framebuffer}\e[${Y};${X}H${STR}"
+  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H${STR}"
 }
 
 lol-draw() {
@@ -134,7 +134,7 @@ lol-draw() {
   local Y=$(( ${2}+1 ))
   local STR=
   STR=$(echo "${3}" | lolcat -f -F 0.2)
-  framebuffer="${framebuffer}\e[${Y};${X}H${STR}"
+  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H${STR}"
 }
 
 draw-centered() {
@@ -258,7 +258,7 @@ erase() {
   local X=$(( ${1}+1 ))
   local Y=$(( ${2}+1 ))
   local LEN=${3}
-  framebuffer="${framebuffer}\e[${Y};${X}H\e[${LEN}X"
+  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H\e[${LEN}X"
 }
 
 repeat() {
