@@ -2,40 +2,51 @@
 
 readonly STATUS_COLOR=$BRED$WHT
 
-reset-game() {
-  LEVEL=0
-  P1_SCORE=0
-  P2_SCORE=0
-  P1_LIVES=3
-  P3_LIVES=3
-  P1_KILLS=0
-  P2_KILLS=0
-  P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
-  P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
-  P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
-  P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
-  P1_LASERS=()
-  P2_LASERS=()
-  P1_LASER_CEILING=0
-  P2_LASER_CEILING=0
-  P1_RECENTLY_FIRED=0
-  P2_RECENTLY_FIRED=0
-  P1_LASER_LATENCY=6
-  P2_LASER_LATENCY=6
-  P1_LAST_KEY=
-  P2_LAST_KEY=
-  FIGHTERS=()
-  MAX_FIGHTERS=1
-  FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
-  FIGHTER_MAX_Y=$(( SCREEN_HEIGHT - FIGHTER_HEIGHT ))
-  readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
-  FIGHTER_ANIM_SPEED=0
-  FIGHTER_CURRENT_SPEED=10
-  FIGHTER_LASERS=()
-  MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
+level-up() {
   ((LEVEL++))
-  ALIEN_FIRE_RATE=$((200 / LEVEL))
+  ((MAX_FIGHTERS++))
+  ((FIGHTER_CURRENT_SPEED--))
+  export P1_KILLS=0
+  export P2_KILLS=0
+  export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
+  export ALIEN_FIRE_RATE=$((200 / LEVEL))
+  export ALIEN_SPAWN_RATE=$((300 / LEVEL))
+}
+
+reset-game() {
+  export LEVEL=0
+  export P1_SCORE=0
+  export P2_SCORE=0
+  export P1_LIVES=3
+  export P3_LIVES=0
+  export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
+  export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+  export P2_X=0
+  export P2_Y=0
+  export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
+  export P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+  export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH + 2) ))
+  export P2_MAX_Y=$(( SCREEN_HEIGHT - P2_HEIGHT ))
+  export P1_LASERS=()
+  export P2_LASERS=()
+  export P1_LASER_CEILING=0
+  export P2_LASER_CEILING=0
+  export P1_RECENTLY_FIRED=0
+  export P2_RECENTLY_FIRED=0
+  export P1_LASER_LATENCY=6
+  export P2_LASER_LATENCY=6
+  export P1_LAST_KEY=
+  export P2_LAST_KEY=
+  export FIGHTERS=()
+  export MAX_FIGHTERS=0
+  export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
+  export FIGHTER_MAX_Y=$(( SCREEN_HEIGHT - FIGHTER_HEIGHT ))
+  export FIGHTER_ANIM_SPEED=0
+  export FIGHTER_CURRENT_SPEED=11
+  export FIGHTER_LASERS=()
+  readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
   create-starfield
+  level-up
 }
 
 game-mode() {
@@ -266,15 +277,20 @@ game-loop() {
     ((P1_RECENTLY_FIRED--))
   fi
 
+  # Level up
+  if ((P1_KILLS + P2_KILLS >= 5)); then
+    level-up
+  fi
+
   # Victory condition stub
-  if ((P1_KILLS >= 10)); then
+  if ((LEVEL > 5)); then
       kill-thread ${GAME_MUSIC_THREAD}
       victory-mode
       return 1
   fi
 
   # Game over condition stub
-  if ((P1_LIVES <= 0)); then
+  if ((P1_LIVES + P2_LIVES <= 0)); then
     kill-thread ${GAME_MUSIC_THREAD}
     gameover-mode
     return 1
