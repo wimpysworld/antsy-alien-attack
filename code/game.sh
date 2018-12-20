@@ -99,13 +99,6 @@ fighter-lasers() {
   done
 }
 
-spawn-fighter() {
-  local SPAWN_Y=0
-  local SPAWN_X=
-  SPAWN_X=$((RANDOM % FIGHTER_MAX_X))
-  FIGHTERS+=("${SPAWN_X} ${SPAWN_Y}")
-}
-
 fighter-ai() {
   local TOTAL_FIGHTERS=${#FIGHTERS[@]}
   local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
@@ -113,9 +106,14 @@ fighter-ai() {
   local FIGHTER_X=0
   local FIGHTER_Y=0
   local FIGHTER_LOOP=0
-  if ((TOTAL_FIGHTERS < MAX_FIGHTERS && FIGHTER_SPAWN_DELAY == 0)); then
-    spawn-fighter
-    ((TOTAL_FIGHTERS++))
+
+  # Is it time to spawn a new alien fighter?
+  if ((TOTAL_FIGHTERS < MAX_FIGHTERS)); then
+    if ((RANDOM % ALIEN_SPAWN_RATE == 0)); then
+      FIGHTER_X=$((RANDOM % FIGHTER_MAX_X))
+      FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y}")
+      ((TOTAL_FIGHTERS++))
+    fi
   fi
 
   for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do
@@ -147,7 +145,7 @@ fighter-ai() {
         continue
       else
         ((FIGHTER_Y++))
-        FIGHTERS[$FIGHTER]="${FIGHTER_X} ${FIGHTER_Y}"
+        FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y}"
       fi
     fi
 
