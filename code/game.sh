@@ -52,13 +52,11 @@ game-mode() {
   export LOOP=game-loop
 }
 
-fighter-laser-hit-player() {
-  local FIGHTER_LASER_X=${1}
-  local FIGHTER_LASER_Y=${2}
-  if ((FIGHTER_LASER_X >= P1_X && FIGHTER_LASER_X <= P1_X + P1_WIDTH )); then
-    if ((FIGHTER_LASER_Y >= P1_Y && FIGHTER_LASER_Y <= P1_Y + P1_HEIGHT)); then
-      sound player-explosion
-      ((P1_LIVES--))
+object-collides-player() {
+  local OBJECT_X=${1}
+  local OBJECT_Y=${2}
+  if ((OBJECT_X >= P1_X && OBJECT_X <= P1_X + P1_WIDTH )); then
+    if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT)); then
       return 0
     fi
   fi
@@ -83,11 +81,16 @@ fighter-lasers() {
       FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
       ((TOTAL_FIGHTER_LASERS--))
       continue
-    elif fighter-laser-hit-player "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+    elif object-collides-player "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+      # Remove laser
       erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
       unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
       FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
       ((TOTAL_FIGHTER_LASERS--))
+
+      # Player consequences
+      sound player-explosion
+      ((P1_LIVES--))
       continue
     else
       ((FIGHTER_LASER_Y++))
@@ -128,6 +131,20 @@ fighter-ai() {
         unset FIGHTERS[${FIGHTER}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((IN_FLIGHT--))
+        continue
+      elif object-collides-player "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
+        # Remove the fighter
+        erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+        unset FIGHTERS[${FIGHTER}]
+        FIGHTERS=("${FIGHTERS[@]}")
+        ((IN_FLIGHT--))
+
+        # Player consequences
+        sound player-explosion
+        ((P1_LIVES--))
+        ((P1_SCORE++))
+        ((P1_KILLS++))
+
         continue
       else
         ((FIGHTER_Y++))
