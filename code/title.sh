@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-export TITLE_MUSIC_THREAD=
-export TITLE_SCREEN=()
 
 title-mode() {
   export KEY=
-  blank-screen
+  export TITLE_MUSIC_THREAD=
+  export TITLE_SCREEN=()
+  export TITLE_SCREEN_OFFSET=
 
+  blank-screen
   reset-timers
   music title
   TITLE_MUSIC_THREAD=$!
@@ -20,8 +21,7 @@ title-mode() {
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[L] Unleash the lasers"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) " Press [P] to Play or [Q] to Quit"
 
-  readarray -t TITLE_SCREEN < gfx/title.ans
-  TITLE_SCREEN_OFFSET=
+  readarray -t TITLE_SCREEN < gfx/title.ans  
   TITLE_SCREEN_OFFSET=$(center 80)
 
   export LOOP=title-loop
