@@ -60,7 +60,7 @@ compose-sprites() {
 #▐█████▌
 #  ▀ ▀  
 #       
-  P1_SPRITE=(
+  export P1_SPRITE=(
   "$SPC       "
   "$SPC   $RED▄$SPC   "
   "$SPC  $blk▄$red█$blk▄  "
@@ -70,7 +70,7 @@ compose-sprites() {
   "$SPC       ")
 
   # This is a potential blue player
-  #P2_SPRITE=(
+  #export P2_SPRITE=(
   #  "$SPC       "
   #  "$SPC   $BLU▄$SPC   "
   #  "$SPC  $blk▄$blu█$blk▄  "
