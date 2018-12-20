@@ -5,7 +5,7 @@ SOUND_BACKEND=
 sound-setup() {
   # Is this connection remote?
   if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
-    MUSIC_BACKEND='sound-silence'
+    SOUND_BACKEND='sound-silence'
   elif command -v mpg123 > /dev/null 2>&1; then
     SOUND_BACKEND='sound-mpg123'
   else
