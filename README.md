@@ -6,9 +6,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
 
 Stuff the needs doing next or can't be forgotten.
 
-  * Fighter movement
-  * Ship to ship collisions
-  * Level up condition
+  * Fighter movement.
 
 ## Plans
 
@@ -21,7 +19,7 @@ Stuff the needs doing next or can't be forgotten.
     - [x] ANSI sprite engine
     - [ ] Sprite overlays
     - [x] Framebuffer
-    - [ ] Sprite collision detection
+    - [x] Sprite collision detection
     - [x] Starfield
     - [ ] Random twinkling stars
     - [ ] Parallax scrolling
@@ -47,10 +45,11 @@ Stuff the needs doing next or can't be forgotten.
     - [ ] Impact animations
     - [ ] Explosion animations
   - [ ] Level progression
-    - [ ] Number of enemies rises
-    - [ ] Enemy firepower increases
-    - [ ] Enemy speed increases
+    - [x] Number of enemies rises
+    - [x] Enemy firepower increases
+    - [x] Enemy speed increases
     - [ ] Canyon levels, narrow playable area
+    - [ ] Level progression animations
   - [ ] 2P
     - [ ] Local
     - [ ] Network
