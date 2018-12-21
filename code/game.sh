@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-readonly STATUS_COLOR=$BRED$WHT
-
 level-up() {
   ((LEVEL++))
   ((MAX_FIGHTERS++))
