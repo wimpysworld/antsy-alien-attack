@@ -11,6 +11,9 @@ level-up() {
   export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
   # The rgion where smart fighter originate enlarges as levels progress.
   export FIGHTER_SMART_REGION=$((SCREEN_WIDTH / (LAST_LEVEL + 2 + LEVEL) ))
+  # More points for fighters as the levels progress.
+  export FIGHTER_POINTS=$((LEVEL * 10))
+
   # Alien spawn rate and fire rate increase with level progression
   export ALIEN_FIRE_RATE=$((200 / LEVEL))
   export ALIEN_SPAWN_RATE=$((300 / LEVEL))
@@ -163,7 +166,7 @@ fighter-ai() {
         # Player consequences
         sound player-explosion
         ((P1_LIVES--))
-        ((P1_SCORE++))
+        ((P1_SCORE+=FIGHTER_POINTS))
         ((P1_KILLS++))
 
         continue
@@ -256,7 +259,7 @@ player-lasers() {
       erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
       unset P1_LASERS[${LASER_LOOP}]
       P1_LASERS=("${P1_LASERS[@]}")
-      ((P1_SCORE++))
+      ((P1_SCORE+=FIGHTER_POINTS))
       ((P1_KILLS++))
       ((TOTAL_P1_LASERS--))
       continue
@@ -334,6 +337,11 @@ game-loop() {
 
   # These are quite expensive, only refresh them periodically
   if ((PLAYER_STATS_REFRESH == 0)); then
+    if ((P1_SCORE > HI_SCORE)); then
+      HI_SCORE=${P1_SCORE}
+    elif ((P2_SCORE > HI_SCORE)); then
+      HI_SCORE=${P2_SCORE}
+    fi
     P1_SCORE_PADDED=$(printf "%06d" ${P1_SCORE})
     P2_SCORE_PADDED=$(printf "%06d" ${P2_SCORE})
     HI_SCORE_PADDED=$(printf "%06d" ${HI_SCORE})
