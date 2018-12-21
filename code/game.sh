@@ -56,6 +56,7 @@ reset-game() {
 
 game-mode() {
   export KEY=
+  export PLAYER_STATS_REFRESH=0
   blank-screen
 
   reset-timers
@@ -331,8 +332,8 @@ game-loop() {
     return 1
   fi
 
-  # These are quite expensive, only refresh them when the starfield animates.
-  if ((STAR_FIELD_ANIM_SPEED == 0)); then
+  # These are quite expensive, only refresh them periodically
+  if ((PLAYER_STATS_REFRESH == 0)); then
     P1_SCORE_PADDED=$(printf "%06d" ${P1_SCORE})
     P2_SCORE_PADDED=$(printf "%06d" ${P2_SCORE})
     HI_SCORE_PADDED=$(printf "%06d" ${HI_SCORE})
@@ -353,4 +354,7 @@ game-loop() {
   draw 0 "${SCREEN_HEIGHT}" "${RED}${BBLK}" "LIVES ${P1_LIVES_SYMBOLS}"
   draw-right "${SCREEN_HEIGHT}" "${blu}${BBLK}" "${P2_LIVES_SYMBOLS} LIVES"
   render
+
+  # Increment the player stats refresh interval
+  ((PLAYER_STATS_REFRESH > 100)) && PLAYER_STATS_REFRESH=0 || ((PLAYER_STATS_REFRESH++))
 }
