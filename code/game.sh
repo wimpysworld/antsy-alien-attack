@@ -19,6 +19,7 @@ level-up() {
 reset-game() {
   export LEVEL=0
   export LAST_LEVEL=5
+  export HI_SCORE=0
   export P1_SCORE=0
   export P2_SCORE=0
   export P1_LIVES=3
