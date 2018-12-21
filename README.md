@@ -6,7 +6,8 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
 
 Stuff the needs doing next or can't be forgotten.
 
-  * Fighter movement.
+  * Player roll.
+  * Fighter impact animation.
 
 ## Plans
 
@@ -34,7 +35,7 @@ Stuff the needs doing next or can't be forgotten.
     - [ ] Victory artwork
   - [ ] Enemies
     - [x] Fighters
-    - [ ] Fighter AI
+    - [x] Fighter AI
     - [ ] Gun turrets
     - [ ] Gun turret AI
     - [ ] Boss ships
