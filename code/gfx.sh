@@ -101,7 +101,9 @@ function fps-counter() {
 }
 
 render() {
-  fps-counter
+  if ((FPS_ENABLED == 1)); then
+    fps-counter
+  fi
   echo -en "${FRAME_BUFFER}"
   unset FRAME_BUFFER
 }
