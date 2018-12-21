@@ -30,13 +30,13 @@ teardown() {
   joystick-teardown
   terminate-all-threads
   trap exit USR1
-  sleep ${DELAY}
+  sleep "${DELAY}"
   exit
 }
 
 start-loop() {
   ${LOOP}
-  (sleep ${DELAY} && kill -USR1 $$) &
+  (sleep "${DELAY}" && kill -USR1 $$) &
 }
 
 case ${BASH_VERSINFO[@]::2} in [1-3]' '[0-9][0-9]|[1-3]' '[0-9]|'4 '[0-1])
