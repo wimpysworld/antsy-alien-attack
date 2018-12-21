@@ -336,8 +336,8 @@ game-loop() {
     P1_SCORE_PADDED=$(printf "%06d" ${P1_SCORE})
     P2_SCORE_PADDED=$(printf "%06d" ${P2_SCORE})
     HI_SCORE_PADDED=$(printf "%06d" ${HI_SCORE})
-    P1_LIVES_SYMBOLS=$(repeat "♥" "${P1_LIVES}")
-    P2_LIVES_SYMBOLS=$(repeat "♥" "${P2_LIVES}")
+    P1_LIVES_SYMBOLS=$(repeat "♥" "${P1_LIVES}")" "
+    P2_LIVES_SYMBOLS=" "$(repeat "♥" "${P2_LIVES}")
   fi
 
   compose-sprites
