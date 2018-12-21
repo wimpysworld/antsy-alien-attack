@@ -264,7 +264,11 @@ erase() {
 repeat() {
   local CHAR=${1}
   local NUM=${2}
-  printf "%0.s${CHAR}" $(seq 1 "${NUM}")
+  if ((NUM == 0)); then
+    echo ""
+  else
+    printf "%0.s${CHAR}" $(seq 1 "${NUM}")
+  fi
 }
 
 center() {
