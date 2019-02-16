@@ -74,9 +74,9 @@ Stuff the needs doing next or can't be forgotten.
   - `lolcat`
   - `mpg123`
   - `ncurses-bin` for `tput`
-  - `ogg123`
+  - `vorbis-tools` for `ogg123`
   - `procps` for `kill`, `pkill`
-  - `xterm` fr `resize`
+  - `xterm` for `resize`
 
 The following will get you want you need on Ubuntu.
 
