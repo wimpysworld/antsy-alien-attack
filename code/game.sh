@@ -98,19 +98,21 @@ object-collides-player() {
   local OBJECT_X=${2}
   local OBJECT_Y=${3}
 
-  if [ ${PLAYER} -eq 1 ]; then
+  if [ ${PLAYER} -eq 1 ] && [ ${P1_DEAD} -eq 0 ]; then
     if ((OBJECT_X >= P1_X && OBJECT_X <= P1_X + P1_WIDTH )); then
       if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT)); then
         return 0
       fi
     fi
     return 1
-  elif [ ${PLAYER} -eq 2 ] && [ ${P2_DEAD} -eq 0 ] && [ ${NUM_PLAYERS} -eq 2 ]; then
+  elif [ ${PLAYER} -eq 2 ] && [ ${P2_DEAD} -eq 0 ]; then
     if ((OBJECT_X >= P2_X && OBJECT_X <= P2_X + P2_WIDTH )); then
       if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT)); then
         return 0
       fi
     fi
+    return 1
+  else
     return 1
   fi
 }
@@ -535,7 +537,7 @@ game-loop() {
     draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
   fi
 
-  if [ ${P2_DEAD} -eq 0 ] && [ ${NUM_PLAYERS} -eq 2 ]; then
+  if [ ${P2_DEAD} -eq 0 ]; then
     draw-sprite 2 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
   fi
 
@@ -546,7 +548,7 @@ game-loop() {
     player-lasers ${P1}
   fi
 
-  if [ ${P2_DEAD} -eq 0 ] && [ ${NUM_PLAYERS} -eq 2 ]; then
+  if [ ${P2_DEAD} -eq 0 ]; then
     player-lasers ${P2}
   fi
   bonuses
