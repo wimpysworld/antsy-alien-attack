@@ -88,6 +88,14 @@ object-collides-player() {
     fi
   fi
   return 1
+player-increment-score() {
+  local PLAYER=${1}
+  local INCREMENT=${2}
+  if [ ${PLAYER} -eq 1 ]; then
+    ((P1_SCORE+=INCREMENT))
+  elif [ ${PLAYER} -eq 2 ]; then
+    ((P2_SCORE+=INCREMENT))
+  fi
 }
 
 spawn-bonus() {
@@ -118,6 +126,7 @@ bonuses() {
         ((TOTAL_BONUSES--))
         continue
       elif object-collides-player "${BONUS_X}" "${BONUS_Y}"; then
+        player-increment-score ${P1} 1000
         # Remove laser
         erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
@@ -126,7 +135,7 @@ bonuses() {
 
         # Player consequences
         sound bonus-points
-        ((P1_SCORE+=1000))
+        player-increment-score ${P2} 1000
         continue
       else
         ((BONUS_Y++))
@@ -222,8 +231,8 @@ fighter-ai() {
         # Player consequences
         sound player-explosion
         ((P1_LIVES--))
-        ((P1_SCORE+=FIGHTER_POINTS))
         ((P1_KILLS++))
+        player-increment-score ${P1} ${FIGHTER_POINTS}
 
         continue
       else
