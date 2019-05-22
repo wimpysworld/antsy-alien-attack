@@ -80,14 +80,27 @@ game-mode() {
 }
 
 object-collides-player() {
-  local OBJECT_X=${1}
-  local OBJECT_Y=${2}
-  if ((OBJECT_X >= P1_X && OBJECT_X <= P1_X + P1_WIDTH )); then
-    if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT)); then
-      return 0
+  local PLAYER=${1}
+  local OBJECT_X=${2}
+  local OBJECT_Y=${3}
+
+  if [ ${PLAYER} -eq 1 ]; then
+    if ((OBJECT_X >= P1_X && OBJECT_X <= P1_X + P1_WIDTH )); then
+      if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT)); then
+        return 0
+      fi
     fi
+    return 1  
+  elif [ ${PLAYER} -eq 2 ]; then
+    if ((OBJECT_X >= P2_X && OBJECT_X <= P2_X + P2_WIDTH )); then
+      if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT)); then
+        return 0
+      fi
+    fi
+    return 1  
   fi
-  return 1
+}
+
 player-increment-score() {
   local PLAYER=${1}
   local INCREMENT=${2}
@@ -125,8 +138,18 @@ bonuses() {
         BONUSES=("${BONUSES[@]}")
         ((TOTAL_BONUSES--))
         continue
-      elif object-collides-player "${BONUS_X}" "${BONUS_Y}"; then
+      elif object-collides-player ${P1} "${BONUS_X}" "${BONUS_Y}"; then
+        # Remove laser
+        erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+        unset BONUSES[${BONUS_LOOP}]
+        BONUSES=("${BONUSES[@]}")
+        ((TOTAL_BONUSES--))
+
+        # Player consequences
+        sound bonus-points
         player-increment-score ${P1} 1000
+        continue
+      elif object-collides-player ${P2} "${BONUS_X}" "${BONUS_Y}"; then
         # Remove laser
         erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
@@ -163,7 +186,7 @@ fighter-lasers() {
       FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
       ((TOTAL_FIGHTER_LASERS--))
       continue
-    elif object-collides-player "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+    elif object-collides-player ${P1} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
       # Remove laser
       erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
       unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
@@ -174,6 +197,17 @@ fighter-lasers() {
       sound player-explosion
       ((P1_LIVES--))
       continue
+    elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+      # Remove laser
+      erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${FIGHTER_LASER_SPRITE[@]}"
+      unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+      FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+      ((TOTAL_FIGHTER_LASERS--))
+
+      # Player consequences
+      sound player-explosion
+      ((P2_LIVES--))
+      continue      
     else
       ((FIGHTER_LASER_Y++))
       FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y}"
@@ -221,7 +255,7 @@ fighter-ai() {
         FIGHTERS=("${FIGHTERS[@]}")
         ((TOTAL_FIGHTERS--))
         continue
-      elif object-collides-player "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
+      elif object-collides-player ${P1} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
         # Remove the fighter
         erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
         unset FIGHTERS[${FIGHTER_LOOP}]
@@ -233,6 +267,20 @@ fighter-ai() {
         ((P1_LIVES--))
         ((P1_KILLS++))
         player-increment-score ${P1} ${FIGHTER_POINTS}
+
+        continue
+      elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
+        # Remove the fighter
+        erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+        unset FIGHTERS[${FIGHTER_LOOP}]
+        FIGHTERS=("${FIGHTERS[@]}")
+        ((TOTAL_FIGHTERS--))
+
+        # Player consequences
+        sound player-explosion
+        ((P2_LIVES--))        
+        ((P2_KILLS++))
+        player-increment-score ${P2} ${FIGHTER_POINTS}
 
         continue
       else
