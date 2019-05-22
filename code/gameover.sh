@@ -10,7 +10,7 @@ gameover-mode() {
   reset-timers
   music gameover
   GAMEOVER_MUSIC_THREAD=$!
-  sound game-over
+  sound mission_failed game-over 
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You failed! But you may try again."
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to seek revenge or [Q] to Quit"

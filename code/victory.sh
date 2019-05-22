@@ -10,7 +10,7 @@ victory-mode() {
   reset-timers
   music victory
   VICTORY_MUSIC_THREAD=$!
-  sound congratulations
+  sound mission_completed congratulations
 
   lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "You defeated the alien horde! Hurray!"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to reminisce about the old times or [Q] to Quit"
