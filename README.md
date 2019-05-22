@@ -23,9 +23,9 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Music engine
     - [x] Disable audio for remote connections
   - [x] Title screen engine
-    - [ ] Main screen artwork
-    - [ ] Game over artwork
-    - [ ] Victory artwork
+    - [x] Main screen artwork
+    - [x] Game over artwork
+    - [x] Victory artwork
   - [ ] Enemies
     - [x] Fighters
     - [x] Fighter AI
@@ -38,6 +38,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [ ] Weapon upgrades
     - [ ] Shields
     - [ ] Smartbomb
+    - [ ] Extra life
   - [ ] Animators
     - [x] Player thrust
     - [ ] Player roll
@@ -48,14 +49,14 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Enemy firepower increases
     - [x] Enemy speed increases
     - [ ] Canyon levels, narrow playable area
-    - [ ] Level progression animations
+    - [x] Level progression announcements
   - [ ] 2P
     - [x] Local
     - [ ] Network
-  - [ ] Title screen attract mode
-    - [ ] Highscores
-    - [ ] Configuration
-    - [ ] Credits
+  - [x] Title screen attract mode
+    - [x] High score
+    - [x] Configuration
+    - [x] Credits
   - [ ] Snap
     - [ ] Bundle alacritty and fonts
     - [ ] Desktop Launcher
