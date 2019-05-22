@@ -478,6 +478,7 @@ player-lasers() {
 game-loop() {
   # Movement
   case ${KEY} in
+    # Player 1
     'w')
       ((P1_Y--))
       # Prevent leaving the top of the screen
@@ -502,26 +503,60 @@ game-loop() {
       ((P1_X > P1_MAX_X)) && P1_X=${P1_MAX_X}
       P1_LAST_KEY=${KEY}
       ;;
-    'l')
+    'x')
       if ((P1_RECENTLY_FIRED == 0 )); then
-        sound player-laser
+        sound player1-laser
         P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
         ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
       fi
       P1_LAST_KEY=${KEY}
       ;;
+
+    # Player 2
+    'i')
+      ((P2_Y--))
+      # Prevent leaving the top of the screen
+      ((P2_Y < 1)) && P2_Y=1
+      P2_LAST_KEY=${KEY}
+      ;;
+    'k')
+      ((P2_Y++))
+      # Prevent leaving the bottom of the screen
+      ((P2_Y > P2_MAX_Y)) && P2_Y=${P2_MAX_Y}
+      P2_LAST_KEY=${KEY}
+      ;;
+    'j')
+      ((P2_X--))
+      # Prevent leaving screen left
+      ((P2_X < 0)) && P2_X=0
+      P2_LAST_KEY=${KEY}
+      ;;
+    'l')
+      ((P2_X++))
+      # Prevent leaving screne right
+      ((P2_X > P2_MAX_X)) && P2_X=${P2_MAX_X}
+      P2_LAST_KEY=${KEY}
+      ;;
+    ',')
+      if ((P2_RECENTLY_FIRED == 0 )); then
+        sound player2-laser
+        P2_LASERS+=("$((P2_X + 4)) $((P2_Y - 1))")
+        ((P2_RECENTLY_FIRED+=P2_LASER_LATENCY))
+      fi
+      P2_LAST_KEY=${KEY}
+      ;;
   esac
   KEY=
 
   # Regulate Player 1 laser fire frequency
-  if [ "${P1_LAST_KEY}" != 'l' ]; then
+  if [ "${P1_LAST_KEY}" != 'x' ]; then
     P1_RECENTLY_FIRED=0
   elif ((P1_RECENTLY_FIRED > 0)); then
     ((P1_RECENTLY_FIRED--))
   fi
 
   # Regulate Player 2 laser fire frequency
-  if [ "${P2_LAST_KEY}" != 'm' ]; then
+  if [ "${P2_LAST_KEY}" != ',' ]; then
     P2_RECENTLY_FIRED=0
   elif ((P2_RECENTLY_FIRED > 0)); then
     ((P2_RECENTLY_FIRED--))
