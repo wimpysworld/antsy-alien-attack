@@ -23,7 +23,7 @@ sound() {
   local SOUND=
   local SOUNDS=""
   for SOUND in "$@"; do
-    MP3="sfx/$SOUND.mp3 "    
+    MP3="sfx/$SOUND.mp3 "
     SOUNDS+="$MP3"
   done
   ${SOUND_BACKEND} "${SOUNDS}"
