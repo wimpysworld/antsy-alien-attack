@@ -1,13 +1,6 @@
-# Bash 'em Up!
+# ANSI Alien Attack!
 
 A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully.
-
-## TODO
-
-Stuff the needs doing next or can't be forgotten.
-
-  * Player roll.
-  * Fighter impact animation.
 
 ## Plans
 
