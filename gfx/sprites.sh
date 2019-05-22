@@ -75,15 +75,14 @@ compose-sprites() {
   "$SPC       ")
 
   # This is a potential blue player
-  #export P2_SPRITE=(
-  #  "$SPC       "
-  #  "$SPC   $BLU▄$SPC   "
-  #  "$SPC  $blk▄$blu█$blk▄  "
-  #  "$SPC $BLU▄$blk█$BLU█$blk█$BLU▄ "
-  #  "$BLU▐█$blk█$BLU█$blk█$BLU█▌"
-  #  "${THRUST[${THRUST_FRAME}]}"
-  #  "$SPC       ")
-  #fi
+  export P2_SPRITE=(
+  "$SPC       "
+  "$SPC   $BLU▄$SPC   "
+  "$SPC  $blk▄$blu█$blk▄  "
+  "$SPC $BLU▄$blk█$BLU█$blk█$BLU▄ "
+  "$BLU▐█$blk█$BLU█$blk█$BLU█▌"
+  "${THRUST[${THRUST_FRAME}]}"
+  "$SPC       ")
 
   # Increment the play thrust animation speed control
   [[ ${THRUST_FRAME} -ge ${THRUST_FRAMES} ]] && THRUST_FRAME=0 || ((THRUST_FRAME++))
