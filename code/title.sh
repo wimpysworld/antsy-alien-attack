@@ -19,7 +19,7 @@ title-mode() {
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "↓"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "S"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[L] Unleash the lasers"
-  lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) " Press [P] to Play or [Q] to Quit"
+  lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) " Press [1] for one player, [2] for two player or [Q] to Quit"
 
   readarray -t TITLE_SCREEN < gfx/title.ans
   TITLE_SCREEN_LONGEST_LINE=$(wc -L gfx/title.txt | cut -d' ' -f1)
@@ -29,9 +29,9 @@ title-mode() {
 }
 
 title-loop() {
-  if [[ $KEY == 'p' ]]; then
+  if [[ $KEY == '1' ]] || [[ $KEY == '2' ]]; then
     kill-thread ${TITLE_MUSIC_THREAD}
-    game-mode
+    game-mode ${KEY}
   elif [[ $KEY == 'q' ]]; then
     kill-thread ${TITLE_MUSIC_THREAD}
     teardown

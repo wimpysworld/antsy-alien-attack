@@ -33,12 +33,21 @@ reset-game() {
   readonly P2=2
   export P1_SCORE=0
   export P2_SCORE=0
-  export P1_LIVES=3
-  export P2_LIVES=3
-  export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
-  export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
-  export P2_X=0
-  export P2_Y=0
+  if [ ${NUM_PLAYERS} -eq 1 ]; then
+    export P1_LIVES=3    
+    export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
+    export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+    export P2_LIVES=0
+    export P2_X=0
+    export P2_Y=0
+  elif [ ${NUM_PLAYERS} -eq 2 ]; then
+    export P1_LIVES=3
+    export P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3)))
+    export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+    export P2_LIVES=3
+    export P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3)))
+    export P2_Y=$(( SCREEN_HEIGHT - P2_HEIGHT ))
+  fi
   export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
   export P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
   export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH + 2) ))
@@ -67,6 +76,7 @@ reset-game() {
 }
 
 game-mode() {
+  readonly NUM_PLAYERS=${1}
   export KEY=
   export PLAYER_STATS_REFRESH=0
   blank-screen
@@ -506,10 +516,15 @@ game-loop() {
   compose-sprites
   animate-starfield
   draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
+  if [ ${NUM_PLAYERS} -eq 2 ]; then
+    draw-sprite 2 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+  fi
   fighter-ai
   fighter-lasers
   player-lasers ${P1}
-  player-lasers ${P2}
+  if [ ${NUM_PLAYERS} -eq 2 ]; then
+    player-lasers ${P2}
+  fi
   bonuses
 
   draw 0 0 "${RED}${BBLK}" "1UP ${P1_SCORE_PADDED}"
