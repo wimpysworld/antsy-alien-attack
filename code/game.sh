@@ -302,12 +302,47 @@ fighter-ai() {
       else
         ((FIGHTER_Y++))
 
-        # Hunt the player.
+        # Go hunting
         if ((FIGHTER_SMART == 1)); then
-          if ((FIGHTER_X <= P1_X)); then
-            ((FIGHTER_X++))
-          elif ((FIGHTER_X >= P1_X)); then
-            ((FIGHTER_X--))
+          local HUNT_P1=0
+          local HUNT_P2=0
+          if [ ${P1_DEAD} -eq 0 ] && [ ${P2_DEAD} -eq 1 ]; then
+            HUNT_P1=1
+          elif [ ${P1_DEAD} -eq 1 ] && [ ${P2_DEAD} -eq 0 ]; then
+            HUNT_P2=1
+          elif [ ${P1_DEAD} -eq 0 ] && [ ${P2_DEAD} -eq 0 ]; then
+            # Get distances
+            DISTANCE_TO_P1=$((P1_X - FIGHTER_X))
+            DISTANCE_TO_P2=$((P2_X - FIGHTER_X))
+            # Get absolute distances
+            P1_DISTANCE=${DISTANCE_TO_P1#-}
+            P2_DISTANCE=${DISTANCE_TO_P2#-}
+            if [ ${P1_DISTANCE} -lt ${P2_DISTANCE} ]; then
+              # P1 is nearest, hunt them down.
+              HUNT_P1=1
+            elif [ ${P2_DISTANCE} -lt ${P1_DISTANCE} ]; then
+              # P2 is nearest, hunt them down.
+              HUNT_P2=1
+            fi
+          fi
+
+          if [ ${HUNT_P1} -eq 1 ]; then
+            if ((FIGHTER_X <= P1_X)); then
+              ((FIGHTER_X++))
+            elif ((FIGHTER_X >= P1_X)); then
+              ((FIGHTER_X--))
+            fi
+          elif [ ${HUNT_P2} -eq 1 ]; then
+            if ((FIGHTER_X <= P2_X)); then
+              ((FIGHTER_X++))
+            elif ((FIGHTER_X >= P2_X)); then
+              ((FIGHTER_X--))
+            fi
+          else
+            case $((RANDOM % 5)) in
+              0) ((FIGHTER_X--));;
+              4) ((FIGHTER_X++));;
+            esac
           fi
         else
           # OK dummy, time to make a random lateral movement?
