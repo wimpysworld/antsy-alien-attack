@@ -20,12 +20,17 @@ sound-teardown() {
 }
 
 sound() {
-  local SOUND=sfx/$1.mp3
-  ${SOUND_BACKEND} "${SOUND}"
+  local SOUND=
+  local SOUNDS=""
+  for SOUND in "$@"; do
+    MP3="sfx/$SOUND.mp3 "    
+    SOUNDS+="$MP3"
+  done
+  ${SOUND_BACKEND} "${SOUNDS}"
 }
 
 sound-mpg123() {
-  mpg123 -q "${1}" > /dev/null 2>&1 &
+  mpg123 -q ${1} > /dev/null 2>&1 &
 }
 
 sound-beep() {
