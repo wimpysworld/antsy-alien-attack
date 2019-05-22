@@ -163,6 +163,9 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2  | sed 's/\[0m
 
   * [Kenney Vleugels](http://www.kenney.nl)
     * `laser.mp3`
+    * `game-over.mp3`
+    * `congratulations.mp3`
+    * `bonus-points.mp3`
   * Viktor Hahn
     * `fighter-explosion.mp3`
 
