@@ -87,6 +87,10 @@ function reset-timers() {
   WAVE_CYCLE=0
 }
 
+function fps-counter-erase() {
+  draw-centered "${SCREEN_HEIGHT}" "$blk$BBLK" "                                "
+}
+
 function fps-counter() {
   if ((SECONDS > SEC)); then
     FPS=${FPSC}
