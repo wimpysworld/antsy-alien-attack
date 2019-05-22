@@ -120,7 +120,7 @@ bonuses() {
         ((TOTAL_BONUSES--))
 
         # Player consequences
-        #sound player-explosion
+        sound bonus-points
         ((P1_SCORE+=1000))
         continue
       else
