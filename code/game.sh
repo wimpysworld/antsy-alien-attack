@@ -354,34 +354,67 @@ player-laser-hit-fighter() {
 }
 
 player-lasers() {
-  local TOTAL_P1_LASERS=${#P1_LASERS[@]}
+  local PLAYER=${1}
+  if [ ${PLAYER} -eq 1 ]; then
+    local TOTAL_LASERS=${#P1_LASERS[@]}
+    local LASER_CEILING=${P1_LASER_CEILING}
+  elif [ ${PLAYER} -eq 2 ]; then
+    local TOTAL_LASERS=${#P2_LASERS[@]}
+    local LASER_CEILING=${P2_LASER_CEILING}
+  fi
+
   local LASER_INSTANCE=()
   local LASER_X=0
   local LASER_Y=0
   local LASER_LOOP=0
-  for (( LASER_LOOP=0; LASER_LOOP < TOTAL_P1_LASERS; LASER_LOOP++ )); do
-    LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]})
+  for (( LASER_LOOP=0; LASER_LOOP < TOTAL_LASERS; LASER_LOOP++ )); do
+    if [ ${PLAYER} -eq 1 ]; then
+      LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]})
+    elif [ ${PLAYER} -eq 2 ]; then
+      LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]})
+    fi
     LASER_X=${LASER_INSTANCE[0]}
     LASER_Y=${LASER_INSTANCE[1]}
-    if ((LASER_Y <= P1_LASER_CEILING)); then
-      erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-      unset P1_LASERS[${LASER_LOOP}]
-      P1_LASERS=("${P1_LASERS[@]}")
-      ((TOTAL_P1_LASERS--))
+    if ((LASER_Y <= LASER_CEILING)); then
+      if [ ${PLAYER} -eq 1 ]; then
+        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+        unset P1_LASERS[${LASER_LOOP}]
+        P1_LASERS=("${P1_LASERS[@]}")
+      elif [ ${PLAYER} -eq 2 ]; then
+        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+        unset P2_LASERS[${LASER_LOOP}]
+        P2_LASERS=("${P2_LASERS[@]}")
+      fi
+      ((TOTAL_LASERS--))
       continue
     elif player-laser-hit-fighter "${LASER_X}" "${LASER_Y}"; then
-      erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-      unset P1_LASERS[${LASER_LOOP}]
-      P1_LASERS=("${P1_LASERS[@]}")
-      ((P1_SCORE+=FIGHTER_POINTS))
-      ((P1_KILLS++))
-      ((TOTAL_P1_LASERS--))
+      if [ ${PLAYER} -eq 1 ]; then
+        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+        unset P1_LASERS[${LASER_LOOP}]
+        P1_LASERS=("${P1_LASERS[@]}")
+        ((P1_KILLS++))
+      elif [ ${PLAYER} -eq 2 ]; then
+        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+        unset P2_LASERS[${LASER_LOOP}]
+        P2_LASERS=("${P2_LASERS[@]}")
+        ((P2_KILLS++))
+      fi
+      ((TOTAL_LASERS--))
+      player-increment-score ${PLAYER} ${FIGHTER_POINTS}
       continue
     else
       ((LASER_Y--))
-      P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
+      if [ ${PLAYER} -eq 1 ]; then
+        P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
+      elif [ ${PLAYER} -eq 2 ]; then
+        P2_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
+      fi
     fi
-    draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+    if [ ${PLAYER} -eq 1 ]; then
+      draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+    elif [ ${PLAYER} -eq 2 ]; then
+      draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+    fi    
   done
 }
 
@@ -468,7 +501,8 @@ game-loop() {
   draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
   fighter-ai
   fighter-lasers
-  player-lasers
+  player-lasers ${P1}
+  player-lasers ${P2}
   bonuses
 
   draw 0 0 "${RED}${BBLK}" "1UP ${P1_SCORE_PADDED}"
