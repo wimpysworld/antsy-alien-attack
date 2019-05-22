@@ -21,7 +21,11 @@ level-up() {
 
   # Rate at which enemy kills yeild bonuses
   export BONUS_SPAWN_RATE=$((LEVEL * 2))
-  sound level ${LEVEL}
+  if [ ${LEVEL} -eq ${LAST_LEVEL} ]; then
+    sound level ${LEVEL} final_round
+  elif [ ${LEVEL} -le ${LAST_LEVEL} ]; then
+    sound level ${LEVEL}
+  fi
 }
 
 reset-game() {
