@@ -17,6 +17,8 @@ level-up() {
   # Alien spawn rate and fire rate increase with level progression
   export ALIEN_FIRE_RATE=$((200 / LEVEL))
   export ALIEN_SPAWN_RATE=$((150 / LEVEL))
+  # Rate at which enemy kills yeild bonuses
+  export BONUS_SPAWN_RATE=$((LEVEL * 2))
 }
 
 reset-game() {
@@ -53,6 +55,7 @@ reset-game() {
   export FIGHTER_CURRENT_SPEED=11
   export FIGHTER_LASERS=()
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
+  export BONUSES=()
   create-starfield
   level-up
 }
@@ -79,6 +82,53 @@ object-collides-player() {
     fi
   fi
   return 1
+}
+
+spawn-bonus() {
+  if ((RANDOM % BONUS_SPAWN_RATE == 0)); then
+    local BONUS_X="${1}"
+    local BONUS_Y="${2}"
+    BONUSES+=("${BONUS_X} ${BONUS_Y}")
+  fi
+}
+
+bonuses() {
+  local TOTAL_BONUSES=${#BONUSES[@]}
+  local BONUS_INSTANCE=()
+  local BONUS_X=0
+  local BONUS_Y=0
+  local BONUS_LOOP=0
+  for (( BONUS_LOOP=0; BONUS_LOOP < TOTAL_BONUSES; BONUS_LOOP++ )); do
+    BONUS_INSTANCE=(${BONUSES[${BONUS_LOOP}]})
+    BONUS_X=${BONUS_INSTANCE[0]}
+    BONUS_Y=${BONUS_INSTANCE[1]}
+
+    # Bonuses move off screen at the same pace as fighters.
+    if ((FIGHTER_ANIM_SPEED == 0)); then    
+      if ((BONUS_Y >= SCREEN_HEIGHT)); then
+        erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+        unset BONUSES[${BONUS_LOOP}]
+        BONUSES=("${BONUSES[@]}")
+        ((TOTAL_BONUSES--))
+        continue
+      elif object-collides-player "${BONUS_X}" "${BONUS_Y}"; then
+        # Remove laser
+        erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+        unset BONUSES[${BONUS_LOOP}]
+        BONUSES=("${BONUSES[@]}")
+        ((TOTAL_BONUSES--))
+
+        # Player consequences
+        #sound player-explosion
+        ((P1_SCORE+=1000))
+        continue
+      else
+        ((BONUS_Y++))
+        BONUSES[${BONUS_LOOP}]="${BONUS_X} ${BONUS_Y}"
+      fi
+      draw-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+    fi
+  done
 }
 
 fighter-lasers() {
@@ -232,6 +282,7 @@ player-laser-hit-fighter() {
         unset FIGHTERS[${FIGHTER_LOOP}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((TOTAL_FIGHTERS--))
+        spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
         return 0
       fi
     fi
@@ -355,6 +406,7 @@ game-loop() {
   fighter-ai
   fighter-lasers
   player-lasers
+  bonuses
 
   draw 0 0 "${RED}${BBLK}" "1UP ${P1_SCORE_PADDED}"
   draw-centered 0 "${WHT}${BBLK}" "HISCORE ${HI_SCORE_PADDED}"
