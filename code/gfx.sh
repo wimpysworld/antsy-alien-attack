@@ -88,7 +88,7 @@ function reset-timers() {
 }
 
 function fps-counter-erase() {
-  draw-centered "${SCREEN_HEIGHT}" "$blk$BBLK" "                                "
+  draw-centered "${SCREEN_HEIGHT}" "$blk$BBLK" "                                   "
 }
 
 function fps-counter() {

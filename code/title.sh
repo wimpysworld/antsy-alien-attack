@@ -115,7 +115,6 @@ title-loop() {
       cfg-save
     elif ((FPS_ENABLED == 0)); then
       FPS_ENABLED=1
-      reset-counters
       cfg-save
     fi
   else
