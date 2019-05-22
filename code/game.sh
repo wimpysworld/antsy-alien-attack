@@ -29,7 +29,7 @@ reset-game() {
   export P1_SCORE=0
   export P2_SCORE=0
   export P1_LIVES=3
-  export P2_LIVES=0
+  export P2_LIVES=3
   export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
   export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
   export P2_X=0
