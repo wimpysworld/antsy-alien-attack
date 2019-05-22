@@ -29,6 +29,8 @@ reset-game() {
   export LEVEL_UP_KILLS=4
   export LAST_LEVEL=5
   export HI_SCORE=0
+  readonly P1=1
+  readonly P2=2
   export P1_SCORE=0
   export P2_SCORE=0
   export P1_LIVES=3
