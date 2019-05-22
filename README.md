@@ -39,7 +39,12 @@ Stuff the needs doing next or can't be forgotten.
     - [ ] Gun turrets
     - [ ] Gun turret AI
     - [ ] Boss ships
-    - [ ] Boos ship AI
+    - [ ] Boss ship AI
+  - [ ] Power ups
+    - [ ] Bonus points
+    - [ ] Weapon upgrades
+    - [ ] Shields
+    - [ ] Smartbomb
   - [ ] Animators
     - [x] Player thrust
     - [ ] Player roll
@@ -58,11 +63,6 @@ Stuff the needs doing next or can't be forgotten.
     - [ ] Highscores
     - [ ] Configuration
     - [ ] Credits
-  - [ ] Power ups
-    - [ ] Bonus points
-    - [ ] Weapon upgrades
-    - [ ] Shields
-    - [ ] Smartbomb
   - [ ] Snap
     - [ ] Bundle alacritty and fonts
     - [ ] Desktop Launcher
