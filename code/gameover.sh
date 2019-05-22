@@ -15,7 +15,8 @@ gameover-mode() {
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to seek revenge or [Q] to Quit"
 
   readarray -t GAMEOVER_SCREEN < gfx/gameover.ans
-  GAMEOVER_SCREEN_OFFSET=$(center 73)
+  GAMEOVER_SCREEN_LONGEST_LINE=$(wc -L gfx/gameover.txt | cut -d' ' -f1)
+  GAMEOVER_SCREEN_OFFSET=$(center ${GAMEOVER_SCREEN_LONGEST_LINE})
 
   export LOOP=gameover-loop
 }

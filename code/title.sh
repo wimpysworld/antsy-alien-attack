@@ -21,8 +21,9 @@ title-mode() {
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[L] Unleash the lasers"
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) " Press [P] to Play or [Q] to Quit"
 
-  readarray -t TITLE_SCREEN < gfx/title.ans  
-  TITLE_SCREEN_OFFSET=$(center 80)
+  readarray -t TITLE_SCREEN < gfx/title.ans
+  TITLE_SCREEN_LONGEST_LINE=$(wc -L gfx/title.txt | cut -d' ' -f1)
+  TITLE_SCREEN_OFFSET=$(center ${TITLE_SCREEN_LONGEST_LINE})
 
   export LOOP=title-loop
 }

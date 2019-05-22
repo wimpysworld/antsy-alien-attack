@@ -15,7 +15,8 @@ victory-mode() {
   lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Press [R] to reminisce about the old times or [Q] to Quit"
 
   readarray -t VICTORY_SCREEN < gfx/victory.ans
-  VICTORY_SCREEN_OFFSET=$(center 59)
+  VICTORY_SCREEN_LONGEST_LINE=$(wc -L gfx/victory.txt | cut -d' ' -f1)
+  VICTORY_SCREEN_OFFSET=$(center ${VICTORY_SCREEN_LONGEST_LINE})
 
   export LOOP=victory-loop
 }
