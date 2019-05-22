@@ -17,6 +17,7 @@ export LOOP=
 setup() {
   trap teardown EXIT INT TERM
   trap start-loop USR1
+  cfg-load
   gfx-setup
   sound-setup
   music-setup
@@ -24,6 +25,7 @@ setup() {
 }
 
 teardown() {
+  cfg-save
   gfx-teardown
   sound-teardown
   music-teardown
