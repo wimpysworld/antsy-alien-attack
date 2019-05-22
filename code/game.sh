@@ -428,7 +428,7 @@ player-lasers() {
     if [ ${PLAYER} -eq 1 ]; then
       LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]})
     elif [ ${PLAYER} -eq 2 ]; then
-      LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]})
+      LASER_INSTANCE=(${P2_LASERS[${LASER_LOOP}]})
     fi
     LASER_X=${LASER_INSTANCE[0]}
     LASER_Y=${LASER_INSTANCE[1]}
@@ -579,7 +579,7 @@ game-loop() {
   fi
 
   if [ ${P2_DEAD} -eq 0 ]; then
-    draw-sprite 2 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+    draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
   fi
 
   fighter-ai
