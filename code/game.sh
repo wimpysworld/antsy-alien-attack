@@ -34,16 +34,20 @@ reset-game() {
   export P1_SCORE=0
   export P2_SCORE=0
   if [ ${NUM_PLAYERS} -eq 1 ]; then
+    export P1_DEAD=0
     export P1_LIVES=3
     export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
     export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+    export P2_DEAD=1
     export P2_LIVES=0
     export P2_X=0
     export P2_Y=0
   elif [ ${NUM_PLAYERS} -eq 2 ]; then
+    export P1_DEAD=0
     export P1_LIVES=3
     export P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3)))
     export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+    export P2_DEAD=0
     export P2_LIVES=3
     export P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3)))
     export P2_Y=$(( SCREEN_HEIGHT - P2_HEIGHT ))
@@ -101,7 +105,7 @@ object-collides-player() {
       fi
     fi
     return 1
-  elif [ ${PLAYER} -eq 2 ]; then
+  elif [ ${PLAYER} -eq 2 ] && [ ${P2_DEAD} -eq 0 ] && [ ${NUM_PLAYERS} -eq 2 ]; then
     if ((OBJECT_X >= P2_X && OBJECT_X <= P2_X + P2_WIDTH )); then
       if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT)); then
         return 0
@@ -492,8 +496,20 @@ game-loop() {
       return 1
   fi
 
-  # Game over condition stub
-  if ((P1_LIVES + P2_LIVES <= 0)); then
+  # If player 1 is not registered dead but has no lives, then kill player 1.
+  if [ ${P1_LIVES} -le 0 ] && [ ${P1_DEAD} -eq 0 ]; then
+    erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
+    P1_DEAD=1
+  fi
+
+  # If player 2 is not registered dead but has no lives, then kill player 2.
+  if [ ${P2_LIVES} -le 0 ] && [ ${P2_DEAD} -eq 0 ]; then
+    erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+    P2_DEAD=1
+  fi
+
+  # Game over condition
+  if [ ${P1_DEAD} -eq 1 ] && [ ${P2_DEAD} -eq 1 ]; then
     kill-thread ${GAME_MUSIC_THREAD}
     gameover-mode
     return 1
@@ -515,14 +531,22 @@ game-loop() {
 
   compose-sprites
   animate-starfield
-  draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
-  if [ ${NUM_PLAYERS} -eq 2 ]; then
+  if [ ${P1_DEAD} -eq 0 ]; then
+    draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
+  fi
+
+  if [ ${P2_DEAD} -eq 0 ] && [ ${NUM_PLAYERS} -eq 2 ]; then
     draw-sprite 2 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
   fi
+
   fighter-ai
   fighter-lasers
-  player-lasers ${P1}
-  if [ ${NUM_PLAYERS} -eq 2 ]; then
+  
+  if [ ${P1_DEAD} -eq 0 ]; then
+    player-lasers ${P1}
+  fi
+
+  if [ ${P2_DEAD} -eq 0 ] && [ ${NUM_PLAYERS} -eq 2 ]; then
     player-lasers ${P2}
   fi
   bonuses
