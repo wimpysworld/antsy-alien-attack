@@ -58,7 +58,7 @@ gfx-setup() {
   readonly SCREEN_WIDTH=$(tput cols)
   readonly SCREEN_HEIGHT=$(tput lines)
 
-  echo -ne "\e]0;Bash 'em Up!\007"
+  echo -ne "\e]0;${GAME_TITLE}\007"
 }
 
 gfx-teardown() {
