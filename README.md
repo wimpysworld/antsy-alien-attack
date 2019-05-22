@@ -34,7 +34,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [ ] Boss ships
     - [ ] Boss ship AI
   - [ ] Power ups
-    - [ ] Bonus points
+    - [x] Bonus points
     - [ ] Weapon upgrades
     - [ ] Shields
     - [ ] Smartbomb
