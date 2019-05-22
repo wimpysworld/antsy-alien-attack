@@ -16,7 +16,8 @@ level-up() {
 
   # Alien spawn rate and fire rate increase with level progression
   export ALIEN_FIRE_RATE=$((200 / LEVEL))
-  export ALIEN_SPAWN_RATE=$((150 / LEVEL))
+  export ALIEN_SPAWN_RATE=$((125 / LEVEL))
+
   # Rate at which enemy kills yeild bonuses
   export BONUS_SPAWN_RATE=$((LEVEL * 2))
 }
