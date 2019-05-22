@@ -251,7 +251,9 @@ fighter-ai() {
       FIGHTER_X=$((RANDOM % FIGHTER_MAX_X))
 
       # Does this fighter have smarts?
-      if ((FIGHTER_X <= FIGHTER_SMART_REGION)) || ((FIGHTER_X >= (SCREEN_WIDTH - FIGHTER_SMART_REGION) )); then
+      if ((LEVEL >= 3)); then
+        FIGHTER_SMART=1
+      elif ((FIGHTER_X <= FIGHTER_SMART_REGION)) || ((FIGHTER_X >= (SCREEN_WIDTH - FIGHTER_SMART_REGION) )); then
         FIGHTER_SMART=1
       else
         FIGHTER_SMART=0
