@@ -463,6 +463,13 @@ game-loop() {
     ((P1_RECENTLY_FIRED--))
   fi
 
+  # Regulate Player 2 laser fire frequency
+  if [ "${P2_LAST_KEY}" != 'm' ]; then
+    P2_RECENTLY_FIRED=0
+  elif ((P2_RECENTLY_FIRED > 0)); then
+    ((P2_RECENTLY_FIRED--))
+  fi
+
   # Level up
   if ((P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS)); then
     level-up
