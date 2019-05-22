@@ -2,6 +2,7 @@
 
 level-up() {
   ((LEVEL++))
+  ((LEVEL_UP_KILLS++))
   ((MAX_FIGHTERS++))
   ((FIGHTER_CURRENT_SPEED--))
   export P1_KILLS=0
@@ -25,6 +26,7 @@ level-up() {
 
 reset-game() {
   export LEVEL=0
+  export LEVEL_UP_KILLS=4
   export LAST_LEVEL=5
   export HI_SCORE=0
   export P1_SCORE=0
@@ -370,7 +372,7 @@ game-loop() {
   fi
 
   # Level up
-  if ((P1_KILLS + P2_KILLS >= 5)); then
+  if ((P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS)); then
     level-up
   fi
 
