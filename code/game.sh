@@ -16,7 +16,7 @@ level-up() {
 
   # Alien spawn rate and fire rate increase with level progression
   export ALIEN_FIRE_RATE=$((200 / LEVEL))
-  export ALIEN_SPAWN_RATE=$((300 / LEVEL))
+  export ALIEN_SPAWN_RATE=$((150 / LEVEL))
 }
 
 reset-game() {
