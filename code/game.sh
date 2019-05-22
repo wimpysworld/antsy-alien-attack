@@ -20,6 +20,7 @@ level-up() {
 
   # Rate at which enemy kills yeild bonuses
   export BONUS_SPAWN_RATE=$((LEVEL * 2))
+  sound level ${LEVEL}
 }
 
 reset-game() {
