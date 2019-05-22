@@ -145,7 +145,7 @@ bonuses() {
     BONUS_Y=${BONUS_INSTANCE[1]}
 
     # Bonuses move off screen at the same pace as fighters.
-    if ((FIGHTER_ANIM_SPEED == 0)); then    
+    if ((FIGHTER_ANIM_SPEED == 0)); then
       if ((BONUS_Y >= SCREEN_HEIGHT)); then
         erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
