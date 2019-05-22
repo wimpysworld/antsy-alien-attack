@@ -50,7 +50,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [ ] Canyon levels, narrow playable area
     - [ ] Level progression animations
   - [ ] 2P
-    - [ ] Local
+    - [x] Local
     - [ ] Network
   - [ ] Title screen attract mode
     - [ ] Highscores
