@@ -34,7 +34,7 @@ reset-game() {
   export P1_SCORE=0
   export P2_SCORE=0
   if [ ${NUM_PLAYERS} -eq 1 ]; then
-    export P1_LIVES=3    
+    export P1_LIVES=3
     export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
     export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
     export P2_LIVES=0
@@ -100,14 +100,14 @@ object-collides-player() {
         return 0
       fi
     fi
-    return 1  
+    return 1
   elif [ ${PLAYER} -eq 2 ]; then
     if ((OBJECT_X >= P2_X && OBJECT_X <= P2_X + P2_WIDTH )); then
       if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT)); then
         return 0
       fi
     fi
-    return 1  
+    return 1
   fi
 }
 
@@ -424,7 +424,7 @@ player-lasers() {
       draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
     elif [ ${PLAYER} -eq 2 ]; then
       draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
-    fi    
+    fi
   done
 }
 
