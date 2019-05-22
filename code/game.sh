@@ -506,7 +506,7 @@ game-loop() {
       P1_LAST_KEY=${KEY}
       ;;
     'x')
-      if ((P1_RECENTLY_FIRED == 0 )); then
+      if ((P1_RECENTLY_FIRED == 0 && P1_DEAD == 0)); then
         sound player1-laser
         P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
         ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
@@ -540,7 +540,7 @@ game-loop() {
       P2_LAST_KEY=${KEY}
       ;;
     ',')
-      if ((P2_RECENTLY_FIRED == 0 )); then
+      if ((P2_RECENTLY_FIRED == 0 && P2_DEAD == 0)); then
         sound player2-laser
         P2_LASERS+=("$((P2_X + 4)) $((P2_Y - 1))")
         ((P2_RECENTLY_FIRED+=P2_LASER_LATENCY))
@@ -622,13 +622,9 @@ game-loop() {
   fighter-ai
   fighter-lasers
   
-  if [ ${P1_DEAD} -eq 0 ]; then
-    player-lasers ${P1}
-  fi
-
-  if [ ${P2_DEAD} -eq 0 ]; then
-    player-lasers ${P2}
-  fi
+  player-lasers ${P1}
+  player-lasers ${P2}
+  
   bonuses
 
   draw 0 0 "${RED}${BBLK}" "1UP ${P1_SCORE_PADDED}"
