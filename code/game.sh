@@ -300,7 +300,7 @@ fighter-ai() {
 
         # Player consequences
         sound player-explosion
-        ((P2_LIVES--))        
+        ((P2_LIVES--))
         ((P2_KILLS++))
         player-increment-score ${P2} ${FIGHTER_POINTS}
 
