@@ -34,11 +34,12 @@ reset-game() {
   export LEVEL=0
   export LEVEL_UP_KILLS=4
   export LAST_LEVEL=5
-  export HI_SCORE=0
   readonly P1=1
   readonly P2=2
   export P1_SCORE=0
   export P2_SCORE=0
+  export P1_HI_SCORE_BEATEN=0
+  export P2_HI_SCORE_BEATEN=0
   if [ ${NUM_PLAYERS} -eq 1 ]; then
     export P1_DEAD=0
     export P1_LIVES=3
@@ -599,8 +600,16 @@ game-loop() {
   if ((PLAYER_STATS_REFRESH == 0)); then
     if ((P1_SCORE > HI_SCORE)); then
       HI_SCORE=${P1_SCORE}
+      if ((P1_HI_SCORE_BEATEN == 0)); then
+        P1_HI_SCORE_BEATEN=1
+        sound new_highscore
+      fi
     elif ((P2_SCORE > HI_SCORE)); then
       HI_SCORE=${P2_SCORE}
+      if ((P2_HI_SCORE_BEATEN == 0)); then
+        P2_HI_SCORE_BEATEN=1
+        sound new_highscore
+      fi
     fi
     P1_SCORE_PADDED=$(printf "%06d" ${P1_SCORE})
     P2_SCORE_PADDED=$(printf "%06d" ${P2_SCORE})
