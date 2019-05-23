@@ -11,8 +11,7 @@ level-up() {
 
   # Fighters have increased fire power as the levels progress.
   export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
-  # The region where smart fighter originate enlarges as levels progress.
-  export FIGHTER_SMART_REGION=$((SCREEN_WIDTH / (LAST_LEVEL + 2 + LEVEL) ))
+
   # More points for fighters as the levels progress.
   export FIGHTER_POINTS=$((LEVEL * 10))
 
@@ -91,6 +90,9 @@ reset-game() {
   export FIGHTER_CURRENT_SPEED=11
   export FIGHTER_LASERS=()
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
+# The region where hunting fighters originate
+  readonly HUNT_REGION_LEFT=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 6) ))
+  readonly HUNT_REGION_RIGHT=$(( (SCREEN_WIDTH / 2) + (FIGHTER_WIDTH * 6) ))
   export BONUSES=()
   create-starfield
   level-up
@@ -336,9 +338,7 @@ fighter-ai() {
       FIGHTER_X=$((RANDOM % FIGHTER_MAX_X))
 
       # Does this fighter have smarts?
-      if ((LEVEL >= 3)); then
-        FIGHTER_SMART=1
-      elif ((FIGHTER_X <= FIGHTER_SMART_REGION)) || ((FIGHTER_X >= (SCREEN_WIDTH - FIGHTER_SMART_REGION) )); then
+      if ((FIGHTER_X <= HUNT_REGION_LEFT || FIGHTER_X >= HUNT_REGION_RIGHT)); then
         FIGHTER_SMART=1
       else
         FIGHTER_SMART=0
