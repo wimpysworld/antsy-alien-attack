@@ -88,6 +88,7 @@ reset-game() {
 
 game-mode() {
   readonly NUM_PLAYERS=${1}
+  export DELAY=0.005
   export KEY=
   export PLAYER_STATS_REFRESH=0
   blank-screen
