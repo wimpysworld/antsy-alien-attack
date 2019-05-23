@@ -22,6 +22,7 @@ level-up() {
 
   # Rate at which enemy kills yeild bonuses
   export BONUS_SPAWN_RATE=$((LEVEL * 2))
+  export BONUS_POINTS=$((1000 * LEVEL))
   if [ ${LEVEL} -eq 1 ]; then
     sound ready level ${LEVEL} go
   elif [ ${LEVEL} -eq ${LAST_LEVEL} ]; then
@@ -139,7 +140,6 @@ player-increment-score() {
 activate-bonus() {
   local PLAYER=${1}
   local BONUS_TYPE=${2}
-  local BONUS_POINTS=$((1000 * ${LEVEL}))
 
   case ${BONUS_TYPE} in
     0) sound bonus-points
