@@ -36,7 +36,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
   - [ ] Power ups
     - [x] Bonus points
     - [ ] Weapon upgrades
-    - [ ] Shields
+    - [x] Shields
     - [x] Smartbomb
     - [x] Extra life
   - [ ] Animators
@@ -224,3 +224,4 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2  | sed 's/\[0m
   * Bash has C style loops
     * Like this `for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do`
   * I never knew about `((TOTAL_STARS++))` or `((TOTAL_STARS+=5))` or `((TOTAL_STARS+=MORE_STARS))`
+  * Px437 IBM VGA Regular at 16px is best font.
