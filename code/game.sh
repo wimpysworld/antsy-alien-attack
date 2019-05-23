@@ -194,36 +194,34 @@ spawn-bonus() {
 }
 
 bonuses() {
-  local TOTAL_BONUSES=${#BONUSES[@]}
-  local BONUS_INSTANCE=()
-  local BONUS_X=0
-  local BONUS_Y=0
-  local BONUS_TYPE=0
-  local BONUS_LOOP=0
-  local BONUS_SPRITE=()
-  for (( BONUS_LOOP=0; BONUS_LOOP < TOTAL_BONUSES; BONUS_LOOP++ )); do
-    BONUS_INSTANCE=(${BONUSES[${BONUS_LOOP}]})
-    BONUS_X=${BONUS_INSTANCE[0]}
-    BONUS_Y=${BONUS_INSTANCE[1]}
-    BONUS_TYPE=${BONUS_INSTANCE[2]}
-
-    case ${BONUS_TYPE} in
-      0) BONUS_SPRITE=(
-         "$SPC "
-         "$ylw♦"
-         );;
-      1) BONUS_SPRITE=(
-         "$SPC "
-         "$red♥"
-         );;
-      2) BONUS_SPRITE=(
-         "$SPC "
-         "$cyn☼"
-         );;
-    esac
-
-    # Bonuses move off screen at the same pace as fighters.
-    if ((FIGHTER_ANIM_SPEED == 0)); then
+  # Bonuses move off screen at the same pace as fighters.
+  if ((FIGHTER_ANIM_SPEED == 0)); then
+    local TOTAL_BONUSES=${#BONUSES[@]}
+    local BONUS_INSTANCE=()
+    local BONUS_X=0
+    local BONUS_Y=0
+    local BONUS_TYPE=0
+    local BONUS_LOOP=0
+    local BONUS_SPRITE=()
+    for (( BONUS_LOOP=0; BONUS_LOOP < TOTAL_BONUSES; BONUS_LOOP++ )); do
+      BONUS_INSTANCE=(${BONUSES[${BONUS_LOOP}]})
+      BONUS_X=${BONUS_INSTANCE[0]}
+      BONUS_Y=${BONUS_INSTANCE[1]}
+      BONUS_TYPE=${BONUS_INSTANCE[2]}
+      case ${BONUS_TYPE} in
+        0) BONUS_SPRITE=(
+           "$SPC "
+           "$ylw♦"
+           );;
+        1) BONUS_SPRITE=(
+           "$SPC "
+           "$red♥"
+           );;
+        2) BONUS_SPRITE=(
+           "$SPC "
+           "$cyn☼"
+           );;
+      esac
       if ((BONUS_Y >= SCREEN_HEIGHT)); then
         erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
@@ -251,8 +249,8 @@ bonuses() {
         BONUSES[${BONUS_LOOP}]="${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}"
       fi
       draw-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
-    fi
-  done
+    done
+  fi
 }
 
 fighter-lasers() {
