@@ -135,11 +135,31 @@ player-increment-score() {
   fi
 }
 
+activate-bonus() {
+  local PLAYER=${1}
+  local BONUS_TYPE=${2}
+  local BONUS_POINTS=$((1000 * ${LEVEL}))
+
+  case ${BONUS_TYPE} in
+    0) sound bonus-points
+       player-increment-score ${PLAYER} ${BONUS_POINTS}
+       ;;
+    1) sound extra-life
+       if [ ${PLAYER} -eq 1 ]; then
+         ((P1_LIVES++))
+       elif [ ${PLAYER} -eq 2 ]; then
+         ((P2_LIVES++))
+       fi
+       ;;
+  esac
+}
+
 spawn-bonus() {
   if ((RANDOM % BONUS_SPAWN_RATE == 0)); then
     local BONUS_X="${1}"
     local BONUS_Y="${2}"
-    BONUSES+=("${BONUS_X} ${BONUS_Y}")
+    local BONUS_TYPE=$((RANDOM % 2))
+    BONUSES+=("${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}")
   fi
 }
 
@@ -148,11 +168,25 @@ bonuses() {
   local BONUS_INSTANCE=()
   local BONUS_X=0
   local BONUS_Y=0
+  local BONUS_TYPE=0
   local BONUS_LOOP=0
+  local BONUS_SPRITE=()
   for (( BONUS_LOOP=0; BONUS_LOOP < TOTAL_BONUSES; BONUS_LOOP++ )); do
     BONUS_INSTANCE=(${BONUSES[${BONUS_LOOP}]})
     BONUS_X=${BONUS_INSTANCE[0]}
     BONUS_Y=${BONUS_INSTANCE[1]}
+    BONUS_TYPE=${BONUS_INSTANCE[2]}
+
+    case ${BONUS_TYPE} in
+      0) BONUS_SPRITE=(
+         "$SPC "
+         "$ylw\$"
+         );;
+      1) BONUS_SPRITE=(
+         "$SPC "
+         "$RED♥"
+         );;
+    esac
 
     # Bonuses move off screen at the same pace as fighters.
     if ((FIGHTER_ANIM_SPEED == 0)); then
@@ -179,14 +213,11 @@ bonuses() {
         unset BONUSES[${BONUS_LOOP}]
         BONUSES=("${BONUSES[@]}")
         ((TOTAL_BONUSES--))
-
-        # Player consequences
-        sound bonus-points
-        player-increment-score ${P2} 1000
+        activate-bonus ${P2} ${BONUS_TYPE}
         continue
       else
         ((BONUS_Y++))
-        BONUSES[${BONUS_LOOP}]="${BONUS_X} ${BONUS_Y}"
+        BONUSES[${BONUS_LOOP}]="${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}"
       fi
       draw-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
     fi
