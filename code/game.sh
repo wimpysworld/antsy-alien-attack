@@ -202,10 +202,7 @@ bonuses() {
         unset BONUSES[${BONUS_LOOP}]
         BONUSES=("${BONUSES[@]}")
         ((TOTAL_BONUSES--))
-
-        # Player consequences
-        sound bonus-points
-        player-increment-score ${P1} 1000
+        activate-bonus ${P1} ${BONUS_TYPE}
         continue
       elif object-collides-player ${P2} "${BONUS_X}" "${BONUS_Y}"; then
         # Remove laser
