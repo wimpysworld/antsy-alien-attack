@@ -26,11 +26,11 @@ level-up() {
   export BONUS_COLLECT=$((100 * LEVEL))
 
   # Announce the level
-  if [ ${LEVEL} -eq 1 ]; then
+  if ((LEVEL == 1)); then
     sound ready level ${LEVEL} go
-  elif [ ${LEVEL} -eq ${LAST_LEVEL} ]; then
+  elif ((LEVEL == LAST_LEVEL)); then
     sound level ${LEVEL} final_round
-  elif [ ${LEVEL} -le ${LAST_LEVEL} ]; then
+  elif ((LEVEL <= LAST_LEVEL)); then
     sound level ${LEVEL}
   fi
 }
