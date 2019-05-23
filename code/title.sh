@@ -1,8 +1,24 @@
 #!/usr/bin/env bash
 
+toggle-status(){
+  export MUS_TOG="[ ♫ ]"
+  export SFX_TOG="[ ♪ ]"
+  export FPS_TOG="[ ≈ ]"
+  if ((MUSIC_ENABLED == 0)); then
+    MUS_TOG="[   ]"
+  fi
+  if ((SFX_ENABLED == 0)); then
+    SFX_TOG="[   ]"
+  fi
+  if ((FPS_ENABLED == 0)); then
+    FPS_TOG="[   ]"
+  fi
+}
+
 attract-mode() {
   if ((TITLE_SCREEN_ATTRACT_COUNT >= TITLE_SCREEN_ATTRACT_MAX)); then
     blank-screen
+    toggle-status
     if ((TITLE_SCREEN_ATTRACT_MODE == 0)); then
       lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P L A Y E R 1   C O N T R O L S"
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------------"
@@ -31,11 +47,11 @@ attract-mode() {
       lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N F I G U R A T I O N"
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) ""
-      lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music"
+      lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music: ${MUS_TOG}"
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) ""
-      lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound"
+      lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound: ${SFX_TOG}"
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) ""
-      lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS"
+      lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) ""
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
       lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
@@ -90,31 +106,61 @@ title-loop() {
       MUSIC_ENABLED=0
       music-setup
       kill-thread ${TITLE_MUSIC_THREAD}
+      sound switch-off
+      toggle-status
+      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music: ${MUS_TOG}"
+      fi
       cfg-save
     elif ((MUSIC_ENABLED == 0)); then
       MUSIC_ENABLED=1
       music-setup
       music title
       TITLE_MUSIC_THREAD=$!
+      sound switch-on
+      toggle-status
+      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music: ${MUS_TOG}"
+      fi
       cfg-save
     fi
   elif [[ $KEY == 's' ]]; then
     if ((SFX_ENABLED == 1)); then
       SFX_ENABLED=0
       sound-setup
+      sound switch-off
+      toggle-status
+      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound: ${SFX_TOG}"
+      fi
       cfg-save
     elif ((SFX_ENABLED == 0)); then
       SFX_ENABLED=1
       sound-setup
+      sound switch-on
+      toggle-status
+      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound: ${SFX_TOG}"
+      fi
       cfg-save
     fi
   elif [[ $KEY == 'f' ]]; then
     if ((FPS_ENABLED == 1)); then
       FPS_ENABLED=0
       fps-counter-erase
+      sound switch-off
+      toggle-status
+      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
+      fi
       cfg-save
     elif ((FPS_ENABLED == 0)); then
       FPS_ENABLED=1
+      toggle-status
+      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
+      fi
+      sound switch-on
       cfg-save
     fi
   else
