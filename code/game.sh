@@ -44,7 +44,7 @@ reset-game() {
     export P1_DEAD=0
     export P1_LIVES=3
     export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
-    export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+    export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
     export P2_DEAD=1
     export P2_LIVES=0
     export P2_X=0
@@ -52,12 +52,12 @@ reset-game() {
   elif [ ${NUM_PLAYERS} -eq 2 ]; then
     export P1_DEAD=0
     export P1_LIVES=3
-    export P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3)))
-    export P1_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
+    export P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3) ))
+    export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
     export P2_DEAD=0
     export P2_LIVES=3
-    export P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3)))
-    export P2_Y=$(( SCREEN_HEIGHT - P2_HEIGHT ))
+    export P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
+    export P2_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
   fi
   export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
   export P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
