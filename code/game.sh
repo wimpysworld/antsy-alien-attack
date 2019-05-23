@@ -43,25 +43,28 @@ reset-game() {
   export P2_SCORE=0
   export P1_HI_SCORE_BEATEN=0
   export P2_HI_SCORE_BEATEN=0
-  if [ ${NUM_PLAYERS} -eq 1 ]; then
-    export P1_DEAD=0
-    export P1_LIVES=3
-    export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
-    export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
-    export P2_DEAD=1
-    export P2_LIVES=0
-    export P2_X=0
-    export P2_Y=0
-  elif [ ${NUM_PLAYERS} -eq 2 ]; then
-    export P1_DEAD=0
-    export P1_LIVES=3
-    export P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3) ))
-    export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
-    export P2_DEAD=0
-    export P2_LIVES=3
-    export P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
-    export P2_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
-  fi
+  case ${NUM_PLAYERS} in
+    1)
+      export P1_DEAD=0
+      export P1_LIVES=3
+      export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
+      export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
+      export P2_DEAD=1
+      export P2_LIVES=0
+      export P2_X=0
+      export P2_Y=0
+      ;;
+    2)
+      export P1_DEAD=0
+      export P1_LIVES=3
+      export P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3) ))
+      export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
+      export P2_DEAD=0
+      export P2_LIVES=3
+      export P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
+      export P2_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
+      ;;
+  esac
   export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
   export P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
   export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH + 2) ))
@@ -109,14 +112,14 @@ object-collides-player() {
   local OBJECT_X=${2}
   local OBJECT_Y=${3}
 
-  if [ ${PLAYER} -eq 1 ] && [ ${P1_DEAD} -eq 0 ]; then
+  if ((PLAYER == 1 && P1_DEAD == 0)); then
     if ((OBJECT_X >= P1_X && OBJECT_X <= P1_X + P1_WIDTH )); then
       if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT)); then
         return 0
       fi
     fi
     return 1
-  elif [ ${PLAYER} -eq 2 ] && [ ${P2_DEAD} -eq 0 ]; then
+  elif ((PLAYER == 2 && P2_DEAD == 0)); then
     if ((OBJECT_X >= P2_X && OBJECT_X <= P2_X + P2_WIDTH )); then
       if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT)); then
         return 0
@@ -375,33 +378,33 @@ fighter-ai() {
         if ((FIGHTER_SMART == 1)); then
           local HUNT_P1=0
           local HUNT_P2=0
-          if [ ${P1_DEAD} -eq 0 ] && [ ${P2_DEAD} -eq 1 ]; then
+          if ((P1_DEAD == 0 && P2_DEAD == 1)); then
             HUNT_P1=1
-          elif [ ${P1_DEAD} -eq 1 ] && [ ${P2_DEAD} -eq 0 ]; then
+          elif ((P1_DEAD == 1 && P2_DEAD == 0)); then
             HUNT_P2=1
-          elif [ ${P1_DEAD} -eq 0 ] && [ ${P2_DEAD} -eq 0 ]; then
+          elif ((P1_DEAD == 0 && P2_DEAD == 0)); then
             # Get distances
             DISTANCE_TO_P1=$((P1_X - FIGHTER_X))
             DISTANCE_TO_P2=$((P2_X - FIGHTER_X))
             # Get absolute distances
             P1_DISTANCE=${DISTANCE_TO_P1#-}
             P2_DISTANCE=${DISTANCE_TO_P2#-}
-            if [ ${P1_DISTANCE} -lt ${P2_DISTANCE} ]; then
+            if ((P1_DISTANCE < P2_DISTANCE)); then
               # P1 is nearest, hunt them down.
               HUNT_P1=1
-            elif [ ${P2_DISTANCE} -lt ${P1_DISTANCE} ]; then
+            elif ((P2_DISTANCE < P1_DISTANCE)); then
               # P2 is nearest, hunt them down.
               HUNT_P2=1
             fi
           fi
 
-          if [ ${HUNT_P1} -eq 1 ]; then
+          if ((HUNT_P1 == 1)); then
             if ((FIGHTER_X <= P1_X)); then
               ((FIGHTER_X++))
             elif ((FIGHTER_X >= P1_X)); then
               ((FIGHTER_X--))
             fi
-          elif [ ${HUNT_P2} -eq 1 ]; then
+          elif ((HUNT_P2 == 1)); then
             if ((FIGHTER_X <= P2_X)); then
               ((FIGHTER_X++))
             elif ((FIGHTER_X >= P2_X)); then
@@ -475,66 +478,65 @@ player-laser-hit-fighter() {
 
 player-lasers() {
   local PLAYER=${1}
-  if [ ${PLAYER} -eq 1 ]; then
-    local TOTAL_LASERS=${#P1_LASERS[@]}
-    local LASER_CEILING=${P1_LASER_CEILING}
-  elif [ ${PLAYER} -eq 2 ]; then
-    local TOTAL_LASERS=${#P2_LASERS[@]}
-    local LASER_CEILING=${P2_LASER_CEILING}
-  fi
-
+  case ${PLAYER} in
+    1) local TOTAL_LASERS=${#P1_LASERS[@]}
+       local LASER_CEILING=${P1_LASER_CEILING}
+       ;;
+    2) local TOTAL_LASERS=${#P2_LASERS[@]}
+       local LASER_CEILING=${P2_LASER_CEILING}
+       ;;
+  esac
   local LASER_INSTANCE=()
   local LASER_X=0
   local LASER_Y=0
   local LASER_LOOP=0
   for (( LASER_LOOP=0; LASER_LOOP < TOTAL_LASERS; LASER_LOOP++ )); do
-    if [ ${PLAYER} -eq 1 ]; then
-      LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]})
-    elif [ ${PLAYER} -eq 2 ]; then
-      LASER_INSTANCE=(${P2_LASERS[${LASER_LOOP}]})
-    fi
+    case ${PLAYER} in
+      1) LASER_INSTANCE=(${P1_LASERS[${LASER_LOOP}]});;
+      2) LASER_INSTANCE=(${P2_LASERS[${LASER_LOOP}]});;
+    esac
     LASER_X=${LASER_INSTANCE[0]}
     LASER_Y=${LASER_INSTANCE[1]}
     if ((LASER_Y <= LASER_CEILING)); then
-      if [ ${PLAYER} -eq 1 ]; then
-        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-        unset P1_LASERS[${LASER_LOOP}]
-        P1_LASERS=("${P1_LASERS[@]}")
-      elif [ ${PLAYER} -eq 2 ]; then
-        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
-        unset P2_LASERS[${LASER_LOOP}]
-        P2_LASERS=("${P2_LASERS[@]}")
-      fi
+      case ${PLAYER} in
+        1) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+           unset P1_LASERS[${LASER_LOOP}]
+           P1_LASERS=("${P1_LASERS[@]}")
+           ;;
+        2) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+           unset P2_LASERS[${LASER_LOOP}]
+           P2_LASERS=("${P2_LASERS[@]}")
+           ;;
+      esac
       ((TOTAL_LASERS--))
       continue
     elif player-laser-hit-fighter "${LASER_X}" "${LASER_Y}"; then
-      if [ ${PLAYER} -eq 1 ]; then
-        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-        unset P1_LASERS[${LASER_LOOP}]
-        P1_LASERS=("${P1_LASERS[@]}")
-        ((P1_KILLS++))
-      elif [ ${PLAYER} -eq 2 ]; then
-        erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
-        unset P2_LASERS[${LASER_LOOP}]
-        P2_LASERS=("${P2_LASERS[@]}")
-        ((P2_KILLS++))
-      fi
+      case ${PLAYER} in
+        1) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+           unset P1_LASERS[${LASER_LOOP}]
+           P1_LASERS=("${P1_LASERS[@]}")
+           ((P1_KILLS++))
+           ;;
+        2) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+           unset P2_LASERS[${LASER_LOOP}]
+           P2_LASERS=("${P2_LASERS[@]}")
+           ((P2_KILLS++))
+           ;;
+      esac
       ((TOTAL_LASERS--))
       player-increment-score ${PLAYER} ${FIGHTER_POINTS}
       continue
     else
       ((LASER_Y--))
-      if [ ${PLAYER} -eq 1 ]; then
-        P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
-      elif [ ${PLAYER} -eq 2 ]; then
-        P2_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
-      fi
+      case ${PLAYER} in
+        1) P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}";;
+        2) P2_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}";;
+      esac
     fi
-    if [ ${PLAYER} -eq 1 ]; then
-      draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-    elif [ ${PLAYER} -eq 2 ]; then
-      draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
-    fi
+    case ${PLAYER} in
+      1) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}";;
+      2) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}";;
+    esac
   done
 }
 
@@ -638,19 +640,19 @@ game-loop() {
   fi
 
   # If player 1 is not registered dead but has no lives, then kill player 1.
-  if [ ${P1_LIVES} -le 0 ] && [ ${P1_DEAD} -eq 0 ]; then
+  if ((P1_LIVES <= 0 && P1_DEAD == 0)); then
     erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
     P1_DEAD=1
   fi
 
   # If player 2 is not registered dead but has no lives, then kill player 2.
-  if [ ${P2_LIVES} -le 0 ] && [ ${P2_DEAD} -eq 0 ]; then
+  if ((P2_LIVES <= 0 && P2_DEAD == 0)); then
     erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
     P2_DEAD=1
   fi
 
   # Game over condition
-  if [ ${P1_DEAD} -eq 1 ] && [ ${P2_DEAD} -eq 1 ]; then
+  if ((P1_DEAD == 1 && P2_DEAD == 1)); then
     kill-thread ${GAME_MUSIC_THREAD}
     gameover-mode
     return 1
@@ -680,11 +682,11 @@ game-loop() {
 
   compose-sprites
   animate-starfield
-  if [ ${P1_DEAD} -eq 0 ]; then
+  if ((P1_DEAD == 0)); then
     draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
   fi
 
-  if [ ${P2_DEAD} -eq 0 ]; then
+  if ((P2_DEAD == 0)); then
     draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
   fi
 
