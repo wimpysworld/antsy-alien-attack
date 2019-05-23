@@ -60,24 +60,40 @@ compose-sprites() {
 #▐█████▌
 #  ▀ ▀  
 #       
-  export P1_SPRITE=(
-  "$SPC       "
-  "$SPC   $RED▄$SPC   "
-  "$SPC  $blk▄$red█$blk▄  "
-  "$SPC $RED▄$blk█$RED█$blk█$RED▄ "
-  "$RED▐█$blk█$RED█$blk█$RED█▌"
-  "${THRUST[${THRUST_FRAME}]}"
-  "$SPC       ")
 
-  # This is a potential blue player
-  export P2_SPRITE=(
-  "$SPC       "
-  "$SPC   $BLU▄$SPC   "
-  "$SPC  $blk▄$blu█$blk▄  "
-  "$SPC $BLU▄$blk█$BLU█$blk█$BLU▄ "
-  "$BLU▐█$blk█$BLU█$blk█$BLU█▌"
-  "${THRUST[${THRUST_FRAME}]}"
-  "$SPC       ")
+  local COL1=$RED
+  local COL2=$BLU
+
+  # If a player ship has shields flash the ship.
+  case ${THRUST_FRAME} in
+    1) ((P1_SHIELDS > 0)) && COL1=$RED
+       ((P2_SHIELDS > 0)) && COL2=$BLU
+       ;;
+    2) ((P1_SHIELDS > 0)) && COL1=$red
+       ((P2_SHIELDS > 0)) && COL2=$blu
+       ;;
+    3) ((P1_SHIELDS > 0)) && COL1=$wht
+       ((P2_SHIELDS > 0)) && COL2=$wht
+       ;;
+  esac
+
+export P1_SPRITE=(
+"$SPC       "
+"$SPC   $COL1▄$SPC   "
+"$SPC  $blk▄$red█$blk▄  "
+"$SPC $COL1▄$blk█$COL1█$blk█$COL1▄ "
+"$COL1▐█$blk█$COL1█$blk█$COL1█▌"
+"${THRUST[${THRUST_FRAME}]}"
+"$SPC       ")
+
+export P2_SPRITE=(
+"$SPC       "
+"$SPC   $COL2▄$SPC   "
+"$SPC  $blk▄$blu█$blk▄  "
+"$SPC $COL2▄$blk█$COL2█$blk█$COL2▄ "
+"$COL2▐█$blk█$COL2█$blk█$COL2█▌"
+"${THRUST[${THRUST_FRAME}]}"
+"$SPC       ")
 
   # Increment the play thrust animation speed control
   [[ ${THRUST_FRAME} -ge ${THRUST_FRAMES} ]] && THRUST_FRAME=0 || ((THRUST_FRAME++))
