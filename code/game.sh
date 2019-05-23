@@ -11,7 +11,7 @@ level-up() {
 
   # Fighters have increased fire power as the levels progress.
   export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
-  # The rgion where smart fighter originate enlarges as levels progress.
+  # The region where smart fighter originate enlarges as levels progress.
   export FIGHTER_SMART_REGION=$((SCREEN_WIDTH / (LAST_LEVEL + 2 + LEVEL) ))
   # More points for fighters as the levels progress.
   export FIGHTER_POINTS=$((LEVEL * 10))
@@ -24,6 +24,8 @@ level-up() {
   export BONUS_SPAWN_RATE=$((LEVEL * 2))
   export BONUS_POINTS=$((1000 * LEVEL))
   export BONUS_COLLECT=$((100 * LEVEL))
+
+  # Announce the level
   if [ ${LEVEL} -eq 1 ]; then
     sound ready level ${LEVEL} go
   elif [ ${LEVEL} -eq ${LAST_LEVEL} ]; then
@@ -94,7 +96,7 @@ reset-game() {
 
 game-mode() {
   readonly NUM_PLAYERS=${1}
-  export DELAY=0.005
+  export DELAY=0.006
   export KEY=
   export PLAYER_STATS_REFRESH=0
   blank-screen
@@ -291,7 +293,7 @@ fighter-lasers() {
       # Player consequences
       sound player-explosion
       ((P2_LIVES--))
-      continue      
+      continue
     else
       ((FIGHTER_LASER_Y++))
       FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y}"
