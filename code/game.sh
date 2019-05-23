@@ -301,6 +301,7 @@ fighter-ai() {
         unset FIGHTERS[${FIGHTER_LOOP}]
         FIGHTERS=("${FIGHTERS[@]}")
         ((TOTAL_FIGHTERS--))
+        sound fighter-explosion
 
         # Player consequences
         sound player-explosion
