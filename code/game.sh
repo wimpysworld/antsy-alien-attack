@@ -137,6 +137,26 @@ player-increment-score() {
   fi
 }
 
+deploy-smartbomb() {
+  local PLAYER=${1}
+  local TOTAL_FIGHTERS=${#FIGHTERS[@]}
+  local FIGHTER_INSTANCE=()
+  local FIGHTER_X=0
+  local FIGHTER_Y=0
+  local FIGHTER_LOOP=0
+
+  for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do
+    FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
+    FIGHTER_X=${FIGHTER_INSTANCE[0]}
+    FIGHTER_Y=${FIGHTER_INSTANCE[1]}
+    erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+    unset FIGHTERS[${FIGHTER_LOOP}]
+    sound fighter-explosion
+    sleep 0.1
+    player-increment-score ${PLAYER} ${FIGHTER_POINTS}
+  done
+}
+
 activate-bonus() {
   local PLAYER=${1}
   local BONUS_TYPE=${2}
@@ -152,6 +172,7 @@ activate-bonus() {
          ((P2_LIVES++))
        fi
        ;;
+    2) deploy-smartbomb ${PLAYER};;
   esac
 }
 
@@ -159,7 +180,7 @@ spawn-bonus() {
   if ((RANDOM % BONUS_SPAWN_RATE == 0)); then
     local BONUS_X="${1}"
     local BONUS_Y="${2}"
-    local BONUS_TYPE=$((RANDOM % 2))
+    local BONUS_TYPE=$((RANDOM % 3))
     BONUSES+=("${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}")
   fi
 }
@@ -186,6 +207,9 @@ bonuses() {
       1) BONUS_SPRITE=(
          "$SPC "
          "$RED♥"
+      2) BONUS_SPRITE=(
+         "$SPC "
+         "$cyn☼"
          );;
     esac
 
