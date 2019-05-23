@@ -13,11 +13,6 @@ readonly THRUST=(
 export THRUST_FRAME=0
 readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
 
-export BONUS_SPRITE=(
-"$SPC "
-"$ylw\$"
-)
-
 export P1_LASER_SPRITE=(
 "$RED▓"
 "$RED▒"
