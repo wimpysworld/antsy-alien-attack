@@ -81,6 +81,8 @@ reset-game() {
   export P2_LASER_LATENCY=6
   export P1_LAST_KEY=
   export P2_LAST_KEY=
+  export P1_SHIELDS=0
+  export P2_SHIELDS=0
   export FIGHTERS=()
   export MAX_FIGHTERS=0
   export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
@@ -180,6 +182,13 @@ activate-bonus() {
     2) player-increment-score ${PLAYER} ${BONUS_COLLECT}
        deploy-smartbomb ${PLAYER}
        ;;
+    3) player-increment-score ${PLAYER} ${BONUS_COLLECT}
+       sound shield-up
+       case ${PLAYER} in
+         1) ((P1_SHIELDS+=1000));;
+         2) ((P2_SHIELDS+=1000));;
+       esac
+       ;;
   esac
 }
 
@@ -187,7 +196,7 @@ spawn-bonus() {
   if ((RANDOM % BONUS_SPAWN_RATE == 0)); then
     local BONUS_X="${1}"
     local BONUS_Y="${2}"
-    local BONUS_TYPE=$((RANDOM % 3))
+    local BONUS_TYPE=$((RANDOM % 4))
     ((BONUS_X+=3))
     BONUSES+=("${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}")
   fi
@@ -220,6 +229,10 @@ bonuses() {
         2) BONUS_SPRITE=(
            "$SPC "
            "$cyn☼"
+           );;
+        3) BONUS_SPRITE=(
+           "$SPC "
+           "$grn≡"
            );;
       esac
       if ((BONUS_Y >= SCREEN_HEIGHT)); then
@@ -278,8 +291,12 @@ fighter-lasers() {
       ((TOTAL_FIGHTER_LASERS--))
 
       # Player consequences
-      sound player-explosion
-      ((P1_LIVES--))
+      if ((P1_SHIELDS == 0)); then
+        ((P1_LIVES--))
+        sound player-explosion
+      else
+        sound shield-impact
+      fi
       continue
     elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
       # Remove laser
@@ -289,8 +306,12 @@ fighter-lasers() {
       ((TOTAL_FIGHTER_LASERS--))
 
       # Player consequences
-      sound player-explosion
-      ((P2_LIVES--))
+      if ((P2_SHIELDS == 0)); then
+        ((P2_LIVES--))
+        sound player-explosion
+      else
+        sound shield-impact
+      fi
       continue
     else
       ((FIGHTER_LASER_Y++))
@@ -350,8 +371,12 @@ fighter-ai() {
         sound fighter-explosion
 
         # Player consequences
-        sound player-explosion
-        ((P1_LIVES--))
+        if ((P1_SHIELDS == 0)); then
+          ((P1_LIVES--))
+          sound player-explosion
+        else
+          sound shield-impact
+        fi
         ((P1_KILLS++))
         player-increment-score ${P1} ${FIGHTER_POINTS}
 
@@ -365,10 +390,14 @@ fighter-ai() {
         sound fighter-explosion
 
         # Player consequences
-        sound player-explosion
-        ((P2_LIVES--))
+        if ((P2_SHIELDS == 0)); then
+          ((P2_LIVES--))
+          sound player-explosion
+        else
+          sound shield-impact
+        fi
         ((P2_KILLS++))
-        player-increment-score ${P2} ${FIGHTER_POINTS}
+        player-increment-score ${P1} ${FIGHTER_POINTS}
 
         continue
       else
@@ -682,6 +711,25 @@ game-loop() {
 
   compose-sprites
   animate-starfield
+
+  if ((P1_SHIELDS > 0)); then
+    ((P1_SHIELDS--))
+    if ((P1_SHIELDS == 0)); then
+      sound shield-down
+    fi
+  fi
+
+  if ((P2_SHIELDS > 0)); then
+    ((P2_SHIELDS--))
+    if ((P2_SHIELDS == 0)); then
+      sound shield-down
+    fi
+  fi
+
+  if ((P2_DEAD == 0)); then
+    draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+  fi
+
   if ((P1_DEAD == 0)); then
     draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
   fi
