@@ -23,6 +23,7 @@ level-up() {
   # Rate at which enemy kills yeild bonuses
   export BONUS_SPAWN_RATE=$((LEVEL * 2))
   export BONUS_POINTS=$((1000 * LEVEL))
+  export BONUS_COLLECT=$((100 * LEVEL))
   if [ ${LEVEL} -eq 1 ]; then
     sound ready level ${LEVEL} go
   elif [ ${LEVEL} -eq ${LAST_LEVEL} ]; then
@@ -130,11 +131,10 @@ object-collides-player() {
 player-increment-score() {
   local PLAYER=${1}
   local INCREMENT=${2}
-  if [ ${PLAYER} -eq 1 ]; then
-    ((P1_SCORE+=INCREMENT))
-  elif [ ${PLAYER} -eq 2 ]; then
-    ((P2_SCORE+=INCREMENT))
-  fi
+  case ${PLAYER} in
+    1) ((P1_SCORE+=INCREMENT));;
+    2) ((P2_SCORE+=INCREMENT));;
+  esac
 }
 
 deploy-smartbomb() {
@@ -162,17 +162,19 @@ activate-bonus() {
   local BONUS_TYPE=${2}
 
   case ${BONUS_TYPE} in
-    0) sound bonus-points
-       player-increment-score ${PLAYER} ${BONUS_POINTS}
+    0) player-increment-score ${PLAYER} ${BONUS_POINTS}
+       sound bonus-points
        ;;
-    1) sound extra-life
-       if [ ${PLAYER} -eq 1 ]; then
-         ((P1_LIVES++))
-       elif [ ${PLAYER} -eq 2 ]; then
-         ((P2_LIVES++))
-       fi
+    1) player-increment-score ${PLAYER} ${BONUS_COLLECT}
+       sound extra-life
+       case ${PLAYER} in
+         1) ((P1_LIVES++));;
+         2) ((P2_LIVES++));;
+       esac
        ;;
-    2) deploy-smartbomb ${PLAYER};;
+    2) player-increment-score ${PLAYER} ${BONUS_COLLECT}
+       deploy-smartbomb ${PLAYER}
+       ;;
   esac
 }
 
