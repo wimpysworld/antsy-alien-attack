@@ -181,6 +181,7 @@ spawn-bonus() {
     local BONUS_X="${1}"
     local BONUS_Y="${2}"
     local BONUS_TYPE=$((RANDOM % 3))
+    ((BONUS_X+=3))
     BONUSES+=("${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}")
   fi
 }
@@ -202,11 +203,12 @@ bonuses() {
     case ${BONUS_TYPE} in
       0) BONUS_SPRITE=(
          "$SPC "
-         "$ylw\$"
+         "$ylw♦"
          );;
       1) BONUS_SPRITE=(
          "$SPC "
-         "$RED♥"
+         "$red♥"
+         );;
       2) BONUS_SPRITE=(
          "$SPC "
          "$cyn☼"
