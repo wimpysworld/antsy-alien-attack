@@ -37,8 +37,8 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Bonus points
     - [ ] Weapon upgrades
     - [ ] Shields
-    - [ ] Smartbomb
-    - [ ] Extra life
+    - [x] Smartbomb
+    - [x] Extra life
   - [ ] Animators
     - [x] Player thrust
     - [ ] Player roll
@@ -214,3 +214,13 @@ toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2  | sed 's/\[0m
   * https://www.ansilove.org/
   * https://asciiart.club/
   * https://16colo.rs
+
+## Learnings
+
+  * `case` is twice as fast as `if`, `elif`, `else`, `fi`.
+  * `echo -e` is fast than `tput` and `tput` is faster that `printf`.
+  * Arithmetic comparison are faster than tests
+    * For example `if ((HUNT_P1 == 1)); then` is faster than `if [ ${HUNT_P1} -eq 1]; then`
+  * Bash has C style loops
+    * Like this `for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do`
+  * I never knew about `((TOTAL_STARS++))` or `((TOTAL_STARS+=5))` or `((TOTAL_STARS+=MORE_STARS))`
