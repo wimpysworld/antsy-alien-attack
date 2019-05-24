@@ -80,7 +80,7 @@ attract-mode() {
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "Music: Patrick de Arteaga"
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "Sound effects: Kenney Vleugels & Viktor Hahn"
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "Sound: Kenney Vleugels & Viktor Hahn"
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
         ;;

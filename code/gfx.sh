@@ -76,7 +76,7 @@ gfx-teardown() {
 function reset-timers() {
   # Second marker from which to measure FPS.
   # Set slightly in the future to let FPS settle on transitions
-  SEC=$(( SECONDS + 1 ))
+  SEC=$((SECONDS + 1))
   # Lowest FPS reached
   LOW_FPS=999
   # Maximum FPS reached
@@ -94,7 +94,7 @@ function fps-counter-erase() {
 function fps-counter() {
   if ((SECONDS > SEC)); then
     FPS=${FPSC}
-    ((FPS > MAX_FPS))  && MAX_FPS=${FPS}
+    ((FPS > MAX_FPS)) && MAX_FPS=${FPS}
     ((FPS < LOW_FPS)) && LOW_FPS=${FPS}
     SEC=${SECONDS}
     FPSC=0

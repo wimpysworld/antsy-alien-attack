@@ -92,7 +92,7 @@ reset-game() {
   export FIGHTER_CURRENT_SPEED=11
   export FIGHTER_LASERS=()
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
-# The region where hunting fighters originate
+  # The region where hunting fighters originate
   readonly HUNT_REGION_LEFT=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 6) ))
   readonly HUNT_REGION_RIGHT=$(( (SCREEN_WIDTH / 2) + (FIGHTER_WIDTH * 6) ))
   export BONUSES=()
@@ -742,8 +742,8 @@ game-loop() {
     P1_SCORE_PADDED=$(printf "%07d" ${P1_SCORE})
     P2_SCORE_PADDED=$(printf "%07d" ${P2_SCORE})
     HI_SCORE_PADDED=$(printf "%07d" ${HI_SCORE})
-    P1_LIVES_SYMBOLS=$(repeat "♥" "${P1_LIVES}")" "
-    P2_LIVES_SYMBOLS=" "$(repeat "♥" "${P2_LIVES}")
+    P1_LIVES_SYMBOLS=$(repeat "♥" "${P1_LIVES}")"   "
+    P2_LIVES_SYMBOLS="   "$(repeat "♥" "${P2_LIVES}")
   fi
 
   compose-sprites
