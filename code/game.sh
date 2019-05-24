@@ -391,7 +391,7 @@ fighter-lasers() {
     if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
       case ${FIGHTER_LASER_TYPE} in
         $HUNTER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
+        $SNIPER) erase-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
       esac
       unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
       FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
@@ -400,7 +400,7 @@ fighter-lasers() {
     elif object-collides-player ${P1} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
       case ${FIGHTER_LASER_TYPE} in
         $HUNTER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
+        $SNIPER) erase-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
       esac
       unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
       FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
@@ -416,7 +416,7 @@ fighter-lasers() {
     elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
       case ${FIGHTER_LASER_TYPE} in
         $HUNTER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
+        $SNIPER) erase-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
       esac
       unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
       FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
@@ -435,7 +435,7 @@ fighter-lasers() {
     fi
     case ${FIGHTER_LASER_TYPE} in
       $HUNTER) draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-      $SNIPER) draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
+      $SNIPER) draw-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
     esac
   done
 }
