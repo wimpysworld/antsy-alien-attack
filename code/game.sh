@@ -754,28 +754,6 @@ game-loop() {
     return 1
   fi
 
-  # These are quite expensive, only refresh them periodically
-  if ((PLAYER_STATS_REFRESH == 0)); then
-    if ((P1_SCORE > HI_SCORE)); then
-      HI_SCORE=${P1_SCORE}
-      if ((P1_HI_SCORE_BEATEN == 0)); then
-        P1_HI_SCORE_BEATEN=1
-        sound new_highscore
-      fi
-    elif ((P2_SCORE > HI_SCORE)); then
-      HI_SCORE=${P2_SCORE}
-      if ((P2_HI_SCORE_BEATEN == 0)); then
-        P2_HI_SCORE_BEATEN=1
-        sound new_highscore
-      fi
-    fi
-    P1_SCORE_PADDED=$(printf "%07d" ${P1_SCORE})
-    P2_SCORE_PADDED=$(printf "%07d" ${P2_SCORE})
-    HI_SCORE_PADDED=$(printf "%07d" ${HI_SCORE})
-    P1_LIVES_SYMBOLS=$(repeat "♥" "${P1_LIVES}")"   "
-    P2_LIVES_SYMBOLS="   "$(repeat "♥" "${P2_LIVES}")
-  fi
-
   compose-sprites
   animate-starfield
   bonuses
@@ -810,17 +788,37 @@ game-loop() {
 
   fighter-lasers
   fighter-ai
-  
+
   player-lasers ${P1}
   player-lasers ${P2}
-  
-  # These are quite expensive, only refresh them periodically
 
-  draw 0 0 "${RED}${BBLK}" "1UP ${P1_SCORE_PADDED}"
-  draw-centered 0 "${WHT}${BBLK}" "HISCORE ${HI_SCORE_PADDED}"
-  draw-right 0 "${blu}${BBLK}" "${P2_SCORE_PADDED} 2UP"
-  draw 0 "${SCREEN_HEIGHT}" "${RED}${BBLK}" "LIVES ${P1_LIVES_SYMBOLS}"
-  draw-right "${SCREEN_HEIGHT}" "${blu}${BBLK}" "${P2_LIVES_SYMBOLS} LIVES"
+  # These are quite expensive, only refresh them periodically
+  if ((PLAYER_STATS_REFRESH == 0)); then
+    if ((P1_SCORE > HI_SCORE)); then
+      HI_SCORE=${P1_SCORE}
+      if ((P1_HI_SCORE_BEATEN == 0)); then
+        P1_HI_SCORE_BEATEN=1
+        sound new_highscore
+      fi
+    elif ((P2_SCORE > HI_SCORE)); then
+      HI_SCORE=${P2_SCORE}
+      if ((P2_HI_SCORE_BEATEN == 0)); then
+        P2_HI_SCORE_BEATEN=1
+        sound new_highscore
+      fi
+    fi
+    P1_SCORE_PADDED=$(printf "%07d" ${P1_SCORE})
+    P2_SCORE_PADDED=$(printf "%07d" ${P2_SCORE})
+    HI_SCORE_PADDED=$(printf "%07d" ${HI_SCORE})
+    P1_LIVES_SYMBOLS=$(repeat "♥" "${P1_LIVES}")"   "
+    P2_LIVES_SYMBOLS="   "$(repeat "♥" "${P2_LIVES}")
+
+    draw 0 0 "${RED}${BBLK}" "1UP ${P1_SCORE_PADDED}"
+    draw-centered 0 "${WHT}${BBLK}" "HISCORE ${HI_SCORE_PADDED}"
+    draw-right 0 "${blu}${BBLK}" "${P2_SCORE_PADDED} 2UP"
+    draw 0 "${SCREEN_HEIGHT}" "${RED}${BBLK}" "LIVES ${P1_LIVES_SYMBOLS}"
+    draw-right "${SCREEN_HEIGHT}" "${blu}${BBLK}" "${P2_LIVES_SYMBOLS} LIVES"
+  fi
   render
 
   # Increment the player stats refresh interval
