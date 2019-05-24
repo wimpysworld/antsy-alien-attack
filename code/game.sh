@@ -72,6 +72,8 @@ reset-game() {
   export P2_MAX_Y=$(( SCREEN_HEIGHT - P2_HEIGHT ))
   export P1_LASERS=()
   export P2_LASERS=()
+  export P1_FIRE_POWER=1
+  export P2_FIRE_POWER=1
   export P1_LASER_CEILING=0
   export P2_LASER_CEILING=0
   export P1_RECENTLY_FIRED=0
@@ -191,6 +193,13 @@ activate-bonus() {
          2) ((P2_SHIELDS+=1000));;
        esac
        ;;
+    4) player-increment-score ${PLAYER} ${BONUS_COLLECT}
+       sound power-up
+       case ${PLAYER} in
+         1) ((P1_FIRE_POWER < 3)) && ((P1_FIRE_POWER+=1));;
+         2) ((P2_FIRE_POWER < 3)) && ((P2_FIRE_POWER+=1));;
+       esac
+       ;;
   esac
 }
 
@@ -198,7 +207,7 @@ spawn-bonus() {
   if ((RANDOM % BONUS_SPAWN_RATE == 0)); then
     local BONUS_X="${1}"
     local BONUS_Y="${2}"
-    local BONUS_TYPE=$((RANDOM % 4))
+    local BONUS_TYPE=$((RANDOM % 5))
     ((BONUS_X+=3))
     BONUSES+=("${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}")
   fi
@@ -235,6 +244,10 @@ bonuses() {
         3) BONUS_SPRITE=(
            "$SPC "
            "$grn≡"
+           );;
+        4) BONUS_SPRITE=(
+           "$SPC "
+           "$mgn‼"
            );;
       esac
       if ((BONUS_Y >= SCREEN_HEIGHT)); then
@@ -295,6 +308,7 @@ fighter-lasers() {
       # Player consequences
       if ((P1_SHIELDS == 0)); then
         ((P1_LIVES--))
+        P1_FIRE_POWER=1
         sound player-explosion
       else
         sound shield-impact
@@ -310,6 +324,7 @@ fighter-lasers() {
       # Player consequences
       if ((P2_SHIELDS == 0)); then
         ((P2_LIVES--))
+        P2_FIRE_POWER=1
         sound player-explosion
       else
         sound shield-impact
@@ -373,6 +388,7 @@ fighter-ai() {
         # Player consequences
         if ((P1_SHIELDS == 0)); then
           ((P1_LIVES--))
+          P1_FIRE_POWER=1
           sound player-explosion
         else
           sound shield-impact
@@ -392,6 +408,7 @@ fighter-ai() {
         # Player consequences
         if ((P2_SHIELDS == 0)); then
           ((P2_LIVES--))
+          P2_FIRE_POWER=1
           sound player-explosion
         else
           sound shield-impact
@@ -600,7 +617,17 @@ game-loop() {
     'x')
       if ((P1_RECENTLY_FIRED == 0 && P1_DEAD == 0)); then
         sound player1-laser
-        P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
+        case ${P1_FIRE_POWER} in
+          1) P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
+             ;;
+          2) P1_LASERS+=("$((P1_X + 3)) $((P1_Y - 1))")
+             P1_LASERS+=("$((P1_X + 5)) $((P1_Y - 1))")
+             ;;
+          3) P1_LASERS+=("$((P1_X + 2)) $((P1_Y - 1))")
+             P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
+             P1_LASERS+=("$((P1_X + 6)) $((P1_Y - 1))")
+             ;;
+        esac
         ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
       fi
       P1_LAST_KEY=${KEY}
@@ -634,7 +661,17 @@ game-loop() {
     ',')
       if ((P2_RECENTLY_FIRED == 0 && P2_DEAD == 0)); then
         sound player2-laser
-        P2_LASERS+=("$((P2_X + 4)) $((P2_Y - 1))")
+        case ${P2_FIRE_POWER} in
+          1) P2_LASERS+=("$((P2_X + 4)) $((P1_Y - 1))")
+             ;;
+          2) P2_LASERS+=("$((P2_X + 3)) $((P2_Y - 1))")
+             P2_LASERS+=("$((P2_X + 5)) $((P2_Y - 1))")
+             ;;
+          3) P2_LASERS+=("$((P2_X + 2)) $((P2_Y - 1))")
+             P2_LASERS+=("$((P2_X + 4)) $((P2_Y - 1))")
+             P2_LASERS+=("$((P2_X + 6)) $((P2_Y - 1))")
+             ;;
+        esac
         ((P2_RECENTLY_FIRED+=P2_LASER_LATENCY))
       fi
       P2_LAST_KEY=${KEY}
