@@ -48,7 +48,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Bonus value increases
     - [ ] Canyon levels, narrow playable area
     - [x] Level progression announcements
-    - [ ] Level-up skill points
+    - [x] Level-up skill points
   - [ ] 2P
     - [x] Local
     - [ ] Network
