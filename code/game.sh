@@ -193,6 +193,7 @@ deploy-smartbomb() {
     erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
     unset FIGHTERS[${FIGHTER_LOOP}]
     sound fighter-explosion
+    spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
     sleep 0.1
     player-increment-score ${PLAYER} ${FIGHTER_POINTS}
   done
