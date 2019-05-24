@@ -13,7 +13,7 @@ readonly THRUST=(
 export THRUST_FRAME=0
 readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
 
-export P1_LASER_SPRITE=(
+readonly P1_LASER_SPRITE=(
 "$RED▓"
 "$RED▒"
 "$RED░"
@@ -21,7 +21,7 @@ export P1_LASER_SPRITE=(
 )
 readonly P1_LASER_HEIGHT=$(( ${#P1_LASER_SPRITE[@]} ))
 
-export P2_LASER_SPRITE=(
+readonly P2_LASER_SPRITE=(
 "$BLU▓"
 "$BLU▒"
 "$BLU░"
