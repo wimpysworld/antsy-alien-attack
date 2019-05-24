@@ -120,8 +120,7 @@ draw() {
 
 blank-screen() {
   local Y=0
-  local STR=
-  STR=$(repeat " " "${SCREEN_WIDTH}")
+  local STR=$(repeat " " "${SCREEN_WIDTH}")
   for ((Y=0; Y < SCREEN_HEIGHT; Y++)); do
     draw "0" "${Y}" "${SPC}" "${STR}"
   done
