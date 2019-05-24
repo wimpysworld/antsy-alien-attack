@@ -122,7 +122,7 @@ blank-screen() {
   local Y=0
   local STR=$(repeat " " "${SCREEN_WIDTH}")
   for ((Y=0; Y < SCREEN_HEIGHT; Y++)); do
-    draw "0" "${Y}" "${SPC}" "${STR}"
+    draw 0 "${Y}" "${SPC}" "${STR}"
   done
 }
 
@@ -192,7 +192,7 @@ wave-picture() {
   local i=0
   for LINE in "${PICTURE[@]}"; do
     i=$(((WAVE_CYCLE / 2 + Y) % SIN_SIZE))
-    X=$((OFFSET + SIN["${i}"]))
+    X=$((OFFSET + SIN[${i}]))
     # Technically correct, since it clears characters
     # raw-draw $x $y "\e[1K$line\e[K"
     # But my wave only increments 1 char per-cycle.
