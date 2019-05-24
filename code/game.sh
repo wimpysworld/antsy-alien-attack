@@ -128,14 +128,14 @@ object-collides-player() {
   local OBJECT_X=${2}
   local OBJECT_Y=${3}
 
-  if ((PLAYER == 1 && P1_DEAD == 0)); then
+  if ((PLAYER == 1 && P1_DEAD == 0 && P1_FRAME == 0)); then
     if ((OBJECT_X >= P1_X && OBJECT_X <= P1_X + P1_WIDTH )); then
       if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT)); then
         return 0
       fi
     fi
     return 1
-  elif ((PLAYER == 2 && P2_DEAD == 0)); then
+  elif ((PLAYER == 2 && P2_DEAD == 0 && P2_FRAME == 0)); then
     if ((OBJECT_X >= P2_X && OBJECT_X <= P2_X + P2_WIDTH )); then
       if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT)); then
         return 0
@@ -156,26 +156,68 @@ player-increment-score() {
   esac
 }
 
+player-respawn() {
+  local PLAYER=${1}
+  case ${PLAYER} in
+    1) P1_FRAME=0
+       P1_SHIELDS=100
+       P1_RESPAWN=1
+       P1_X=${P1_STARTX}
+       P1_Y=${P1_STARTY}
+       ;;
+    2) P2_FRAME=0
+       P2_SHIELDS=100
+       P2_RESPAWN=1
+       P2_X=${P2_STARTX}
+       P2_Y=${P2_STARTY}
+       ;;
+  esac
+}
+
 player-death() {
   local PLAYER=${1}
   case ${PLAYER} in
     1) sound player-explosion
        erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
        ((P1_LIVES--))
+       P1_FRAME=1
        P1_FIRE_POWER=1
-       P1_SHIELDS=100
-       P1_RESPAWN=1
-       P1_X=${P1_STARTX}
-       P1_Y=${P1_STARTY}
        ;;
     2) sound player-explosion
        erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
        ((P2_LIVES--))
+       P2_FRAME=1
        P2_FIRE_POWER=1
-       P2_SHIELDS=100
-       P2_RESPAWN=1
-       P2_X=${P2_STARTX}
-       P2_Y=${P2_STARTY}
+       ;;
+  esac
+}
+
+player-sprite() {
+  local PLAYER=${1}
+  case ${PLAYER} in
+    1) case ${P1_FRAME} in
+         0) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}";;
+         1) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE1[@]}";;
+         2) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE2[@]}";;
+         3) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE3[@]}";;
+         4) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE4[@]}";;
+         5) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE5[@]}";;
+         6) erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE5[@]}"
+            player-respawn ${P1}
+            ;;
+       esac
+       ;;
+    2) case ${P2_FRAME} in
+         0) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}";;
+         1) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE1[@]}";;
+         2) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE2[@]}";;
+         3) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE3[@]}";;
+         4) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE4[@]}";;
+         5) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE5[@]}";;
+         6) erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE5[@]}"
+            player-respawn ${P2}
+            ;;
+       esac
        ;;
   esac
 }
@@ -824,11 +866,20 @@ game-loop() {
   fi
 
   if ((P1_DEAD == 0)); then
-    draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
+    player-sprite ${P1}
   fi
 
   if ((P2_DEAD == 0)); then
-    draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+    player-sprite ${P2}
+  fi
+
+  if ((ANIMINATION_KEYFRAME == 0)); then
+    if ((P1_FRAME > 0)); then
+      ((P1_FRAME++))
+    fi
+    if ((P2_FRAME > 0)); then
+      ((P2_FRAME++))
+    fi
   fi
 
   fighter-lasers
