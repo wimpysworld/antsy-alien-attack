@@ -46,6 +46,19 @@ attract-mode() {
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
         ;;
       2)
+        lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P O W E R   U P S"
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-----------------"
+        raw-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "    $ylw♦   Bonus Points"
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) ""
+        raw-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "    $red♥   Extra Life  "
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
+        raw-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "    $cyn☼   Smart Bomb  "
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
+        raw-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "    $grn≡   Shields     "
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+        ;;
+      3)
         lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N F I G U R A T I O N"
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) ""
@@ -58,10 +71,10 @@ attract-mode() {
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
         ;;
-      3)
+      4)
         lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C R E D I T S"
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Programming: Martin Wimpress"
+        lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Code: Martin Wimpress"
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) ""
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "Graphics: Agatha Wimpress"
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
@@ -86,7 +99,7 @@ title-mode() {
   export TITLE_SCREEN_ATTRACT_MAX=200
   export TITLE_SCREEN_ATTRACT_COUNT=200
   export TITLE_SCREEN_ATTRACT_MODE=0
-  export TITLE_SCREEN_ATTRACT_MODE_MAX=3
+  export TITLE_SCREEN_ATTRACT_MODE_MAX=4
 
   reset-timers
   music title
