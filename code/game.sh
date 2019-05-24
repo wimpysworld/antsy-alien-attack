@@ -90,6 +90,8 @@ reset-game() {
   export P2_SHIELDS=0
   export P1_RESPAWN=0
   export P2_RESPAWN=0
+  export P1_FRAME=0
+  export P2_FRAME=0
   export FIGHTERS=()
   export MAX_FIGHTERS=0
   export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
@@ -654,51 +656,56 @@ player-lasers() {
 
 game-loop() {
   # Movement
-  case ${KEY} in
-    # Player 1
-    'w')
-      ((P1_Y--))
-      # Prevent leaving the top of the screen
-      ((P1_Y < 1)) && P1_Y=1
-      P1_LAST_KEY=${KEY}
-      ;;
-    's')
-      ((P1_Y++))
-      # Prevent leaving the bottom of the screen
-      ((P1_Y > P1_MAX_Y)) && P1_Y=${P1_MAX_Y}
-      P1_LAST_KEY=${KEY}
-      ;;
-    'a')
-      ((P1_X--))
-      # Prevent leaving screen left
-      ((P1_X < 0)) && P1_X=0
-      P1_LAST_KEY=${KEY}
-      ;;
-    'd')
-      ((P1_X++))
-      # Prevent leaving screne right
-      ((P1_X > P1_MAX_X)) && P1_X=${P1_MAX_X}
-      P1_LAST_KEY=${KEY}
-      ;;
-    'x')
-      if ((P1_RECENTLY_FIRED == 0 && P1_DEAD == 0)); then
-        sound player1-laser
-        case ${P1_FIRE_POWER} in
-          1) P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
-             ;;
-          2) P1_LASERS+=("$((P1_X + 3)) $((P1_Y - 1))")
-             P1_LASERS+=("$((P1_X + 5)) $((P1_Y - 1))")
-             ;;
-          3) P1_LASERS+=("$((P1_X + 2)) $((P1_Y - 1))")
-             P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
-             P1_LASERS+=("$((P1_X + 6)) $((P1_Y - 1))")
-             ;;
-        esac
-        ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
-      fi
-      P1_LAST_KEY=${KEY}
-      ;;
+  if ((P1_FRAME == 0)); then
+    case ${KEY} in
+      # Player 1
+      'w')
+        ((P1_Y--))
+        # Prevent leaving the top of the screen
+        ((P1_Y < 1)) && P1_Y=1
+        P1_LAST_KEY=${KEY}
+        ;;
+      's')
+        ((P1_Y++))
+        # Prevent leaving the bottom of the screen
+        ((P1_Y > P1_MAX_Y)) && P1_Y=${P1_MAX_Y}
+        P1_LAST_KEY=${KEY}
+        ;;
+      'a')
+        ((P1_X--))
+        # Prevent leaving screen left
+        ((P1_X < 0)) && P1_X=0
+        P1_LAST_KEY=${KEY}
+        ;;
+      'd')
+        ((P1_X++))
+        # Prevent leaving screne right
+        ((P1_X > P1_MAX_X)) && P1_X=${P1_MAX_X}
+        P1_LAST_KEY=${KEY}
+        ;;
+      'x')
+        if ((P1_RECENTLY_FIRED == 0 && P1_DEAD == 0)); then
+          sound player1-laser
+          case ${P1_FIRE_POWER} in
+            1) P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
+              ;;
+            2) P1_LASERS+=("$((P1_X + 3)) $((P1_Y - 1))")
+              P1_LASERS+=("$((P1_X + 5)) $((P1_Y - 1))")
+              ;;
+            3) P1_LASERS+=("$((P1_X + 2)) $((P1_Y - 1))")
+              P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
+              P1_LASERS+=("$((P1_X + 6)) $((P1_Y - 1))")
+              ;;
+          esac
+          ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
+        fi
+        P1_LAST_KEY=${KEY}
+        ;;
+    esac
+  fi
 
+  if ((P2_FRAME == 0)); then
+    case ${KEY} in
     # Player 2
     'i')
       ((P2_Y--))
@@ -742,7 +749,8 @@ game-loop() {
       fi
       P2_LAST_KEY=${KEY}
       ;;
-  esac
+    esac
+  fi
   KEY=
 
   # Regulate Player 1 laser fire frequency
