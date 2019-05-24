@@ -89,7 +89,7 @@ reset-game() {
   export P1_SHIELDS=0
   export P2_SHIELDS=0
   export P1_RESPAWN=0
-  export P1_RESPAWN=0
+  export P2_RESPAWN=0
   export FIGHTERS=()
   export MAX_FIGHTERS=0
   export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
