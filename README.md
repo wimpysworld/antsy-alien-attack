@@ -113,23 +113,11 @@ sudo make install
 
 ## Title Screen
 
-The title graphics are made with <http://patorjk.com/software/taag/> and `lolcat`.
-
-  * Create the ASCII text using <http://patorjk.com/software/taag/>
-  * Save it as a .txt in `gfx/`.
-  * Create the ANSI art version using `lolcat -f -F 0.2 gfx/title.txt | sed 's/\[0m/\[30m/g' > gfx/title.ans`
-    * The `sed` replaces black with transparent.
-
-Create a preview of all the `toilet` font styles.
+The title graphics are using `toilet` and `lolcat` via [tools/render-titles.sh](tools/render-titles.sh).
+You can preview of all the `toilet` font styles using this:
 
 ```
-for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $(basename $FONT) --filter border "Bash'em Up!" | lolcat -f -F 0.2; done
-```
-
-```
-toilet -t -f ascii9 --filter border "Game Title!" | lolcat -f -F 0.2  | sed 's/\[0m/\[30m/g' > gfx/title.ans
-toilet -t -f ascii9 --filter border "Game Over!" | lolcat -f -F 0.2  | sed 's/\[0m/\[30m/g' > gfx/gameover.ans
-toilet -t -f ascii9 --filter border "Victory!" | lolcat -f -F 0.2  | sed 's/\[0m/\[30m/g' > gfx/victory.ans
+for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $(basename $FONT) --filter border "Alien Attack!" | lolcat -f -F 0.2; done
 ```
 
 ## References
