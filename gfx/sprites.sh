@@ -52,6 +52,38 @@ readonly FIGHTER_SPRITE=(
 "$SPC     "
 )
 
+# 4 explosion frames
+readonly FIGHTER_EXPLODE1=(
+"$SPC     "
+"$wht$BBLK▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓"
+"$SPC     "
+)
+
+readonly FIGHTER_EXPLODE2=(
+"$SPC     "
+"$ylw$BBLK▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓"
+"$SPC     "
+)
+
+readonly FIGHTER_EXPLODE3=(
+"$SPC     "
+"$ylw$BBLK▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒"
+"$SPC     "
+)
+
+readonly FIGHTER_EXPLODE4=(
+"$SPC     "
+"$ylw$BBLK░░░░░"
+"$ylw$BBLK░░░░░"
+"$ylw$BBLK░░░░░"
+"$SPC     "
+)
 compose-sprites() {
 #       
 #   ▄   
