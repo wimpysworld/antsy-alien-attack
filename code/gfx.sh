@@ -110,14 +110,6 @@ render() {
   unset FRAME_BUFFER
 }
 
-draw() {
-  local X=$((${1}+1))
-  local Y=$((${2}+1))
-  local COLOR=${3}
-  local STR=${*:4}
-  FRAME_BUFFER+="\e[${Y};${X}H\e[$COLOR${STR}\e[m"
-}
-
 blank-screen() {
   local Y=0
   local STR=$(repeat " " "${SCREEN_WIDTH}")
@@ -126,16 +118,24 @@ blank-screen() {
   done
 }
 
+draw() {
+  local X=$((${1} + 1))
+  local Y=$((${2} + 1))
+  local COLOR=${3}
+  local STR=${*:4}
+  FRAME_BUFFER+="\e[${Y};${X}H\e[$COLOR${STR}\e[m"
+}
+
 raw-draw() {
-  local X=$(( ${1}+1 ))
-  local Y=$(( ${2}+1 ))
+  local X=$((${1} + 1))
+  local Y=$((${2} + 1))
   local STR=${3}
   FRAME_BUFFER+="\e[${Y};${X}H${STR}"
 }
 
 lol-draw() {
-  local X=$(( ${1}+1 ))
-  local Y=$(( ${2}+1 ))
+  local X=$((${1} + 1))
+  local Y=$((${2} + 1))
   local STR=$(echo "${3}" | lolcat -f -F 0.2)
   FRAME_BUFFER+="\e[${Y};${X}H${STR}"
 }
