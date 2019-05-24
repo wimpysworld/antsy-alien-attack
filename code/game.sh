@@ -78,8 +78,8 @@ reset-game() {
   export P2_LASERS=()
   export P1_FIRE_POWER=1
   export P2_FIRE_POWER=1
-  export P1_LASER_CEILING=0
-  export P2_LASER_CEILING=0
+  export P1_LASER_CEILING=1
+  export P2_LASER_CEILING=1
   export P1_RECENTLY_FIRED=0
   export P2_RECENTLY_FIRED=0
   export P1_LASER_LATENCY=6
