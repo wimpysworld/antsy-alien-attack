@@ -856,13 +856,13 @@ game-loop() {
   fi
 
   # If player 1 is not registered dead but has no lives, then kill player 1.
-  if ((P1_LIVES <= 0 && P1_DEAD == 0)); then
+  if ((P1_LIVES <= 0 && P1_DEAD == 0 && P1_FRAME == 0)); then
     erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
     P1_DEAD=1
   fi
 
   # If player 2 is not registered dead but has no lives, then kill player 2.
-  if ((P2_LIVES <= 0 && P2_DEAD == 0)); then
+  if ((P2_LIVES <= 0 && P2_DEAD == 0 && P2_FRAME == 0)); then
     erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
     P2_DEAD=1
   fi
