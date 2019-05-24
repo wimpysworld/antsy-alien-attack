@@ -84,6 +84,89 @@ readonly FIGHTER_EXPLODE4=(
 "$ylw$BBLK░░░░░"
 "$SPC     "
 )
+
+# 5 player 1 explosion frames
+readonly P1_EXPLODE1=(
+"$SPC       "
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$SPC       "
+)
+
+readonly P1_EXPLODE2=(
+"$SPC       "
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$SPC       "
+)
+
+readonly P1_EXPLODE3=(
+"$SPC       "
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$SPC       "
+)
+
+readonly P1_EXPLODE4=(
+"$SPC       "
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$SPC       "
+)
+
+readonly P1_EXPLODE5=(
+"$SPC       "
+"$ylw$BBLK░░░░░░░"
+"$ylw$BBLK░░░░░░░"
+"$ylw$BBLK░░░░░░░"
+"$SPC       "
+)
+
+# 5 player 2 explosion frames
+readonly P2_EXPLODE1=(
+"$SPC       "
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$SPC       "
+)
+
+readonly P2_EXPLODE2=(
+"$SPC       "
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$SPC       "
+)
+
+readonly P2_EXPLODE3=(
+"$SPC       "
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$SPC       "
+)
+
+readonly P2_EXPLODE4=(
+"$SPC       "
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$SPC       "
+)
+
+readonly P2_EXPLODE5=(
+"$SPC       "
+"$ylw$BBLK░░░░░░░"
+"$ylw$BBLK░░░░░░░"
+"$ylw$BBLK░░░░░░░"
+"$SPC       "
+)
+
 compose-sprites() {
 #       
 #   ▄   
