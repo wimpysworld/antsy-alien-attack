@@ -111,11 +111,11 @@ render() {
 }
 
 draw() {
-  local X=$(( ${1}+1 ))
-  local Y=$(( ${2}+1 ))
+  local X=$((${1}+1))
+  local Y=$((${2}+1))
   local COLOR=${3}
   local STR=${*:4}
-  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H\e[$COLOR${STR}\e[m"
+  FRAME_BUFFER+="\e[${Y};${X}H\e[$COLOR${STR}\e[m"
 }
 
 blank-screen() {
@@ -131,39 +131,35 @@ raw-draw() {
   local X=$(( ${1}+1 ))
   local Y=$(( ${2}+1 ))
   local STR=${3}
-  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H${STR}"
+  FRAME_BUFFER+="\e[${Y};${X}H${STR}"
 }
 
 lol-draw() {
   local X=$(( ${1}+1 ))
   local Y=$(( ${2}+1 ))
-  local STR=
-  STR=$(echo "${3}" | lolcat -f -F 0.2)
-  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H${STR}"
+  local STR=$(echo "${3}" | lolcat -f -F 0.2)
+  FRAME_BUFFER+="\e[${Y};${X}H${STR}"
 }
 
 draw-centered() {
   local Y=${1}
   local COLOR=${2}
   local STR=${*:3}
-  local OFFSET=
-  OFFSET=$(center ${#STR})
+  local OFFSET=$(center ${#STR})
   draw "${OFFSET}" "${Y}" "${COLOR}" "${STR}"
 }
 
 raw-draw-centered() {
   local Y=${1}
   local STR=${*:2}
-  local OFFSET=
-  OFFSET=$(center ${#STR})
+  local OFFSET=$(center ${#STR})
   raw-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
 lol-draw-centered() {
   local Y=${1}
   local STR="${2}"
-  local OFFSET=
-  OFFSET=$(center ${#STR})
+  local OFFSET=$(center ${#STR})
   lol-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
@@ -171,16 +167,14 @@ draw-right() {
   local Y=${1}
   local COLOR=${2}
   local STR=${*:3}
-  local OFFSET=
-  OFFSET=$((SCREEN_WIDTH - ${#STR}))
+  local OFFSET=$((SCREEN_WIDTH - ${#STR}))
   draw "${OFFSET}" "${Y}" "${COLOR}" "${STR}"
 }
 
 raw-draw-right() {
   local Y=${1}
   local STR=${*:2}
-  local OFFSET=
-  OFFSET=$((SCREEN_WIDTH - ${#STR}))
+  local OFFSET=$((SCREEN_WIDTH - ${#STR}))
   raw-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
@@ -188,8 +182,7 @@ raw-draw-right() {
 lol-draw-right() {
   local Y=${1}
   local STR=${2}
-  local OFFSET=
-  OFFSET=$((SCREEN_WIDTH - ${#STR}))
+  local OFFSET=$((SCREEN_WIDTH - ${#STR}))
   lol-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
@@ -260,7 +253,7 @@ erase() {
   local X=$(( ${1}+1 ))
   local Y=$(( ${2}+1 ))
   local LEN=${3}
-  FRAME_BUFFER="${FRAME_BUFFER}\e[${Y};${X}H\e[${LEN}X"
+  FRAME_BUFFER+="\e[${Y};${X}H\e[${LEN}X"
 }
 
 repeat() {
