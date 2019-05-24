@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+round-up() {
+  sound round ${LEVEL} objective-achieved
+}
+
 level-up() {
   ((LEVEL++))
   ((MAX_FIGHTERS++))
@@ -845,6 +849,7 @@ game-loop() {
 
   # Level up
   if ((P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS)); then
+    round-up
     level-up
   fi
 
