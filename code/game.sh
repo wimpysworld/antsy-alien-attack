@@ -225,10 +225,17 @@ activate-bonus() {
        esac
        ;;
     4) player-increment-score ${PLAYER} ${BONUS_COLLECT}
-       sound power-up
        case ${PLAYER} in
-         1) ((P1_FIRE_POWER < 3)) && ((P1_FIRE_POWER+=1));;
-         2) ((P2_FIRE_POWER < 3)) && ((P2_FIRE_POWER+=1));;
+         1) if ((P1_FIRE_POWER < 3)); then
+              ((P1_FIRE_POWER+=1))
+              sound power-up
+            fi
+            ;;
+         2) if ((P2_FIRE_POWER < 3)); then
+              ((P2_FIRE_POWER+=1))
+              sound power-up
+            fi
+            ;;
        esac
        ;;
   esac
