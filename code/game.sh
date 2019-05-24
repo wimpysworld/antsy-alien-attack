@@ -1,7 +1,97 @@
 #!/usr/bin/env bash
 
 round-up() {
+  local LOOP=0
+  local TOTAL_FIGHTERS=${#FIGHTERS[@]}
+  local FIGHTER_INSTANCE=()
+  local FIGHTER_X=0
+  local FIGHTER_Y=0
+  local FIGHTER_TYPE=0
+  local FIGHTER_FRAME=0
+  local TEMP_BONUS=0
+  local TEMP_BONUS_PADDED=0
+  local Y_CENTER=$((SCREEN_HEIGHT / 2 ))
+  TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+
   sound round ${LEVEL} objective-achieved
+  draw-picture-centered level-${LEVEL}
+  lol-draw-centered $((Y_CENTER - 2)) "SKILL BONUS"
+  lol-draw-centered $((Y_CENTER - 1)) "-----------"
+  if ((P1_DEAD ==0)); then
+    lol-draw-centered $((Y_CENTER + 0)) "PLAYER 1 KILL BONUS : ${TEMP_BONUS_PADDED}"
+    lol-draw-centered $((Y_CENTER + 2)) "PLAYER 1 LIFE BONUS : ${TEMP_BONUS_PADDED}"
+  fi
+  if ((P2_DEAD ==0)); then
+    lol-draw-centered $((Y_CENTER + 4)) "PLAYER 2 KILL BONUS : ${TEMP_BONUS_PADDED}"
+    lol-draw-centered $((Y_CENTER + 6)) "PLAYER 2 LIFE BONUS : ${TEMP_BONUS_PADDED}"
+  fi
+  render
+  sleep 0.5
+
+  for (( LOOP=0; LOOP < TOTAL_FIGHTERS; LOOP++ )); do
+    FIGHTER_INSTANCE=(${FIGHTERS[${LOOP}]})
+    FIGHTER_X=${FIGHTER_INSTANCE[0]}
+    FIGHTER_Y=${FIGHTER_INSTANCE[1]}
+    FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
+    FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
+    if ((FIGHTER_FRAME == 0)); then
+      case ${FIGHTER_TYPE} in
+        $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+        $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+      esac
+    fi
+  done
+  FIGHTERS=()
+
+  if ((P1_DEAD == 0)); then
+    TEMP_BONUS=0
+    for (( LOOP=0; LOOP < P1_KILLS; LOOP++ )); do
+      sound zap
+      ((TEMP_BONUS+=BONUS_COLLECT))
+      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+      lol-draw-centered $((Y_CENTER + 0)) "PLAYER 1 KILL BONUS : ${TEMP_BONUS_PADDED}"
+      render
+      sleep 0.1
+    done
+    ((P1_SCORE+=TEMP_BONUS))
+
+    TEMP_BONUS=0
+    for (( LOOP=0; LOOP < P1_LIVES; LOOP++ )); do
+      sound zap
+      ((TEMP_BONUS+=BONUS_POINTS))
+      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+      lol-draw-centered $((Y_CENTER + 2)) "PLAYER 1 LIFE BONUS : ${TEMP_BONUS_PADDED}"
+      render
+      sleep 0.1
+    done
+    ((P1_SCORE+=TEMP_BONUS))
+  fi
+
+  if ((P2_DEAD == 0)); then
+    TEMP_BONUS=0
+    for (( LOOP=0; LOOP < P2_KILLS; LOOP++ )); do
+      sound zap
+      ((TEMP_BONUS+=BONUS_COLLECT))
+      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+      lol-draw-centered $((Y_CENTER + 4)) "PLAYER 2 KILL BONUS : ${TEMP_BONUS_PADDED}"
+      render
+      sleep 0.1
+    done
+    ((P2_SCORE+=TEMP_BONUS))
+
+    TEMP_BONUS=0
+    for (( LOOP=0; LOOP < P2_LIVES; LOOP++ )); do
+      sound zap
+      ((TEMP_BONUS+=BONUS_POINTS))
+      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+      lol-draw-centered $((Y_CENTER + 6)) "PLAYER 2 LIFE BONUS : ${TEMP_BONUS_PADDED}"
+      render
+      sleep 0.1
+    done
+    ((P2_SCORE+=TEMP_BONUS))
+  fi
+  sleep 3
+  blank-screen
 }
 
 level-up() {
