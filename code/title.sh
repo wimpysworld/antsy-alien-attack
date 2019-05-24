@@ -19,71 +19,73 @@ attract-mode() {
   if ((TITLE_SCREEN_ATTRACT_COUNT >= TITLE_SCREEN_ATTRACT_MAX)); then
     blank-screen
     toggle-status
+    local SNIPER_X=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 6) ))
+    local SNIPER_Y=$(( (SCREEN_HEIGHT / 2) - (FIGHTER_HEIGHT * 2) ))
+    local HUNTER_X=$(( (SCREEN_WIDTH / 2) + (FIGHTER_WIDTH * 5) ))
+    local HUNTER_Y=$(( (SCREEN_HEIGHT / 2) - (FIGHTER_HEIGHT * 2) ))
+    draw-sprite 0 ${HUNTER_X} ${HUNTER_Y} "${HUNTER_SPRITE[@]}"
+    draw-sprite 0 ${SNIPER_X} ${HUNTER_Y} "${SNIPER_SPRITE[@]}"
     case ${TITLE_SCREEN_ATTRACT_MODE} in
       0) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P L A Y E R 1   C O N T R O L S"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------------"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "W"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "↑"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "A ←   → D"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "↓"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "S"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[X] Unleash the lasers"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
-        ;;
-      1)
-        lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P L A Y E R 2   C O N T R O L S"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------------"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "I"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "↑"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "J ←   → L"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "↓"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "K"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[,] Unleash the lasers"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
-        ;;
-      2)
-        lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P O W E R   U P S"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-----------------"
-        raw-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "    $ylw♦   Bonus Points"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) ""
-        raw-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "    $red♥   Extra Life  "
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
-        raw-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "    $cyn☼   Smart Bomb  "
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
-        raw-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "    $grn≡   Shields     "
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-        raw-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "    $mgn‼   Fire Power  "
-        ;;
-      3)
-        lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N F I G U R A T I O N"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music: ${MUS_TOG}"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound: ${SFX_TOG}"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
-        ;;
-      4)
-        lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C R E D I T S"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Code: Martin Wimpress"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "Graphics: Agatha Wimpress"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "Music: Patrick de Arteaga"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "Sound: Kenney Vleugels & Viktor Hahn"
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-        lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
-        ;;
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------------"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "W"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "↑"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "A ←   → D"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "↓"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "S"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[X] Unleash the lasers"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         ;;
+      1) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P L A Y E R 2   C O N T R O L S"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------------"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "I"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "↑"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "J ←   → L"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "↓"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "K"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[,] Unleash the lasers"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         ;;
+      2) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P O W E R   U P S"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-----------------"
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "    $ylw♦   Bonus Points"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "    $red♥   Extra Life  "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "    $cyn☼   Smart Bomb  "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "    $grn≡   Shields     "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "    $mgn‼   Fire Power  "
+         ;;
+      3) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N F I G U R A T I O N"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music: ${MUS_TOG}"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound: ${SFX_TOG}"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         ;;
+      4) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C R E D I T S"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "Code: Martin Wimpress"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "Graphics: Agatha Wimpress"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "Music: Patrick de Arteaga"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "Sound: Kenney Vleugels & Viktor Hahn"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         ;;
     esac
     ((TITLE_SCREEN_ATTRACT_MODE >= TITLE_SCREEN_ATTRACT_MODE_MAX)) && TITLE_SCREEN_ATTRACT_MODE=0 || ((TITLE_SCREEN_ATTRACT_MODE++))
   fi
@@ -184,6 +186,13 @@ title-loop() {
   else
     attract-mode
     wave-picture "${TITLE_SCREEN_OFFSET}" "${TITLE_SCREEN[@]}"
+    compose-sprites
+    local P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 4) ))
+    local P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
+    local P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
+    local P2_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
+    draw-sprite 0 ${P1_X} ${P1_Y} "${P1_SPRITE[@]}"
+    draw-sprite 0 ${P2_X} ${P2_Y} "${P2_SPRITE[@]}"
     render
   fi
   KEY=
