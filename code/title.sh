@@ -131,7 +131,7 @@ title-loop() {
       kill-thread ${TITLE_MUSIC_THREAD}
       sound switch-off
       toggle-status
-      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+      if ((TITLE_SCREEN_ATTRACT_MODE == 4)); then
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music: ${MUS_TOG}"
       fi
       cfg-save
@@ -142,7 +142,7 @@ title-loop() {
       TITLE_MUSIC_THREAD=$!
       sound switch-on
       toggle-status
-      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+      if ((TITLE_SCREEN_ATTRACT_MODE == 4)); then
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "M = Toggle Music: ${MUS_TOG}"
       fi
       cfg-save
@@ -153,7 +153,7 @@ title-loop() {
       sound-setup
       sound switch-off
       toggle-status
-      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+      if ((TITLE_SCREEN_ATTRACT_MODE == 4)); then
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound: ${SFX_TOG}"
       fi
       cfg-save
@@ -162,7 +162,7 @@ title-loop() {
       sound-setup
       sound switch-on
       toggle-status
-      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+      if ((TITLE_SCREEN_ATTRACT_MODE == 4)); then
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "S = Toggle Sound: ${SFX_TOG}"
       fi
       cfg-save
@@ -173,14 +173,14 @@ title-loop() {
       fps-counter-erase
       sound switch-off
       toggle-status
-      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+      if ((TITLE_SCREEN_ATTRACT_MODE == 4)); then
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
       fi
       cfg-save
     elif ((FPS_ENABLED == 0)); then
       FPS_ENABLED=1
       toggle-status
-      if ((TITLE_SCREEN_ATTRACT_MODE == 3)); then
+      if ((TITLE_SCREEN_ATTRACT_MODE == 4)); then
         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
       fi
       sound switch-on
