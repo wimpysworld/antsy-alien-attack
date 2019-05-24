@@ -327,31 +327,31 @@ create-starfield() {
 }
 
 animate-starfield() {
-  local TOTAL_STARS=${#STAR_FIELD[@]}
-  local STAR_INSTANCE=()
-  local STAR_X=0
-  local STAR_Y=0
-  local STAR_SPRITE_INDEX=0
-  local STAR_SPRITE=()
-  local STAR_LOOP=0
+  if ((STAR_FIELD_ANIM_SPEED == 0)); then
+    local TOTAL_STARS=${#STAR_FIELD[@]}
+    local STAR_INSTANCE=()
+    local STAR_X=0
+    local STAR_Y=0
+    local STAR_SPRITE_INDEX=0
+    local STAR_SPRITE=()
+    local STAR_LOOP=0
 
-  if ((TOTAL_STARS < STAR_MAX)); then
-    # Birth a new star
-    a-star-is-born 1
-    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_SPRITE_INDEX}")
-    ((TOTAL_STARS++))
-  fi
+    if ((TOTAL_STARS < STAR_MAX)); then
+      # Birth a new star
+      a-star-is-born 1
+      STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_SPRITE_INDEX}")
+      ((TOTAL_STARS++))
+    fi
 
-  for (( STAR_LOOP=0; STAR_LOOP < TOTAL_STARS; STAR_LOOP++ )); do
-    STAR_INSTANCE=(${STAR_FIELD[${STAR_LOOP}]})
-    STAR_X=${STAR_INSTANCE[0]}
-    STAR_Y=${STAR_INSTANCE[1]}
-    STAR_SPRITE_INDEX=${STAR_INSTANCE[2]}
-    STAR_SPRITE=(
-      "${SPC} "
-      "${STAR_SPRITES[${STAR_SPRITE_INDEX}]}"
-      )
-    if ((STAR_FIELD_ANIM_SPEED == 0)); then
+    for (( STAR_LOOP=0; STAR_LOOP < TOTAL_STARS; STAR_LOOP++ )); do
+      STAR_INSTANCE=(${STAR_FIELD[${STAR_LOOP}]})
+      STAR_X=${STAR_INSTANCE[0]}
+      STAR_Y=${STAR_INSTANCE[1]}
+      STAR_SPRITE_INDEX=${STAR_INSTANCE[2]}
+      STAR_SPRITE=(
+        "${SPC} "
+        "${STAR_SPRITES[${STAR_SPRITE_INDEX}]}"
+        )
       if ((STAR_Y >= STAR_FLOOR)); then
         # Remove the dead star
         erase-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
