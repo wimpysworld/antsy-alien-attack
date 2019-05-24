@@ -65,17 +65,19 @@ compose-sprites() {
   local COL2=$BLU
 
   # If a player ship has shields flash the ship.
-  case ${THRUST_FRAME} in
-    1) ((P1_SHIELDS > 0)) && COL1=$RED
-       ((P2_SHIELDS > 0)) && COL2=$BLU
-       ;;
-    2) ((P1_SHIELDS > 0)) && COL1=$red
-       ((P2_SHIELDS > 0)) && COL2=$blu
-       ;;
-    3) ((P1_SHIELDS > 0)) && COL1=$wht
-       ((P2_SHIELDS > 0)) && COL2=$wht
-       ;;
-  esac
+  if ((P1_SHIELDS > 0 || P2_SHIELDS > 0)); then
+    case ${THRUST_FRAME} in
+        1) ((P1_SHIELDS > 0)) && COL1=$RED
+        ((P2_SHIELDS > 0)) && COL2=$BLU
+        ;;
+        2) ((P1_SHIELDS > 0)) && COL1=$red
+        ((P2_SHIELDS > 0)) && COL2=$blu
+        ;;
+        3) ((P1_SHIELDS > 0)) && COL1=$wht
+        ((P2_SHIELDS > 0)) && COL2=$wht
+        ;;
+    esac
+  fi
 
 export P1_SPRITE=(
 "$SPC       "
