@@ -507,6 +507,7 @@ fighter-ai() {
 
         FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART}"
       fi
+      draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
     fi
 
     # Should the fighter unleash a laser?
@@ -517,7 +518,6 @@ fighter-ai() {
         ((FIGHTER_LASER_COUNT++))
       fi
     fi
-    draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
   done
 
   # Increment the fighter movement
