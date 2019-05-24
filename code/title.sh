@@ -38,7 +38,7 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[X] Unleash the lasers"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       1) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P L A Y E R 2   C O N T R O L S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------------"
@@ -50,7 +50,7 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "[,] Unleash the lasers"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       2) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P O W E R   U P S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-----------------"
@@ -63,6 +63,7 @@ attract-mode() {
          raw-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "    $grn≡   Shields     "
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
          raw-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "    $mgn‼   Fire Power  "
+         lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       3) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N F I G U R A T I O N"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
@@ -74,7 +75,7 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "F = Toggle FPS:   ${FPS_TOG}"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) ""
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       4) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C R E D I T S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------"
@@ -86,7 +87,7 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "Sound: Kenney Vleugels & Viktor Hahn"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "Press [1] for one player, [2] for two player or [Q] to Quit"
+         lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
     esac
     ((TITLE_SCREEN_ATTRACT_MODE >= TITLE_SCREEN_ATTRACT_MODE_MAX)) && TITLE_SCREEN_ATTRACT_MODE=0 || ((TITLE_SCREEN_ATTRACT_MODE++))
