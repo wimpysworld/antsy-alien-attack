@@ -177,7 +177,6 @@ raw-draw-right() {
   raw-draw "${OFFSET}" "${Y}" "${STR}"
 }
 
-
 lol-draw-right() {
   local Y=${1}
   local STR=${2}
