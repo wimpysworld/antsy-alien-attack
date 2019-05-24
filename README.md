@@ -204,6 +204,7 @@ for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $
 
 ## Learnings
 
+  * subshells and traps.
   * `case` is twice as fast as `if`, `elif`, `else`, `fi`.
   * `echo -e` is fast than `tput` and `tput` is faster that `printf`.
   * Arithmetic comparison are faster than tests
