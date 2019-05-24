@@ -768,14 +768,14 @@ game-loop() {
           sound player1-laser
           case ${P1_FIRE_POWER} in
             1) P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
-              ;;
+               ;;
             2) P1_LASERS+=("$((P1_X + 3)) $((P1_Y - 1))")
-              P1_LASERS+=("$((P1_X + 5)) $((P1_Y - 1))")
-              ;;
+               P1_LASERS+=("$((P1_X + 5)) $((P1_Y - 1))")
+               ;;
             3) P1_LASERS+=("$((P1_X + 2)) $((P1_Y - 1))")
-              P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
-              P1_LASERS+=("$((P1_X + 6)) $((P1_Y - 1))")
-              ;;
+               P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
+               P1_LASERS+=("$((P1_X + 6)) $((P1_Y - 1))")
+               ;;
           esac
           ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
         fi
