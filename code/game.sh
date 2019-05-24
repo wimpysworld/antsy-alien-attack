@@ -778,6 +778,7 @@ game-loop() {
 
   compose-sprites
   animate-starfield
+  bonuses
 
   if ((P1_SHIELDS > 0)); then
     ((P1_SHIELDS--))
@@ -807,13 +808,13 @@ game-loop() {
     draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
   fi
 
-  fighter-ai
   fighter-lasers
+  fighter-ai
   
   player-lasers ${P1}
   player-lasers ${P2}
   
-  bonuses
+  # These are quite expensive, only refresh them periodically
 
   draw 0 0 "${RED}${BBLK}" "1UP ${P1_SCORE_PADDED}"
   draw-centered 0 "${WHT}${BBLK}" "HISCORE ${HI_SCORE_PADDED}"
