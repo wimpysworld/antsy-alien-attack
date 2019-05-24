@@ -94,7 +94,7 @@ reset-game() {
   export MAX_FIGHTERS=0
   export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
   export FIGHTER_MAX_Y=$(( SCREEN_HEIGHT - FIGHTER_HEIGHT ))
-  export FIGHTER_ANIM_SPEED=0
+  export ANIMINATION_KEYFRAME=0
   export FIGHTER_CURRENT_SPEED=11
   export FIGHTER_LASERS=()
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
@@ -259,7 +259,7 @@ spawn-bonus() {
 
 bonuses() {
   # Bonuses move off screen at the same pace as fighters.
-  if ((FIGHTER_ANIM_SPEED == 0)); then
+  if ((ANIMINATION_KEYFRAME == 0)); then
     local TOTAL_BONUSES=${#BONUSES[@]}
     local BONUS_INSTANCE=()
     local BONUS_X=0
@@ -411,7 +411,7 @@ fighter-ai() {
     FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
 
-    if ((FIGHTER_ANIM_SPEED == 0)); then
+    if ((ANIMINATION_KEYFRAME == 0)); then
       if ((FIGHTER_FRAME == 0)); then
         if ((FIGHTER_Y > FIGHTER_FLOOR)); then
           # Remove the fighter
@@ -554,7 +554,7 @@ fighter-ai() {
   done
 
   # Increment the fighter movement
-  [[ ${FIGHTER_ANIM_SPEED} -ge ${FIGHTER_CURRENT_SPEED} ]] && FIGHTER_ANIM_SPEED=0 || ((FIGHTER_ANIM_SPEED++))
+  [[ ${ANIMINATION_KEYFRAME} -ge ${FIGHTER_CURRENT_SPEED} ]] && ANIMINATION_KEYFRAME=0 || ((ANIMINATION_KEYFRAME++))
 }
 
 player-laser-hit-fighter() {
