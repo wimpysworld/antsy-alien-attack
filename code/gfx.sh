@@ -231,12 +231,11 @@ draw-sprite() {
   local SPRITE=("$@")
   local i=
   for (( i=0; i< ${#SPRITE[@]}; i++ )); do
-    if ((MASK == 1)); then
+    case ${MASK} in
       # The spaces either side are to scrub old position.
-      raw-draw "${X}" "$((Y + i))" "$SPC ${SPRITE[${i}]}$SPC "
-    else
-      raw-draw "${X}" "$((Y + i))" "${SPRITE[${i}]}"
-    fi
+      1) raw-draw "${X}" "$((Y + i))" "$SPC ${SPRITE[${i}]}$SPC ";;
+      *) raw-draw "${X}" "$((Y + i))" "${SPRITE[${i}]}";;
+    esac
   done
 }
 
@@ -249,12 +248,11 @@ erase-sprite() {
   local ERASE=""
   ERASE=$(repeat " " "${#SPRITE[0]}")
   for (( i=0; i < ${#SPRITE[@]}; i++ )); do
-    if (( MASK == 1 )); then
+    case ${MASK} in
       # The spaces either side are to scrub old position.
-      raw-draw "${X}" "$((Y + i))" "$SPC ${ERASE}$SPC "
-    else
-      raw-draw "${X}" "$((Y + i))" "${SPC}${ERASE}"
-    fi
+      1) raw-draw "${X}" "$((Y + i))" "$SPC ${ERASE}$SPC ";;
+      *) raw-draw "${X}" "$((Y + i))" "${SPC}${ERASE}";;
+    esac
   done
 }
 
