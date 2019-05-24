@@ -511,7 +511,7 @@ fighter-ai() {
     fi
 
     # Should the fighter unleash a laser?
-    if ((FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && FIGHTER_Y <= (P1_Y - P1_HEIGHT) )); then
+    if ((FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && (FIGHTER_Y <= (P1_Y - P1_HEIGHT) || FIGHTER_Y <= (P2_Y - P2_HEIGHT)) )); then
       if ((RANDOM % ALIEN_FIRE_RATE == 0)); then
         sound fighter-laser
         FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4))")
