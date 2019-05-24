@@ -363,10 +363,9 @@ animate-starfield() {
         ((STAR_Y++))
         STAR_FIELD[${STAR_LOOP}]="${STAR_X} ${STAR_Y} ${STAR_SPRITE_INDEX}"
       fi
-    fi
-    draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
-  done
-
+      draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
+    done
+  fi
   # Increment the star field animation speed control
   ((STAR_FIELD_ANIM_SPEED > 5)) && STAR_FIELD_ANIM_SPEED=0 || ((STAR_FIELD_ANIM_SPEED++))
 }
