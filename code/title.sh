@@ -19,6 +19,8 @@ attract-mode() {
   if ((TITLE_SCREEN_ATTRACT_COUNT >= TITLE_SCREEN_ATTRACT_MAX)); then
     blank-screen
     toggle-status
+    P1_SHEILDS=0
+    P2_SHEILDS=0
     HI_SCORE_PADDED=$(printf "%07d" ${HI_SCORE})
     draw-centered 0 "${WHT}${BBLK}" "HISCORE ${HI_SCORE_PADDED}"
     local SNIPER_X=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 6) ))
@@ -54,15 +56,16 @@ attract-mode() {
          ;;
       2) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P O W E R   U P S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-----------------"
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 1)) "    $ylw♦   Bonus Points"
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 2)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 3)) "    $red♥   Extra Life  "
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 4)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 5)) "    $cyn☼   Smart Bomb  "
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 6)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 7)) "    $grn≡   Shields     "
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 9)) "    $mgn‼   Fire Power  "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "    $ylw♦   Bonus Points"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "    $red♥   Extra Life  "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "    $cyn☼   Smart Bomb  "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 8)) "    $grn≡   Shields     "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "    $mgn‼   Fire Power  "
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       3) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N F I G U R A T I O N"
