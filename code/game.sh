@@ -62,7 +62,7 @@ reset-game() {
     2)
       export P1_DEAD=0
       export P1_LIVES=3
-      export P1_STARTX=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3) ))
+      export P1_STARTX=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 4) ))
       export P1_STARTY=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
       export P2_DEAD=0
       export P2_LIVES=3
