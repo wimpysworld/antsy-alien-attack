@@ -29,13 +29,19 @@ readonly P2_LASER_SPRITE=(
 )
 readonly P2_LASER_HEIGHT=$(( ${#P2_LASER_SPRITE[@]} ))
 
-export FIGHTER_LASER_SPRITE=(
+readonly HUNTER_LASER_SPRITE=(
 "$SPC "
 "$MGN░"
 "$MGN▒"
 "$MGN▓"
 )
-readonly FIGHTER_LASER_HEIGHT=$(( ${#FIGHTER_LASER_SPRITE[@]} ))
+readonly HUNTER_LASER_HEIGHT=$(( ${#HUNTER_LASER_SPRITE[@]} ))
+
+readonly SNIPER_LASER_SPRITE=(
+"$SPC "
+"$grn$BGRN■"
+)
+readonly SNIPER_LASER_HEIGHT=$(( ${#SNIPER_LASER_SPRITE[@]} ))
 
 #      
 #░▌ ▐░
@@ -44,10 +50,18 @@ readonly FIGHTER_LASER_HEIGHT=$(( ${#FIGHTER_LASER_SPRITE[@]} ))
 #      
 export FIGHTER_WIDTH=6
 export FIGHTER_HEIGHT=5
-readonly FIGHTER_SPRITE=(
+readonly HUNTER_SPRITE=(
 "$SPC     "
 "$blk$BWHT░$blk$BBLK▌$SPC $blk▐$blk$BWHT░"
 "$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
+"$SPC $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$SPC "
+"$SPC     "
+)
+
+readonly SNIPER_SPRITE=(
+"$SPC     "
+"$blk$BWHT░$blk$BBLK▌$SPC $blk▐$blk$BWHT░"
+"$GRN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$GRN$BBLK▀"
 "$SPC $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$SPC "
 "$SPC     "
 )
