@@ -15,8 +15,8 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Framebuffer
     - [x] Sprite collision detection
     - [x] Starfield
-    - [ ] Random twinkling stars
-    - [ ] Parallax scrolling
+    - [-] Random twinkling stars
+    - [-] Parallax scrolling
     - [x] Performance metrics
   - [x] Audio
     - [x] Sound effects engine
@@ -33,9 +33,9 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [ ] Gun turret AI
     - [ ] Boss ships
     - [ ] Boss ship AI
-  - [ ] Power ups
+  - [x] Power ups
     - [x] Bonus points
-    - [ ] Weapon upgrades
+    - [x] Weapon upgrades
     - [x] Shields
     - [x] Smartbomb
     - [x] Extra life
@@ -48,8 +48,11 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Number of enemies rises
     - [x] Enemy firepower increases
     - [x] Enemy speed increases
+    - [x] Bonus spawn rate decreases
+    - [x] Bonus value increases
     - [ ] Canyon levels, narrow playable area
     - [x] Level progression announcements
+    - [ ] Level-up skill points
   - [ ] 2P
     - [x] Local
     - [ ] Network
