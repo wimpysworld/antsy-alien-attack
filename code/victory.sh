@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 victory-mode() {
-  export DELAY=0.015
+  export DELAY=0.0125
   export KEY=
   export VICTORY_MUSIC_THREAD=
   export VICTORY_SCREEN=()

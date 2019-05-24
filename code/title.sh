@@ -95,7 +95,7 @@ attract-mode() {
 }
 
 title-mode() {
-  export DELAY=0.015
+  export DELAY=0.0125
   export KEY=
   export TITLE_MUSIC_THREAD=
   export TITLE_SCREEN=()

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 gameover-mode() {
-  export DELAY=0.015
+  export DELAY=0.0125
   export KEY=
   export GAMEOVER_MUSIC_THREAD=
   export GAMEOVER_SCREEN=()
