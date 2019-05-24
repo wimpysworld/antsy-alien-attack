@@ -1,4 +1,4 @@
-# ANSI Alien Attack!
+# Antsy Alien Attack!
 
 A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully.
 
@@ -117,7 +117,7 @@ The title graphics are using `toilet` and `lolcat` via [tools/render-titles.sh](
 You can preview of all the `toilet` font styles using this:
 
 ```
-for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $(basename $FONT) --filter border "Alien Attack!" | lolcat -f -F 0.2; done
+for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $(basename $FONT) --filter border "Antsy Alien Attack!" | lolcat -f -F 0.2; done
 ```
 
 ## References

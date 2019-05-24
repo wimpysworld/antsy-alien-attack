@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-toilet -t -f pagga --filter border "               ANSI              " > gfx/title.txt
+toilet -t -f pagga --filter border "              ANTSY              " > gfx/title.txt
 toilet -t -f smmono12 --filter border " Alien Attack! " >> gfx/title.txt
 
 toilet -t -f pagga --filter border "       YOU LOSE       " > gfx/gameover.txt
