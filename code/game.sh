@@ -542,6 +542,7 @@ fighter-ai() {
            unset FIGHTERS[${FIGHTER_LOOP}]
            FIGHTERS=("${FIGHTERS[@]}")
            ((TOTAL_FIGHTERS--))
+           ;;
       esac
     fi
 
