@@ -184,18 +184,24 @@ deploy-smartbomb() {
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
+  local FIGHTER_SMART=0
+  local FIGHTER_FRAME=0
   local FIGHTER_LOOP=0
 
   for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do
     FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
-    erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-    unset FIGHTERS[${FIGHTER_LOOP}]
-    sound fighter-explosion
-    spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
-    sleep 0.1
-    player-increment-score ${PLAYER} ${FIGHTER_POINTS}
+    FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
+    FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
+    if ((FIGHTER_FRAME == 0)); then
+      erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+      FIGHTER_FRAME=1
+      FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+      sound fighter-explosion
+      spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
+      player-increment-score ${PLAYER} ${FIGHTER_POINTS}
+    fi
   done
 }
 
@@ -379,6 +385,7 @@ fighter-ai() {
   local FIGHTER_X=0
   local FIGHTER_Y=0
   local FIGHTER_SMART=0
+  local FIGHTER_FRAME=0
   local FIGHTER_LOOP=0
 
   # Is it time to spawn a new alien fighter?
@@ -392,7 +399,7 @@ fighter-ai() {
       else
         FIGHTER_SMART=0
       fi
-      FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART}")
+      FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}")
       ((TOTAL_FIGHTERS++))
     fi
   fi
@@ -402,116 +409,142 @@ fighter-ai() {
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
     FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
+    FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
 
     if ((FIGHTER_ANIM_SPEED == 0)); then
-      if ((FIGHTER_Y > FIGHTER_FLOOR)); then
-        # Remove the fighter
-        erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[${FIGHTER_LOOP}]
-        FIGHTERS=("${FIGHTERS[@]}")
-        ((TOTAL_FIGHTERS--))
-        continue
-      elif object-collides-player ${P1} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
-        # Remove the fighter
-        erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[${FIGHTER_LOOP}]
-        FIGHTERS=("${FIGHTERS[@]}")
-        ((TOTAL_FIGHTERS--))
-        sound fighter-explosion
+      if ((FIGHTER_FRAME == 0)); then
+        if ((FIGHTER_Y > FIGHTER_FLOOR)); then
+          # Remove the fighter
+          erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+          unset FIGHTERS[${FIGHTER_LOOP}]
+          FIGHTERS=("${FIGHTERS[@]}")
+          ((TOTAL_FIGHTERS--))
+          continue
+        elif object-collides-player ${P1} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
+          # Remove the fighter
+          erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+          FIGHTER_FRAME=1
+          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+          sound fighter-explosion
 
-        # Player consequences
-        if ((P1_SHIELDS == 0)); then
-          player-death ${P1}
-        else
-          sound shield-impact
-        fi
-        ((P1_KILLS++))
-        player-increment-score ${P1} ${FIGHTER_POINTS}
-
-        continue
-      elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
-        # Remove the fighter
-        erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[${FIGHTER_LOOP}]
-        FIGHTERS=("${FIGHTERS[@]}")
-        ((TOTAL_FIGHTERS--))
-        sound fighter-explosion
-
-        # Player consequences
-        if ((P2_SHIELDS == 0)); then
-          player-death ${P2}
-        else
-          sound shield-impact
-        fi
-        ((P2_KILLS++))
-        player-increment-score ${P1} ${FIGHTER_POINTS}
-
-        continue
-      else
-        ((FIGHTER_Y++))
-
-        # Go hunting
-        if ((FIGHTER_SMART == 1)); then
-          local HUNT_P1=0
-          local HUNT_P2=0
-          if ((P1_DEAD == 0 && P2_DEAD == 1)); then
-            HUNT_P1=1
-          elif ((P1_DEAD == 1 && P2_DEAD == 0)); then
-            HUNT_P2=1
-          elif ((P1_DEAD == 0 && P2_DEAD == 0)); then
-            # Get distances
-            DISTANCE_TO_P1=$((P1_X - FIGHTER_X))
-            DISTANCE_TO_P2=$((P2_X - FIGHTER_X))
-            # Get absolute distances
-            P1_DISTANCE=${DISTANCE_TO_P1#-}
-            P2_DISTANCE=${DISTANCE_TO_P2#-}
-            if ((P1_DISTANCE < P2_DISTANCE)); then
-              # P1 is nearest, hunt them down.
-              HUNT_P1=1
-            elif ((P2_DISTANCE < P1_DISTANCE)); then
-              # P2 is nearest, hunt them down.
-              HUNT_P2=1
-            fi
+          # Player consequences
+          if ((P1_SHIELDS == 0)); then
+            player-death ${P1}
+          else
+            sound shield-impact
           fi
+          ((P1_KILLS++))
+          player-increment-score ${P1} ${FIGHTER_POINTS}
 
-          if ((HUNT_P1 == 1)); then
-            if ((FIGHTER_X <= P1_X)); then
-              ((FIGHTER_X++))
-            elif ((FIGHTER_X >= P1_X)); then
-              ((FIGHTER_X--))
+          continue
+        elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
+          # Remove the fighter
+          erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+          FIGHTER_FRAME=1
+          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+          sound fighter-explosion
+
+          # Player consequences
+          if ((P2_SHIELDS == 0)); then
+            player-death ${P2}
+          else
+            sound shield-impact
+          fi
+          ((P2_KILLS++))
+          player-increment-score ${P1} ${FIGHTER_POINTS}
+
+          continue
+        else
+          ((FIGHTER_Y++))
+
+          # Go hunting
+          if ((FIGHTER_SMART == 1)); then
+            local HUNT_P1=0
+            local HUNT_P2=0
+            if ((P1_DEAD == 0 && P2_DEAD == 1)); then
+              HUNT_P1=1
+            elif ((P1_DEAD == 1 && P2_DEAD == 0)); then
+              HUNT_P2=1
+            elif ((P1_DEAD == 0 && P2_DEAD == 0)); then
+              # Get distances
+              DISTANCE_TO_P1=$((P1_X - FIGHTER_X))
+              DISTANCE_TO_P2=$((P2_X - FIGHTER_X))
+              # Get absolute distances
+              P1_DISTANCE=${DISTANCE_TO_P1#-}
+              P2_DISTANCE=${DISTANCE_TO_P2#-}
+              if ((P1_DISTANCE < P2_DISTANCE)); then
+                # P1 is nearest, hunt them down.
+                HUNT_P1=1
+              elif ((P2_DISTANCE < P1_DISTANCE)); then
+                # P2 is nearest, hunt them down.
+                HUNT_P2=1
+              fi
             fi
-          elif ((HUNT_P2 == 1)); then
-            if ((FIGHTER_X <= P2_X)); then
-              ((FIGHTER_X++))
-            elif ((FIGHTER_X >= P2_X)); then
-              ((FIGHTER_X--))
+
+            if ((HUNT_P1 == 1)); then
+              if ((FIGHTER_X <= P1_X)); then
+                ((FIGHTER_X++))
+              elif ((FIGHTER_X >= P1_X)); then
+                ((FIGHTER_X--))
+              fi
+            elif ((HUNT_P2 == 1)); then
+              if ((FIGHTER_X <= P2_X)); then
+                ((FIGHTER_X++))
+              elif ((FIGHTER_X >= P2_X)); then
+                ((FIGHTER_X--))
+              fi
+            else
+              case $((RANDOM % 5)) in
+                0) ((FIGHTER_X--));;
+                4) ((FIGHTER_X++));;
+              esac
             fi
           else
+            # OK dummy, time to make a random lateral movement?
             case $((RANDOM % 5)) in
               0) ((FIGHTER_X--));;
               4) ((FIGHTER_X++));;
             esac
           fi
-        else
-          # OK dummy, time to make a random lateral movement?
-          case $((RANDOM % 5)) in
-            0) ((FIGHTER_X--));;
-            4) ((FIGHTER_X++));;
-          esac
+
+          # Prevent leaving screen left
+          ((FIGHTER_X < 0)) && FIGHTER_X=0
+          # Prevent leaving screen right
+          ((FIGHTER_X > FIGHTER_MAX_X)) && FIGHTER_X=${FIGHTER_MAX_X}
+
+          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
         fi
-
-        # Prevent leaving screen left
-        ((FIGHTER_X < 0)) && FIGHTER_X=0
-        # Prevent leaving screen right
-        ((FIGHTER_X > FIGHTER_MAX_X)) && FIGHTER_X=${FIGHTER_MAX_X}
-
-        FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART}"
       fi
-      draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+
+      # Render the appropriate fighter sprite.
+      case ${FIGHTER_FRAME} in
+        0) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
+           ;;
+        1) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}"
+           ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           ;;
+        2) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}"
+           ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           ;;
+        3) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}"
+           ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           ;;
+        4) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
+           ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           ;;
+        5) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
+           unset FIGHTERS[${FIGHTER_LOOP}]
+           FIGHTERS=("${FIGHTERS[@]}")
+           ((TOTAL_FIGHTERS--))
+      esac
     fi
 
     # Should the fighter unleash a laser?
-    if ((FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && (FIGHTER_Y <= (P1_Y - P1_HEIGHT) || FIGHTER_Y <= (P2_Y - P2_HEIGHT)) )); then
+    if ((FIGHTER_FRAME == 0 && FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && (FIGHTER_Y <= (P1_Y - P1_HEIGHT) || FIGHTER_Y <= (P2_Y - P2_HEIGHT)) )); then
       if ((RANDOM % ALIEN_FIRE_RATE == 0)); then
         sound fighter-laser
         FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4))")
@@ -536,14 +569,15 @@ player-laser-hit-fighter() {
     FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
-    if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH)); then
+    FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
+    FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
+    if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH && FIGHTER_FRAME == 0)); then
       if ((LASER_Y >= FIGHTER_Y && LASER_Y <= FIGHTER_Y + FIGHTER_HEIGHT)); then
         # Remove the fighter
         sound fighter-explosion
         erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
-        unset FIGHTERS[${FIGHTER_LOOP}]
-        FIGHTERS=("${FIGHTERS[@]}")
-        ((TOTAL_FIGHTERS--))
+        FIGHTER_FRAME=1
+        FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
         spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
         return 0
       fi
