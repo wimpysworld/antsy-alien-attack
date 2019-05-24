@@ -216,6 +216,15 @@ draw-picture() {
   done
 }
 
+draw-picture-centered() {
+  local FILENAME="${1}"
+  local HEIGHT=$(wc -l gfx/${FILENAME}.txt | cut -d' ' -f1)
+  local WIDTH=$(wc -L gfx/${FILENAME}.txt | cut -d' ' -f1)
+  local Y_OFFSET=$(( (SCREEN_HEIGHT / 2) - (HEIGHT / 2) ))
+  local X_OFFSET=$(center ${WIDTH})
+  draw-picture "${X_OFFSET}" "${Y_OFFSET}" "${FILENAME}"
+}
+
 draw-sprite() {
   local MASK=${1}; shift
   local X=${1}; shift
