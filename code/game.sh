@@ -48,24 +48,28 @@ reset-game() {
     1)
       export P1_DEAD=0
       export P1_LIVES=3
-      export P1_X=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
-      export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
+      export P1_STARTX=$(( (SCREEN_WIDTH - P1_WIDTH) / 2 ))
+      export P1_STARTY=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
       export P2_DEAD=1
       export P2_LIVES=0
-      export P2_X=0
-      export P2_Y=0
+      export P2_STARTX=0
+      export P2_STARTY=0
       ;;
     2)
       export P1_DEAD=0
       export P1_LIVES=3
-      export P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3) ))
-      export P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
+      export P1_STARTX=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 3) ))
+      export P1_STARTY=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
       export P2_DEAD=0
       export P2_LIVES=3
-      export P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
-      export P2_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
+      export P2_STARTX=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
+      export P2_STARTY=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
       ;;
   esac
+  export P1_X=${P1_STARTX}
+  export P1_Y=${P1_STARTY}
+  export P2_X=${P2_STARTX}
+  export P2_Y=${P2_STARTY}
   export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
   export P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
   export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH + 2) ))
@@ -84,6 +88,8 @@ reset-game() {
   export P2_LAST_KEY=
   export P1_SHIELDS=0
   export P2_SHIELDS=0
+  export P1_RESPAWN=0
+  export P1_RESPAWN=0
   export FIGHTERS=()
   export MAX_FIGHTERS=0
   export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
@@ -145,6 +151,30 @@ player-increment-score() {
   case ${PLAYER} in
     1) ((P1_SCORE+=INCREMENT));;
     2) ((P2_SCORE+=INCREMENT));;
+  esac
+}
+
+player-death() {
+  local PLAYER=${1}
+  case ${PLAYER} in
+    1) sound player-explosion
+       erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
+       ((P1_LIVES--))
+       P1_FIRE_POWER=1
+       P1_SHIELDS=100
+       P1_RESPAWN=1
+       P1_X=${P1_STARTX}
+       P1_Y=${P1_STARTY}
+       ;;
+    2) sound player-explosion
+       erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+       ((P2_LIVES--))
+       P2_FIRE_POWER=1
+       P2_SHIELDS=100
+       P2_RESPAWN=1
+       P2_X=${P2_STARTX}
+       P2_Y=${P2_STARTY}
+       ;;
   esac
 }
 
@@ -307,9 +337,7 @@ fighter-lasers() {
 
       # Player consequences
       if ((P1_SHIELDS == 0)); then
-        ((P1_LIVES--))
-        P1_FIRE_POWER=1
-        sound player-explosion
+        player-death ${P1}
       else
         sound shield-impact
       fi
@@ -323,9 +351,7 @@ fighter-lasers() {
 
       # Player consequences
       if ((P2_SHIELDS == 0)); then
-        ((P2_LIVES--))
-        P2_FIRE_POWER=1
-        sound player-explosion
+        player-death ${P2}
       else
         sound shield-impact
       fi
@@ -387,9 +413,7 @@ fighter-ai() {
 
         # Player consequences
         if ((P1_SHIELDS == 0)); then
-          ((P1_LIVES--))
-          P1_FIRE_POWER=1
-          sound player-explosion
+          player-death ${P1}
         else
           sound shield-impact
         fi
@@ -407,9 +431,7 @@ fighter-ai() {
 
         # Player consequences
         if ((P2_SHIELDS == 0)); then
-          ((P2_LIVES--))
-          P2_FIRE_POWER=1
-          sound player-explosion
+          player-death ${P2}
         else
           sound shield-impact
         fi
@@ -752,19 +774,21 @@ game-loop() {
   if ((P1_SHIELDS > 0)); then
     ((P1_SHIELDS--))
     if ((P1_SHIELDS == 0)); then
-      sound shield-down
+      if ((P1_RESPAWN == 0)); then
+        sound shield-down
+      fi
+      P1_RESPAWN=0
     fi
   fi
 
   if ((P2_SHIELDS > 0)); then
     ((P2_SHIELDS--))
     if ((P2_SHIELDS == 0)); then
-      sound shield-down
+      if ((P2_RESPAWN == 0)); then
+        sound shield-down
+      fi
+      P2_RESPAWN=0
     fi
-  fi
-
-  if ((P2_DEAD == 0)); then
-    draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
   fi
 
   if ((P1_DEAD == 0)); then
