@@ -10,14 +10,16 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Keyboard
     - [x] Xbox360 Controller
   - [ ] Graphics
-    - [x] ANSI sprite engine
-    - [ ] Sprite overlays
     - [x] Framebuffer
+    - [x] Sprite engine
     - [x] Sprite collision detection
+    - [ ] Sprite overlays
     - [x] Starfield
-    - [-] Random twinkling stars
-    - [-] Parallax scrolling
     - [x] Performance metrics
+  - [ ] Animators
+    - [x] Player thrust
+    - [ ] Player roll
+    - [x] Explosion animations
   - [x] Audio
     - [x] Sound effects engine
     - [x] Music engine
@@ -28,9 +30,8 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Victory artwork
   - [ ] Enemies
     - [x] Fighters
-    - [x] Fighter AI
-    - [ ] Gun turrets
-    - [ ] Gun turret AI
+    - [x] Hunter Fighter AI
+    - [ ] Sniper Fighter AI
     - [ ] Boss ships
     - [ ] Boss ship AI
   - [x] Power ups
@@ -39,11 +40,6 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Shields
     - [x] Smartbomb
     - [x] Extra life
-  - [ ] Animators
-    - [x] Player thrust
-    - [ ] Player roll
-    - [ ] Impact animations
-    - [ ] Explosion animations
   - [ ] Level progression
     - [x] Number of enemies rises
     - [x] Enemy firepower increases
