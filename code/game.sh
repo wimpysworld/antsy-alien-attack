@@ -100,7 +100,10 @@ reset-game() {
   export FIGHTER_CURRENT_SPEED=11
   export FIGHTER_LASERS=()
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
-  # The region where hunting fighters originate
+  # Fighter types
+  readonly SNIPER=1
+  readonly HUNTER=2
+  # The region where hunters originate
   readonly HUNT_REGION_LEFT=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 6) ))
   readonly HUNT_REGION_RIGHT=$(( (SCREEN_WIDTH / 2) + (FIGHTER_WIDTH * 6) ))
   export BONUSES=()
@@ -228,7 +231,7 @@ deploy-smartbomb() {
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
-  local FIGHTER_SMART=0
+  local FIGHTER_TYPE=0
   local FIGHTER_FRAME=0
   local FIGHTER_LOOP=0
 
@@ -236,12 +239,12 @@ deploy-smartbomb() {
     FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
-    FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
+    FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
     if ((FIGHTER_FRAME == 0)); then
       erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
       FIGHTER_FRAME=1
-      FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+      FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
       sound fighter-explosion
       spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
       player-increment-score ${PLAYER} ${FIGHTER_POINTS}
@@ -428,7 +431,7 @@ fighter-ai() {
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
-  local FIGHTER_SMART=0
+  local FIGHTER_TYPE=0
   local FIGHTER_FRAME=0
   local FIGHTER_LOOP=0
 
@@ -437,13 +440,13 @@ fighter-ai() {
     if ((RANDOM % ALIEN_SPAWN_RATE == 0)); then
       FIGHTER_X=$((RANDOM % FIGHTER_MAX_X))
 
-      # Does this fighter have smarts?
+      # What type of fighter will this be?
       if ((FIGHTER_X <= HUNT_REGION_LEFT || FIGHTER_X >= HUNT_REGION_RIGHT)); then
-        FIGHTER_SMART=1
+        FIGHTER_TYPE=${HUNTER}
       else
-        FIGHTER_SMART=0
+        FIGHTER_TYPE=${SNIPER}
       fi
-      FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}")
+      FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}")
       ((TOTAL_FIGHTERS++))
     fi
   fi
@@ -452,7 +455,7 @@ fighter-ai() {
     FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
-    FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
+    FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
 
     if ((ANIMINATION_KEYFRAME == 0)); then
@@ -468,7 +471,7 @@ fighter-ai() {
           # Remove the fighter
           erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
           FIGHTER_FRAME=1
-          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
           sound fighter-explosion
 
           # Player consequences
@@ -485,7 +488,7 @@ fighter-ai() {
           # Remove the fighter
           erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
           FIGHTER_FRAME=1
-          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
           sound fighter-explosion
 
           # Player consequences
@@ -502,7 +505,7 @@ fighter-ai() {
           ((FIGHTER_Y++))
 
           # Go hunting
-          if ((FIGHTER_SMART == 1)); then
+          if ((FIGHTER_TYPE == HUNTER)); then
             local HUNT_P1=0
             local HUNT_P2=0
             if ((P1_DEAD == 0 && P2_DEAD == 1)); then
@@ -556,7 +559,7 @@ fighter-ai() {
           # Prevent leaving screen right
           ((FIGHTER_X > FIGHTER_MAX_X)) && FIGHTER_X=${FIGHTER_MAX_X}
 
-          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
         fi
       fi
 
@@ -566,19 +569,19 @@ fighter-ai() {
            ;;
         1) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}"
            ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
            ;;
         2) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}"
            ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
            ;;
         3) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}"
            ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
            ;;
         4) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
            ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
            ;;
         5) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
            unset FIGHTERS[${FIGHTER_LOOP}]
@@ -614,7 +617,7 @@ player-laser-hit-fighter() {
     FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
-    FIGHTER_SMART=${FIGHTER_INSTANCE[2]}
+    FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
     if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH && FIGHTER_FRAME == 0)); then
       if ((LASER_Y >= FIGHTER_Y && LASER_Y <= FIGHTER_Y + FIGHTER_HEIGHT)); then
@@ -622,7 +625,7 @@ player-laser-hit-fighter() {
         sound fighter-explosion
         erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_SPRITE[@]}"
         FIGHTER_FRAME=1
-        FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_SMART} ${FIGHTER_FRAME}"
+        FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
         spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
         return 0
       fi
