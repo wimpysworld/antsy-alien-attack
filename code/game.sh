@@ -27,7 +27,7 @@ round-up() {
     TEMP_BONUS=0
     for (( LOOP=0; LOOP < P1_KILLS; LOOP++ )); do
       sound zap
-      ((TEMP_BONUS+=BONUS_COLLECT))
+      ((TEMP_BONUS+=FIGHTER_POINTS))
       TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
       lol-draw-centered $((Y_CENTER + 0)) "PLAYER 1 KILL BONUS : ${TEMP_BONUS_PADDED}"
       render
@@ -51,7 +51,7 @@ round-up() {
     TEMP_BONUS=0
     for (( LOOP=0; LOOP < P2_KILLS; LOOP++ )); do
       sound zap
-      ((TEMP_BONUS+=BONUS_COLLECT))
+      ((TEMP_BONUS+=FIGHTER_POINTS))
       TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
       lol-draw-centered $((Y_CENTER + 4)) "PLAYER 2 KILL BONUS : ${TEMP_BONUS_PADDED}"
       render
