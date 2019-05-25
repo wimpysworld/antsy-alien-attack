@@ -192,6 +192,7 @@ reset-game() {
   export FIGHTER_MAX_Y=$(( SCREEN_HEIGHT - FIGHTER_HEIGHT ))
   export ANIMINATION_KEYFRAME=0
   export FIGHTER_CURRENT_SPEED=11
+  export FIGHTER_AIMING_FLOOR=$((SCREEN_HEIGHT - (FIGHTER_HEIGHT * 2) ))
   export FIGHTER_LASERS=()
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
   # Fighter types
@@ -572,6 +573,9 @@ fighter-ai() {
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
+  local TARGET_X=0
+  local TARGET_Y=0
+  local TARGET_PLAYER=0
   local FIGHTER_TYPE=0
   local FIGHTER_FRAME=0
   local FIGHTER_LOOP=0
@@ -745,12 +749,40 @@ fighter-ai() {
     fi
 
     # Should the fighter unleash a laser?
-    if ((FIGHTER_FRAME == 0 && FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && (FIGHTER_Y <= (P1_Y - P1_HEIGHT) || FIGHTER_Y <= (P2_Y - P2_HEIGHT)) )); then
-      if ((RANDOM % ALIEN_FIRE_RATE == 0)); then
-        sound fighter-laser
-        FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} 0 0")
-        ((FIGHTER_LASER_COUNT++))
-      fi
+    # Is the fighter alive, are there lasers available, is it time and is the fighter within the aiming window?
+    if ((FIGHTER_FRAME == 0 && FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && (RANDOM % ALIEN_FIRE_RATE == 0) && FIGHTER_Y <= FIGHTER_AIMING_FLOOR)); then
+      case ${FIGHTER_TYPE} in
+        $HUNTER)
+          if (( FIGHTER_Y <= (P1_Y - P1_HEIGHT) || FIGHTER_Y <= (P2_Y - P2_HEIGHT) )); then
+            sound fighter-laser
+            FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} 0 0")
+            ((FIGHTER_LASER_COUNT++))
+          fi
+          ;;
+        $SNIPER)
+          if ((P1_DEAD == 0 && P2_DEAD == 1)); then
+            TARGET_PLAYER=1
+          elif ((P1_DEAD == 1 && P2_DEAD == 0)); then
+            TARGET_PLAYER=2
+          else
+            TARGET_PLAYER=$(((RANDOM % 2) + 1))
+          fi
+          case ${TARGET_PLAYER} in
+            1) TARGET_X=$((P1_X + (P1_WIDTH / 2) ))
+               TARGET_Y=$((P1_Y + (P1_HEIGHT / 2) ))
+               sound fighter-laser
+               FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} ${TARGET_X} ${TARGET_Y}")
+               ((FIGHTER_LASER_COUNT++))
+               ;;
+            2) TARGET_X=$((P2_X + (P2_WIDTH / 2) ))
+               TARGET_Y=$((P2_Y + (P2_HEIGHT / 2) ))
+               sound fighter-laser
+               FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} ${TARGET_X} ${TARGET_Y}")
+               ((FIGHTER_LASER_COUNT++))
+               ;;
+          esac
+          ;;
+      esac
     fi
   done
 
