@@ -293,7 +293,6 @@ a-star-is-born() {
 }
 
 create-starfield() {
-  export STAR_FIELD_ANIM_SPEED=0
   export STAR_FIELD=()
   export STAR_CHARS=("·" "•" "+")
   export STAR_COLORS=("$WHT" "$wht" "$blk")
@@ -363,6 +362,23 @@ animate-starfield() {
       draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
     done
   fi
+
+}
+
+reset-gfx-timers() {
+  export PLAYER_STATS_REFRESH=0
+  export STAR_FIELD_ANIM_SPEED=0
+  export ANIMATION_KEYFRAME=0
+  export CURRENT_SPEED=11
+}
+
+update-gfx-timers() {
   # Increment the star field animation speed control
   ((STAR_FIELD_ANIM_SPEED > 5)) && STAR_FIELD_ANIM_SPEED=0 || ((STAR_FIELD_ANIM_SPEED++))
+
+  # Increment the player stats refresh interval
+  ((PLAYER_STATS_REFRESH > 100)) && PLAYER_STATS_REFRESH=0 || ((PLAYER_STATS_REFRESH++))
+
+  # Increment the fighter movement
+  ((ANIMATION_KEYFRAME > CURRENT_SPEED)) && ANIMATION_KEYFRAME=0 || ((ANIMATION_KEYFRAME++))
 }

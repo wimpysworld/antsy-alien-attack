@@ -85,7 +85,7 @@ level-up() {
 
   ((LEVEL++))
   ((MAX_FIGHTERS++))
-  ((FIGHTER_CURRENT_SPEED--))
+  ((CURRENT_SPEED--))
   # Number of fighters that need to be vaniquished to level-up
   export LEVEL_UP_KILLS=$((5 + (LEVEL * (MAX_FIGHTERS * 5)) ))
   export P1_KILLS=0
@@ -178,8 +178,6 @@ reset-game() {
   export MAX_FIGHTERS=0
   export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
   export FIGHTER_MAX_Y=$(( SCREEN_HEIGHT - FIGHTER_HEIGHT ))
-  export ANIMINATION_KEYFRAME=0
-  export FIGHTER_CURRENT_SPEED=11
   export FIGHTER_AIMING_FLOOR=$((SCREEN_HEIGHT - (FIGHTER_HEIGHT * 2) ))
   export FIGHTER_LASERS=()
   readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
@@ -198,11 +196,11 @@ game-mode() {
   readonly NUM_PLAYERS=${1}
   export DELAY=0.005
   export KEY=
-  export PLAYER_STATS_REFRESH=0
   blank-screen
 
   reset-timers
   reset-game
+  reset-gfx-timers
   export LOOP=game-loop
 }
 
@@ -389,7 +387,7 @@ spawn-bonus() {
 
 bonuses() {
   # Bonuses move off screen at the same pace as fighters.
-  if ((ANIMINATION_KEYFRAME == 0)); then
+  if ((ANIMATION_KEYFRAME == 0)); then
     local TOTAL_BONUSES=${#BONUSES[@]}
     local BONUS_INSTANCE=()
     local BONUS_X=0
@@ -614,7 +612,7 @@ fighter-ai() {
     FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
 
-    if ((ANIMINATION_KEYFRAME == 0)); then
+    if ((ANIMATION_KEYFRAME == 0)); then
       if ((FIGHTER_FRAME == 0)); then
         if ((FIGHTER_Y > FIGHTER_FLOOR)); then
           # Remove the fighter
@@ -796,9 +794,6 @@ fighter-ai() {
       esac
     fi
   done
-
-  # Increment the fighter movement
-  [[ ${ANIMINATION_KEYFRAME} -ge ${FIGHTER_CURRENT_SPEED} ]] && ANIMINATION_KEYFRAME=0 || ((ANIMINATION_KEYFRAME++))
 }
 
 player-laser-hit-fighter() {
@@ -1076,7 +1071,7 @@ game-loop() {
     player-sprite ${P2}
   fi
 
-  if ((ANIMINATION_KEYFRAME == 0)); then
+  if ((ANIMATION_KEYFRAME == 0)); then
     if ((P1_FRAME > 0)); then
       ((P1_FRAME++))
     fi
@@ -1119,7 +1114,5 @@ game-loop() {
     draw-right "${SCREEN_HEIGHT}" "${blu}${BBLK}" "${P2_LIVES_SYMBOLS} LIVES"
   fi
   render
-
-  # Increment the player stats refresh interval
-  ((PLAYER_STATS_REFRESH > 100)) && PLAYER_STATS_REFRESH=0 || ((PLAYER_STATS_REFRESH++))
+  update-gfx-timers
 }
