@@ -474,6 +474,8 @@ fighter-lasers() {
   local FIGHTER_LASER_INSTANCE=()
   local FIGHTER_LASER_X=0
   local FIGHTER_LASER_Y=0
+  local FIGHTER_TARGET_X=0
+  local FIGHTER_TARGET_Y=0
   local FIGHTER_LASER_TYPE=0
   local FIGHTER_LASER_LOOP=0
   for (( FIGHTER_LASER_LOOP=0; FIGHTER_LASER_LOOP < TOTAL_FIGHTER_LASERS; FIGHTER_LASER_LOOP++ )); do
@@ -481,55 +483,84 @@ fighter-lasers() {
     FIGHTER_LASER_X=${FIGHTER_LASER_INSTANCE[0]}
     FIGHTER_LASER_Y=${FIGHTER_LASER_INSTANCE[1]}
     FIGHTER_LASER_TYPE=${FIGHTER_LASER_INSTANCE[2]}
+    FIGHTER_TARGET_X=${FIGHTER_LASER_INSTANCE[3]}
+    FIGHTER_TARGET_Y=${FIGHTER_LASER_INSTANCE[4]}
 
-    if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
-      case ${FIGHTER_LASER_TYPE} in
-        $HUNTER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
-      esac
-      unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
-      FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
-      ((TOTAL_FIGHTER_LASERS--))
-      continue
-    elif object-collides-player ${P1} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
-      case ${FIGHTER_LASER_TYPE} in
-        $HUNTER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
-      esac
-      unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
-      FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
-      ((TOTAL_FIGHTER_LASERS--))
-
-      # Player consequences
-      if ((P1_SHIELDS == 0)); then
-        player-death ${P1}
-      else
-        sound shield-impact
-      fi
-      continue
-    elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
-      case ${FIGHTER_LASER_TYPE} in
-        $HUNTER) erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
-      esac
-      unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
-      FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
-      ((TOTAL_FIGHTER_LASERS--))
-
-      # Player consequences
-      if ((P2_SHIELDS == 0)); then
-        player-death ${P2}
-      else
-        sound shield-impact
-      fi
-      continue
-    else
-      ((FIGHTER_LASER_Y++))
-      FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE}"
-    fi
     case ${FIGHTER_LASER_TYPE} in
-      $HUNTER) draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}";;
-      $SNIPER) draw-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}";;
+      $HUNTER)
+        if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
+          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+          unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+          FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+          ((TOTAL_FIGHTER_LASERS--))
+          continue
+        elif object-collides-player ${P1} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+          unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+          FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+          ((TOTAL_FIGHTER_LASERS--))
+          # Player consequences
+          if ((P1_SHIELDS == 0)); then
+            player-death ${P1}
+          else
+            sound shield-impact
+          fi
+          continue
+        elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+          unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+          FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+          ((TOTAL_FIGHTER_LASERS--))
+          # Player consequences
+          if ((P2_SHIELDS == 0)); then
+            player-death ${P2}
+          else
+            sound shield-impact
+          fi
+          continue
+        else
+          ((FIGHTER_LASER_Y++))
+          FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_TARGET_X} ${FIGHTER_TARGET_Y}"
+          draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+        fi
+        ;;
+      $SNIPER)
+        if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
+          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+          FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+          ((TOTAL_FIGHTER_LASERS--))
+          continue
+        elif object-collides-player ${P1} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+          FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+          ((TOTAL_FIGHTER_LASERS--))
+          # Player consequences
+          if ((P1_SHIELDS == 0)); then
+            player-death ${P1}
+          else
+            sound shield-impact
+          fi
+          continue
+        elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
+          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+          FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+          ((TOTAL_FIGHTER_LASERS--))
+          # Player consequences
+          if ((P2_SHIELDS == 0)); then
+            player-death ${P2}
+          else
+            sound shield-impact
+          fi
+          continue
+        else
+          ((FIGHTER_LASER_Y++))
+          FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_TARGET_X} ${FIGHTER_TARGET_Y}"
+          draw-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+        fi
+        ;;
     esac
   done
 }
@@ -716,7 +747,7 @@ fighter-ai() {
     if ((FIGHTER_FRAME == 0 && FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && (FIGHTER_Y <= (P1_Y - P1_HEIGHT) || FIGHTER_Y <= (P2_Y - P2_HEIGHT)) )); then
       if ((RANDOM % ALIEN_FIRE_RATE == 0)); then
         sound fighter-laser
-        FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE}")
+        FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} 0 0")
         ((FIGHTER_LASER_COUNT++))
       fi
     fi
