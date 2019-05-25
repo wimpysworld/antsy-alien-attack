@@ -228,5 +228,5 @@ export P2_SPRITE=(
 "$SPC       ")
 
   # Increment the play thrust animation speed control
-  [[ ${THRUST_FRAME} -ge ${THRUST_FRAMES} ]] && THRUST_FRAME=0 || ((THRUST_FRAME++))
+  ((THRUST_FRAME > THRUST_FRAMES)) && THRUST_FRAME=0 || ((THRUST_FRAME++))
 }
