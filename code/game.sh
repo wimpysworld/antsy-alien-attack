@@ -307,7 +307,6 @@ player-sprite() {
 
 deploy-smartbomb() {
   local PLAYER=${1}
-  local TOTAL_FIGHTERS=${#FIGHTERS[@]}
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
   local FIGHTER_Y=0
@@ -315,7 +314,7 @@ deploy-smartbomb() {
   local FIGHTER_FRAME=0
   local FIGHTER_LOOP=0
 
-  for (( FIGHTER_LOOP=0; FIGHTER_LOOP < TOTAL_FIGHTERS; FIGHTER_LOOP++ )); do
+  for FIGHTER_LOOP in "${!FIGHTERS[@]}"; do
     FIGHTER_INSTANCE=(${FIGHTERS[${FIGHTER_LOOP}]})
     FIGHTER_X=${FIGHTER_INSTANCE[0]}
     FIGHTER_Y=${FIGHTER_INSTANCE[1]}
