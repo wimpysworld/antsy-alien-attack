@@ -365,6 +365,7 @@ activate-bonus() {
        esac
        ;;
     2) player-increment-score ${PLAYER} ${BONUS_COLLECT}
+       sound-smartbomb
        deploy-smartbomb ${PLAYER}
        ;;
     3) player-increment-score ${PLAYER} ${BONUS_COLLECT}
