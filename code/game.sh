@@ -87,7 +87,7 @@ level-up() {
   ((MAX_FIGHTERS++))
   ((FIGHTER_CURRENT_SPEED--))
   # Number of fighters that need to be vaniquished to level-up
-  export LEVEL_UP_KILLS=$((LEVEL * (MAX_FIGHTERS * 5) ))
+  export LEVEL_UP_KILLS=$((5 + (LEVEL * (MAX_FIGHTERS * 5)) ))
   export P1_KILLS=0
   export P2_KILLS=0
 
@@ -118,7 +118,7 @@ level-up() {
 
 reset-game() {
   export LEVEL=0
-  export LEVEL_UP_KILLS=5
+  export LEVEL_UP_KILLS=0
   export LAST_LEVEL=5
   readonly P1=1
   readonly P2=2
