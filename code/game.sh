@@ -553,7 +553,7 @@ fighter-lasers() {
             DY=$((FIGHTER_LASER_TARGET_Y - FIGHTER_LASER_Y))
             ABSDX=${DX#-}
             ABSDY=${DY#-}
-            if (( ABSDX < ABSDY )); then
+            if ((ABSDX < ABSDY)); then
               if ((DY < 0)); then
                 ((FIGHTER_LASER_Y--))
               else
