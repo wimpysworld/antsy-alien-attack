@@ -323,7 +323,7 @@ create-starfield() {
 }
 
 animate-starfield() {
-  if ((STAR_FIELD_ANIM_SPEED == 0)); then
+  if ((ANIMATION_KEYFRAME % 6 == 0)); then
     local TOTAL_STARS=${#STAR_FIELD[@]}
     local STAR_INSTANCE=()
     local STAR_X=0
@@ -366,19 +366,11 @@ animate-starfield() {
 }
 
 reset-gfx-timers() {
-  export PLAYER_STATS_REFRESH=0
-  export STAR_FIELD_ANIM_SPEED=0
   export ANIMATION_KEYFRAME=0
-  export CURRENT_SPEED=11
+
 }
 
 update-gfx-timers() {
-  # Increment the star field animation speed control
-  ((STAR_FIELD_ANIM_SPEED > 5)) && STAR_FIELD_ANIM_SPEED=0 || ((STAR_FIELD_ANIM_SPEED++))
-
-  # Increment the player stats refresh interval
-  ((PLAYER_STATS_REFRESH > 100)) && PLAYER_STATS_REFRESH=0 || ((PLAYER_STATS_REFRESH++))
-
-  # Increment the fighter movement
-  ((ANIMATION_KEYFRAME > CURRENT_SPEED)) && ANIMATION_KEYFRAME=0 || ((ANIMATION_KEYFRAME++))
+  # Increment the animation keyframe counter
+  ((ANIMATION_KEYFRAME > 60)) && ANIMATION_KEYFRAME=0 || ((ANIMATION_KEYFRAME++))
 }

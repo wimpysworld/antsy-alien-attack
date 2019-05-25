@@ -85,7 +85,6 @@ level-up() {
 
   ((LEVEL++))
   ((MAX_FIGHTERS++))
-  ((CURRENT_SPEED--))
   # Number of fighters that need to be vaniquished to level-up
   export LEVEL_UP_KILLS=$((5 + (LEVEL * (MAX_FIGHTERS * 5)) ))
   export P1_KILLS=0
@@ -387,7 +386,7 @@ spawn-bonus() {
 
 bonuses() {
   # Bonuses move off screen at the same pace as fighters.
-  if ((ANIMATION_KEYFRAME == 0)); then
+  if ((ANIMATION_KEYFRAME % 10 == 0)); then
     local TOTAL_BONUSES=${#BONUSES[@]}
     local BONUS_INSTANCE=()
     local BONUS_X=0
@@ -506,7 +505,7 @@ fighter-lasers() {
             sound shield-impact
           fi
           continue
-        else
+        elif ((ANIMATION_KEYFRAME % 3 != 0)); then
           ((FIGHTER_LASER_Y++))
           FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
           draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
@@ -549,7 +548,7 @@ fighter-lasers() {
             unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
             FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
             ((TOTAL_FIGHTER_LASERS--))
-          else
+          elif ((ANIMATION_KEYFRAME % 3 != 0)); then
             DX=$((FIGHTER_LASER_TARGET_X - FIGHTER_LASER_X))
             DY=$((FIGHTER_LASER_TARGET_Y - FIGHTER_LASER_Y))
             ABSDX=${DX#-}
@@ -612,7 +611,7 @@ fighter-ai() {
     FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
 
-    if ((ANIMATION_KEYFRAME == 0)); then
+    if ((ANIMATION_KEYFRAME % 10 == 0)); then
       if ((FIGHTER_FRAME == 0)); then
         if ((FIGHTER_Y > FIGHTER_FLOOR)); then
           # Remove the fighter
@@ -725,37 +724,27 @@ fighter-ai() {
           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
         fi
       fi
-
-      # Render the appropriate fighter sprite.
-      case ${FIGHTER_FRAME} in
-        0) case ${FIGHTER_TYPE} in
-             $HUNTER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-             $SNIPER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
-           esac
-           ;;
-        1) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}"
-           ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-           ;;
-        2) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}"
-           ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-           ;;
-        3) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}"
-           ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-           ;;
-        4) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
-           ((FIGHTER_FRAME++))
-           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-           ;;
-        5) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
-           unset FIGHTERS[${FIGHTER_LOOP}]
-           FIGHTERS=("${FIGHTERS[@]}")
-           ((TOTAL_FIGHTERS--))
-           ;;
-      esac
+      ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
+      FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
     fi
+
+    # Render the appropriate fighter sprite.
+    case ${FIGHTER_FRAME} in
+      0) case ${FIGHTER_TYPE} in
+            $HUNTER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+            $SNIPER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+          esac
+          ;;
+      1) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}";;
+      2) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}";;
+      3) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}";;
+      4) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}";;
+      5) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
+         unset FIGHTERS[${FIGHTER_LOOP}]
+         FIGHTERS=("${FIGHTERS[@]}")
+         ((TOTAL_FIGHTERS--))
+         ;;
+    esac
 
     # Should the fighter unleash a laser?
     # Is the fighter alive, are there lasers available, is it time and is the fighter within the aiming window?
@@ -1071,7 +1060,7 @@ game-loop() {
     player-sprite ${P2}
   fi
 
-  if ((ANIMATION_KEYFRAME == 0)); then
+  if ((ANIMATION_KEYFRAME % 5 == 0)); then
     if ((P1_FRAME > 0)); then
       ((P1_FRAME++))
     fi
@@ -1087,7 +1076,7 @@ game-loop() {
   player-lasers ${P2}
 
   # These are quite expensive, only refresh them periodically
-  if ((PLAYER_STATS_REFRESH == 0)); then
+  if ((ANIMATION_KEYFRAME == 0)); then
     if ((P1_SCORE > HI_SCORE)); then
       HI_SCORE=${P1_SCORE}
       if ((P1_HI_SCORE_BEATEN == 0)); then
