@@ -15,6 +15,7 @@ source code/victory.sh
 export LOOP=
 
 setup() {
+  music-teardown
   trap teardown EXIT INT TERM
   trap start-loop USR1
   cfg-load
