@@ -118,7 +118,7 @@ level-up() {
 
 reset-game() {
   export LEVEL=0
-  export LEVEL_UP_KILLS=0
+  export LEVEL_UP_KILLS=5
   export LAST_LEVEL=5
   readonly P1=1
   readonly P2=2
