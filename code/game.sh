@@ -825,7 +825,7 @@ player-lasers() {
        local LASER_CEILING=${P2_LASER_CEILING}
        ;;
   esac
-  if ((TOTAL_LASERS > 0)); then
+  if ((TOTAL_LASERS > 0 && ANIMATION_KEYFRAME % 6 != 0)); then
     local LASER_INSTANCE=()
     local LASER_X=0
     local LASER_Y=0
@@ -866,17 +866,17 @@ player-lasers() {
         ((TOTAL_LASERS--))
         player-increment-score ${PLAYER} ${FIGHTER_POINTS}
         continue
-      else
+      elif ((ANIMATION_KEYFRAME % 6 != 0)); then
         ((LASER_Y--))
         case ${PLAYER} in
-          1) P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}";;
-          2) P2_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}";;
+          1) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+             P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
+             ;;
+          2) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+             P2_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
+             ;;
         esac
       fi
-      case ${PLAYER} in
-        1) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}";;
-        2) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}";;
-      esac
     done
   fi
 }
