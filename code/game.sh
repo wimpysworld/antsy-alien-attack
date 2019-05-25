@@ -3,12 +3,6 @@
 round-up() {
   kill-thread ${GAME_MUSIC_THREAD}
   local LOOP=0
-  local TOTAL_FIGHTERS=${#FIGHTERS[@]}
-  local FIGHTER_INSTANCE=()
-  local FIGHTER_X=0
-  local FIGHTER_Y=0
-  local FIGHTER_TYPE=0
-  local FIGHTER_FRAME=0
   local TEMP_BONUS=0
   local TEMP_BONUS_PADDED=0
   local Y_CENTER=$((SCREEN_HEIGHT / 2 ))
@@ -28,21 +22,6 @@ round-up() {
   fi
   render
   sleep 0.5
-
-  for (( LOOP=0; LOOP < TOTAL_FIGHTERS; LOOP++ )); do
-    FIGHTER_INSTANCE=(${FIGHTERS[${LOOP}]})
-    FIGHTER_X=${FIGHTER_INSTANCE[0]}
-    FIGHTER_Y=${FIGHTER_INSTANCE[1]}
-    FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
-    FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
-    if ((FIGHTER_FRAME == 0)); then
-      case ${FIGHTER_TYPE} in
-        $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
-      esac
-    fi
-  done
-  FIGHTERS=()
 
   if ((P1_DEAD == 0)); then
     TEMP_BONUS=0
@@ -96,6 +75,10 @@ round-up() {
 }
 
 level-up() {
+  # Remove all fighters and lasers.
+  export FIGHTERS=()
+  export FIGHTER_LASERS=()
+
   MUSIC_TRACK=$(((RANDOM % 3) + 1))
   music "level${MUSIC_TRACK}"
   GAME_MUSIC_THREAD=$!
