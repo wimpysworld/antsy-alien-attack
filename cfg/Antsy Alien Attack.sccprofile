@@ -2,7 +2,7 @@
     "_": "", 
     "buttons": {
         "A": {
-            "action": "repeat(button(Keys.KEY_L); sleep(0.103))", 
+            "action": "repeat(button(Keys.KEY_X); sleep(0.103))", 
             "name": "Fire"
         }, 
         "B": {
@@ -10,7 +10,7 @@
             "name": "Quit"
         }, 
         "BACK": {
-            "action": "button(Keys.KEY_R)"
+            "action": "button(Keys.KEY_1)"
         }, 
         "C": {
             "action": "button(Keys.KEY_LEFTCTRL) and button(Keys.KEY_C)", 
@@ -23,7 +23,7 @@
             "action": "button(Keys.BTN_LEFT)"
         }, 
         "START": {
-            "action": "button(Keys.KEY_P)"
+            "action": "button(Keys.KEY_2)"
         }
     }, 
     "cpad": {
