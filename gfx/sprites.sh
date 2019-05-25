@@ -198,14 +198,14 @@ compose-sprites() {
   if ((P1_SHIELDS > 0 || P2_SHIELDS > 0)); then
     case ${THRUST_FRAME} in
         1) ((P1_SHIELDS > 0)) && COL1=$RED
-        ((P2_SHIELDS > 0)) && COL2=$BLU
-        ;;
+           ((P2_SHIELDS > 0)) && COL2=$BLU
+           ;;
         2) ((P1_SHIELDS > 0)) && COL1=$red
-        ((P2_SHIELDS > 0)) && COL2=$blu
-        ;;
+           ((P2_SHIELDS > 0)) && COL2=$blu
+           ;;
         3) ((P1_SHIELDS > 0)) && COL1=$wht
-        ((P2_SHIELDS > 0)) && COL2=$wht
-        ;;
+           ((P2_SHIELDS > 0)) && COL2=$wht
+           ;;
     esac
   fi
 
