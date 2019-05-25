@@ -641,7 +641,6 @@ fighter-ai() {
           fi
           ((P1_KILLS++))
           player-increment-score ${P1} ${FIGHTER_POINTS}
-
           continue
         elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
           # Remove the fighter
@@ -661,7 +660,6 @@ fighter-ai() {
           fi
           ((P2_KILLS++))
           player-increment-score ${P1} ${FIGHTER_POINTS}
-
           continue
         else
           ((FIGHTER_Y++))
