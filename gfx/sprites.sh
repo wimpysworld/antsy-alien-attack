@@ -38,7 +38,6 @@ readonly HUNTER_LASER_SPRITE=(
 readonly HUNTER_LASER_HEIGHT=$(( ${#HUNTER_LASER_SPRITE[@]} ))
 
 readonly SNIPER_LASER_SPRITE=(
-"$SPC "
 "$grn$BGRN■"
 )
 readonly SNIPER_LASER_HEIGHT=$(( ${#SNIPER_LASER_SPRITE[@]} ))
