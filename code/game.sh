@@ -476,17 +476,21 @@ fighter-lasers() {
   local FIGHTER_LASER_INSTANCE=()
   local FIGHTER_LASER_X=0
   local FIGHTER_LASER_Y=0
-  local FIGHTER_TARGET_X=0
-  local FIGHTER_TARGET_Y=0
   local FIGHTER_LASER_TYPE=0
+  local FIGHTER_LASER_TARGET_X=0
+  local FIGHTER_LASER_TARGET_Y=0
   local FIGHTER_LASER_LOOP=0
+  local DX=0
+  local DY=0
+  local ABSDX=0
+  local ABSDY=0
   for (( FIGHTER_LASER_LOOP=0; FIGHTER_LASER_LOOP < TOTAL_FIGHTER_LASERS; FIGHTER_LASER_LOOP++ )); do
     FIGHTER_LASER_INSTANCE=(${FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]})
     FIGHTER_LASER_X=${FIGHTER_LASER_INSTANCE[0]}
     FIGHTER_LASER_Y=${FIGHTER_LASER_INSTANCE[1]}
     FIGHTER_LASER_TYPE=${FIGHTER_LASER_INSTANCE[2]}
-    FIGHTER_TARGET_X=${FIGHTER_LASER_INSTANCE[3]}
-    FIGHTER_TARGET_Y=${FIGHTER_LASER_INSTANCE[4]}
+    FIGHTER_LASER_TARGET_X=${FIGHTER_LASER_INSTANCE[3]}
+    FIGHTER_LASER_TARGET_Y=${FIGHTER_LASER_INSTANCE[4]}
 
     case ${FIGHTER_LASER_TYPE} in
       $HUNTER)
@@ -522,12 +526,12 @@ fighter-lasers() {
           continue
         else
           ((FIGHTER_LASER_Y++))
-          FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_TARGET_X} ${FIGHTER_TARGET_Y}"
+          FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
           draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
         fi
         ;;
       $SNIPER)
-        if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
+        if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT || FIGHTER_LASER_Y <= 1 || FIGHTER_LASER_X >= SCREEN_WIDTH || FIGHTER_LASER_X <= 0)); then
           erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
           unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
           FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
@@ -558,9 +562,33 @@ fighter-lasers() {
           fi
           continue
         else
-          ((FIGHTER_LASER_Y++))
-          FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_TARGET_X} ${FIGHTER_TARGET_Y}"
-          draw-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          if ((FIGHTER_LASER_X == FIGHTER_LASER_TARGET_X && FIGHTER_LASER_Y == FIGHTER_LASER_TARGET_Y)); then
+            erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+            unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
+            FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
+            ((TOTAL_FIGHTER_LASERS--))
+          else
+            erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+            DX=$((FIGHTER_LASER_TARGET_X - FIGHTER_LASER_X))
+            DY=$((FIGHTER_LASER_TARGET_Y - FIGHTER_LASER_Y))
+            ABSDX=${DX#-}
+            ABSDY=${DY#-}
+            if (( ABSDX < ABSDY )); then
+              if ((DY < 0 )); then
+                ((FIGHTER_LASER_Y--))
+              else
+                ((FIGHTER_LASER_Y++))
+              fi
+            else
+              if ((DX < 0 )); then
+                ((FIGHTER_LASER_X--))
+              else
+                ((FIGHTER_LASER_X++))
+              fi
+            fi
+            FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
+            draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          fi
         fi
         ;;
     esac
