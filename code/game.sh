@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 round-up() {
+  kill-thread ${GAME_MUSIC_THREAD}
   local LOOP=0
   local TOTAL_FIGHTERS=${#FIGHTERS[@]}
   local FIGHTER_INSTANCE=()
@@ -95,6 +96,10 @@ round-up() {
 }
 
 level-up() {
+  MUSIC_TRACK=$(((RANDOM % 3) + 1))
+  music "level${MUSIC_TRACK}"
+  GAME_MUSIC_THREAD=$!
+
   ((LEVEL++))
   ((MAX_FIGHTERS++))
   ((FIGHTER_CURRENT_SPEED--))
@@ -215,9 +220,6 @@ game-mode() {
 
   reset-timers
   reset-game
-  MUSIC_TRACK=$(((RANDOM % 3) + 1))
-  music "level${MUSIC_TRACK}"
-  GAME_MUSIC_THREAD=$!
   export LOOP=game-loop
 }
 
