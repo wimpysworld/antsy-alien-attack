@@ -260,13 +260,13 @@ player-respawn() {
 player-death() {
   local PLAYER=${1}
   case ${PLAYER} in
-    1) sound player-explosion
+    1) sound-explosion
        erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
        ((P1_LIVES--))
        P1_FRAME=1
        P1_FIRE_POWER=1
        ;;
-    2) sound player-explosion
+    2) sound-explosion
        erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
        ((P2_LIVES--))
        P2_FRAME=1
@@ -327,7 +327,7 @@ deploy-smartbomb() {
       esac
       FIGHTER_FRAME=1
       FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-      sound fighter-explosion
+      sound-explosion
       spawn-bonus "${FIGHTER_X}" "${FIGHTER_Y}"
       player-increment-score ${PLAYER} ${FIGHTER_POINTS}
     fi
@@ -634,7 +634,7 @@ fighter-ai() {
           esac
           FIGHTER_FRAME=1
           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-          sound fighter-explosion
+          sound-explosion
 
           # Player consequences
           if ((P1_SHIELDS == 0)); then
@@ -654,7 +654,7 @@ fighter-ai() {
           esac
           FIGHTER_FRAME=1
           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-          sound fighter-explosion
+          sound-explosion
 
           # Player consequences
           if ((P2_SHIELDS == 0)); then
@@ -818,7 +818,7 @@ player-laser-hit-fighter() {
     if ((LASER_X >= FIGHTER_X && LASER_X <= FIGHTER_X + FIGHTER_WIDTH && FIGHTER_FRAME == 0)); then
       if ((LASER_Y >= FIGHTER_Y && LASER_Y <= FIGHTER_Y + FIGHTER_HEIGHT)); then
         # Remove the fighter
-        sound fighter-explosion
+        sound-explosion
         case ${FIGHTER_TYPE} in
           $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
           $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
