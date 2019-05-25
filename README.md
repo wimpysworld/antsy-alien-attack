@@ -31,7 +31,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
   - [ ] Enemies
     - [x] Fighters
     - [x] Hunter Fighter AI
-    - [ ] Sniper Fighter AI
+    - [x] Sniper Fighter AI
     - [ ] Boss ships
     - [ ] Boss ship AI
   - [x] Power ups
