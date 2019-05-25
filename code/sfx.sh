@@ -40,3 +40,8 @@ sound-beep() {
 sound-silence() {
   :
 }
+
+sound-explosion() {
+  local EXPLOSION=$(((RANDOM % 9) + 1))
+  sound "explosion-${EXPLOSION}"
+}
