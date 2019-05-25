@@ -450,8 +450,8 @@ bonuses() {
       else
         ((BONUS_Y++))
         BONUSES[${BONUS_LOOP}]="${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}"
+        draw-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
       fi
-      draw-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
     done
   fi
 }
