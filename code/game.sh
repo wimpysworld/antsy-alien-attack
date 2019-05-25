@@ -553,26 +553,25 @@ fighter-lasers() {
             FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
             ((TOTAL_FIGHTER_LASERS--))
           else
-            erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
             DX=$((FIGHTER_LASER_TARGET_X - FIGHTER_LASER_X))
             DY=$((FIGHTER_LASER_TARGET_Y - FIGHTER_LASER_Y))
             ABSDX=${DX#-}
             ABSDY=${DY#-}
             if (( ABSDX < ABSDY )); then
-              if ((DY < 0 )); then
+              if ((DY < 0)); then
                 ((FIGHTER_LASER_Y--))
               else
                 ((FIGHTER_LASER_Y++))
               fi
             else
-              if ((DX < 0 )); then
+              if ((DX < 0)); then
                 ((FIGHTER_LASER_X--))
               else
                 ((FIGHTER_LASER_X++))
               fi
             fi
             FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
-            draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+            draw-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
           fi
         fi
         ;;
