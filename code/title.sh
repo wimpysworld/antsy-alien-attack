@@ -57,7 +57,7 @@ attract-mode() {
       2) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P O W E R   U P S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-----------------"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "    $ylw♦   Bonus Points"
+         raw-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "    $ylw\$   Bonus Points"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) ""
          raw-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "    $red♥   Extra Life  "
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) ""
