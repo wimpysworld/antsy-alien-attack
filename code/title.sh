@@ -19,8 +19,8 @@ attract-mode() {
   if ((TITLE_SCREEN_ATTRACT_COUNT >= TITLE_SCREEN_ATTRACT_MAX)); then
     blank-screen
     toggle-status
-    P1_SHEILDS=0
-    P2_SHEILDS=0
+    P1_SHIELDS=0
+    P2_SHIELDS=0
     HI_SCORE_PADDED=$(printf "%07d" ${HI_SCORE})
     draw-centered 0 "${WHT}${BBLK}" "HISCORE ${HI_SCORE_PADDED}"
     local SNIPER_X=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 6) ))
