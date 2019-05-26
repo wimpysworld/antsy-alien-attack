@@ -93,7 +93,7 @@ level-up() {
   export P2_KILLS=0
 
   # Fighters have increased fire power as the levels progress.
-  export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS * 2))
+  export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + LEVEL))
 
   # More points for fighters as the levels progress.
   export FIGHTER_POINTS=$((LEVEL * 10))
