@@ -24,6 +24,7 @@ round-up() {
   sleep 0.5
 
   if ((P1_DEAD == 0)); then
+    P1_SHIELDS=150
     TEMP_BONUS=0
     for (( LOOP=0; LOOP < P1_KILLS; LOOP++ )); do
       sound zap
@@ -48,6 +49,7 @@ round-up() {
   fi
 
   if ((P2_DEAD == 0)); then
+    P2_SHIELDS=150
     TEMP_BONUS=0
     for (( LOOP=0; LOOP < P2_KILLS; LOOP++ )); do
       sound zap
