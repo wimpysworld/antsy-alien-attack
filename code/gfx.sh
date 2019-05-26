@@ -323,7 +323,7 @@ create-starfield() {
 }
 
 animate-starfield() {
-  if ((ANIMATION_KEYFRAME % 6 == 0)); then
+  if ((ANIMATION_KEYFRAME % 8 == 0)); then
     local TOTAL_STARS=${#STAR_FIELD[@]}
     local STAR_INSTANCE=()
     local STAR_X=0
