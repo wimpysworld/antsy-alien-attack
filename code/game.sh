@@ -1028,10 +1028,6 @@ game-loop() {
     return 1
   fi
 
-  compose-sprites
-  animate-starfield
-  bonuses
-
   if ((P1_SHIELDS > 0)); then
     ((P1_SHIELDS--))
     if ((P1_SHIELDS == 0)); then
@@ -1069,7 +1065,13 @@ game-loop() {
     fi
   fi
 
-  fighter-lasers
+  compose-sprites
+  animate-starfield
+  bonuses
+
+  if ((ANIMATION_KEYFRAME % 3 != 0)); then
+    fighter-lasers
+  fi
   fighter-ai
 
   player-lasers ${P1}
