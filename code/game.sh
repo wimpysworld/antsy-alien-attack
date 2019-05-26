@@ -404,7 +404,7 @@ bonuses() {
       case ${BONUS_TYPE} in
         0) BONUS_SPRITE=(
            "$SPC "
-           "$ylw♦"
+           "$ylw$"
            );;
         1) BONUS_SPRITE=(
            "$SPC "
