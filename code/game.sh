@@ -726,7 +726,10 @@ fighter-ai() {
           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
         fi
       fi
+
+      # If the fighter is exploding, advanced the frame to be rendered.
       ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
+      
       FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
 
       # Render the appropriate fighter sprite.
