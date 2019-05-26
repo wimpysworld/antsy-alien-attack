@@ -106,6 +106,8 @@ level-up() {
   export BONUS_SPAWN_RATE=$((LEVEL * 2))
   export BONUS_POINTS=$((1000 * LEVEL))
   export BONUS_COLLECT=$((100 * LEVEL))
+  export FIGHTERS_SPAWNED=0
+  export FIGHTERS_ESCAPED=0
 
   # Announce the level
   if ((LEVEL == 1)); then
@@ -601,6 +603,7 @@ fighter-ai() {
       fi
       FIGHTERS+=("${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}")
       ((TOTAL_FIGHTERS++))
+      ((FIGHTERS_SPAWNED++))
     fi
   fi
 
@@ -622,6 +625,7 @@ fighter-ai() {
           unset FIGHTERS[${FIGHTER_LOOP}]
           FIGHTERS=("${FIGHTERS[@]}")
           ((TOTAL_FIGHTERS--))
+          ((FIGHTERS_ESCAPED++))
           continue
         elif object-collides-player ${P1} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
           # Remove the fighter
