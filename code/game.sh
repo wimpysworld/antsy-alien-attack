@@ -892,6 +892,10 @@ game-loop() {
   if ((P1_FRAME == 0)); then
     case ${KEY} in
       # Player 1
+      'q')
+        kill-thread ${GAME_MUSIC_THREAD}
+        teardown
+        ;;
       'w')
         ((P1_Y--))
         # Prevent leaving the top of the screen
