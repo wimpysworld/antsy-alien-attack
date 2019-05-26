@@ -507,7 +507,7 @@ fighter-lasers() {
             sound shield-impact
           fi
           continue
-        elif ((ANIMATION_KEYFRAME % 3 != 0)); then
+        else
           ((FIGHTER_LASER_Y++))
           FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
           draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
@@ -550,7 +550,7 @@ fighter-lasers() {
             unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
             FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
             ((TOTAL_FIGHTER_LASERS--))
-          elif ((ANIMATION_KEYFRAME % 3 != 0)); then
+          else
             DX=$((FIGHTER_LASER_TARGET_X - FIGHTER_LASER_X))
             DY=$((FIGHTER_LASER_TARGET_Y - FIGHTER_LASER_Y))
             ABSDX=${DX#-}
@@ -726,26 +726,25 @@ fighter-ai() {
       fi
       ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
       FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
-    fi
 
-    # Render the appropriate fighter sprite.
-    case ${FIGHTER_FRAME} in
-      0) case ${FIGHTER_TYPE} in
-            $HUNTER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-            $SNIPER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
-          esac
+      # Render the appropriate fighter sprite.
+      case ${FIGHTER_FRAME} in
+        0) case ${FIGHTER_TYPE} in
+              $HUNTER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+              $SNIPER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+            esac
+            ;;
+        1) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}";;
+        2) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}";;
+        3) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}";;
+        4) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}";;
+        5) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
+          unset FIGHTERS[${FIGHTER_LOOP}]
+          FIGHTERS=("${FIGHTERS[@]}")
+          ((TOTAL_FIGHTERS--))
           ;;
-      1) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}";;
-      2) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}";;
-      3) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}";;
-      4) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}";;
-      5) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
-         unset FIGHTERS[${FIGHTER_LOOP}]
-         FIGHTERS=("${FIGHTERS[@]}")
-         ((TOTAL_FIGHTERS--))
-         ;;
-    esac
-
+      esac
+    fi
     # Should the fighter unleash a laser?
     # Is the fighter alive, are there lasers available, is it time and is the fighter within the aiming window?
     if ((FIGHTER_FRAME == 0 && FIGHTER_LASER_COUNT < MAX_FIGHTER_LASERS && (RANDOM % ALIEN_FIRE_RATE == 0) && FIGHTER_Y <= FIGHTER_AIMING_FLOOR)); then
@@ -827,7 +826,7 @@ player-lasers() {
        local LASER_CEILING=${P2_LASER_CEILING}
        ;;
   esac
-  if ((TOTAL_LASERS > 0 && ANIMATION_KEYFRAME % 6 != 0)); then
+  if ((TOTAL_LASERS > 0 && ANIMATION_KEYFRAME % 10 != 0)); then
     local LASER_INSTANCE=()
     local LASER_X=0
     local LASER_Y=0
@@ -868,7 +867,7 @@ player-lasers() {
         ((TOTAL_LASERS--))
         player-increment-score ${PLAYER} ${FIGHTER_POINTS}
         continue
-      elif ((ANIMATION_KEYFRAME % 6 != 0)); then
+      else
         ((LASER_Y--))
         case ${PLAYER} in
           1) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
