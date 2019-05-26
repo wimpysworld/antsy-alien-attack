@@ -2,12 +2,11 @@
     "_": "", 
     "buttons": {
         "A": {
-            "action": "repeat(button(Keys.KEY_X); sleep(0.103))", 
+            "action": "button(Keys.KEY_COMMA); sleep(0.100)", 
             "name": "Fire"
         }, 
         "B": {
-            "action": "button(Keys.KEY_Q)", 
-            "name": "Quit"
+            "action": "button(Keys.KEY_R)"
         }, 
         "BACK": {
             "action": "button(Keys.KEY_1)"
@@ -35,8 +34,8 @@
     "pad_left": {}, 
     "pad_right": {}, 
     "stick": {
-        "action": "dpad(repeat(button(Keys.KEY_W)), repeat(button(Keys.KEY_S)), repeat(button(Keys.KEY_A)), repeat(button(Keys.KEY_D)))", 
-        "name": "WASD"
+        "action": "dpad(repeat(button(Keys.KEY_I); sleep(0.001)), repeat(button(Keys.KEY_K); sleep(0.001)), repeat(button(Keys.KEY_J)), repeat(button(Keys.KEY_L)))", 
+        "name": "IJKL"
     }, 
     "trigger_left": {}, 
     "trigger_right": {}, 

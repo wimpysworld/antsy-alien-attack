@@ -1,0 +1,43 @@
+{
+    "_": "", 
+    "buttons": {
+        "A": {
+            "action": "button(Keys.KEY_X); sleep(0.100)", 
+            "name": "Fire"
+        }, 
+        "B": {
+            "action": "button(Keys.KEY_R)"
+        }, 
+        "BACK": {
+            "action": "button(Keys.KEY_1)"
+        }, 
+        "C": {
+            "action": "button(Keys.KEY_LEFTCTRL) and button(Keys.KEY_C)", 
+            "name": "CTRL + C"
+        }, 
+        "CPADPRESS": {
+            "action": "button(Keys.BTN_LEFT)"
+        }, 
+        "RPAD": {
+            "action": "button(Keys.BTN_LEFT)"
+        }, 
+        "START": {
+            "action": "button(Keys.KEY_2)"
+        }
+    }, 
+    "cpad": {
+        "action": "mouse()"
+    }, 
+    "gyro": {}, 
+    "is_template": false, 
+    "menus": {}, 
+    "pad_left": {}, 
+    "pad_right": {}, 
+    "stick": {
+        "action": "dpad(repeat(button(Keys.KEY_W); sleep(0.001)), repeat(button(Keys.KEY_S); sleep(0.001)), repeat(button(Keys.KEY_A)), repeat(button(Keys.KEY_D)))", 
+        "name": "WASD"
+    }, 
+    "trigger_left": {}, 
+    "trigger_right": {}, 
+    "version": 1.4
+}
