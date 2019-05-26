@@ -13,6 +13,51 @@ readonly THRUST=(
 export THRUST_FRAME=0
 readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
 
+readonly STAR_0=(
+"$SPC "
+"$WHT·"
+)
+
+readonly STAR_1=(
+"$SPC "
+"$WHT•"
+)
+
+readonly STAR_2=(
+"$SPC "
+"$WHT+"
+)
+
+readonly STAR_3=(
+"$SPC "
+"$wht·"
+)
+
+readonly STAR_4=(
+"$SPC "
+"$wht•"
+)
+
+readonly STAR_5=(
+"$SPC "
+"$wht+"
+)
+
+readonly STAR_6=(
+"$SPC "
+"$blk·"
+)
+
+readonly STAR_7=(
+"$SPC "
+"$blk•"
+)
+
+readonly STAR_8=(
+"$SPC "
+"$blk+"
+)
+
 readonly P1_LASER_SPRITE=(
 "$RED▓"
 "$RED▒"
