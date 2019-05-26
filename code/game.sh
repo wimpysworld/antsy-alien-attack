@@ -430,7 +430,6 @@ bonuses() {
         ((TOTAL_BONUSES--))
         continue
       elif object-collides-player ${P1} "${BONUS_X}" "${BONUS_Y}"; then
-        # Remove laser
         erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
         BONUSES=("${BONUSES[@]}")
@@ -438,7 +437,6 @@ bonuses() {
         activate-bonus ${P1} ${BONUS_TYPE}
         continue
       elif object-collides-player ${P2} "${BONUS_X}" "${BONUS_Y}"; then
-        # Remove laser
         erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
         BONUSES=("${BONUSES[@]}")
