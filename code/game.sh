@@ -363,12 +363,12 @@ activate-bonus() {
        ;;
     4) player-increment-score ${PLAYER} ${BONUS_COLLECT}
        case ${PLAYER} in
-         1) if ((P1_FIRE_POWER < 3)); then
+         1) if ((P1_FIRE_POWER < 2)); then
               ((P1_FIRE_POWER+=1))
               sound power-up
             fi
             ;;
-         2) if ((P2_FIRE_POWER < 3)); then
+         2) if ((P2_FIRE_POWER < 2)); then
               ((P2_FIRE_POWER+=1))
               sound power-up
             fi
