@@ -244,13 +244,13 @@ player-respawn() {
   local PLAYER=${1}
   case ${PLAYER} in
     1) P1_FRAME=0
-       P1_SHIELDS=100
+       P1_SHIELDS=150
        P1_RESPAWN=1
        P1_X=${P1_STARTX}
        P1_Y=${P1_STARTY}
        ;;
     2) P2_FRAME=0
-       P2_SHIELDS=100
+       P2_SHIELDS=150
        P2_RESPAWN=1
        P2_X=${P2_STARTX}
        P2_Y=${P2_STARTY}
