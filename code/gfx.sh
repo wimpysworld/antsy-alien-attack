@@ -367,7 +367,6 @@ animate-starfield() {
 
 reset-gfx-timers() {
   export ANIMATION_KEYFRAME=0
-
 }
 
 update-gfx-timers() {
