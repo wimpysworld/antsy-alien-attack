@@ -289,36 +289,20 @@ a-star-is-born() {
   else
     NEW_STAR_Y=$((RANDOM % STAR_FLOOR))
   fi
-  NEW_STAR_SPRITE_INDEX=$((RANDOM % NUM_OF_STAR_SPRITES))
+  NEW_STAR_TYPE=$((RANDOM % NUM_OF_STAR_SPRITES))
 }
 
 create-starfield() {
   export STAR_FIELD=()
-  export STAR_CHARS=("·" "•" "+")
-  export STAR_COLORS=("$WHT" "$wht" "$blk")
   export STAR_SPRITES=()
-  export NUM_OF_STAR_SPRITES=-1
+  export NUM_OF_STAR_SPRITES=8
   readonly STAR_MAX=$((SCREEN_HEIGHT / 4 ))
   readonly STAR_FLOOR=$((SCREEN_HEIGHT -3))
-  local STAR_CHAR=""
-  local STAR_COLOR=""
   local STAR_LOOP=0
-  local CHAR_LOOP=0
-  local COL_LOOP=0
-  
-  # Build array of star sprites
-  for (( COL_LOOP=0; COL_LOOP < ${#STAR_COLORS[@]}; COL_LOOP++ )); do
-    for (( CHAR_LOOP=0; CHAR_LOOP < ${#STAR_CHARS[@]}; CHAR_LOOP++ )); do
-      ((NUM_OF_STAR_SPRITES++))
-      STAR_CHAR="${STAR_CHARS[${CHAR_LOOP}]}"
-      STAR_COLOR="${STAR_COLORS[${COL_LOOP}]}"
-      STAR_SPRITES+=("${STAR_COLOR}${STAR_CHAR}")
-    done
-  done
 
   for (( STAR_LOOP=0; STAR_LOOP < STAR_MAX; STAR_LOOP++ )); do
     a-star-is-born 0
-    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_SPRITE_INDEX}")
+    STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_TYPE}")
   done
 }
 
@@ -328,14 +312,14 @@ animate-starfield() {
     local STAR_INSTANCE=()
     local STAR_X=0
     local STAR_Y=0
-    local STAR_SPRITE_INDEX=0
+    local STAR_TYPE=0
     local STAR_SPRITE=()
     local STAR_LOOP=0
 
     if ((TOTAL_STARS < STAR_MAX)); then
       # Birth a new star
       a-star-is-born 1
-      STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_SPRITE_INDEX}")
+      STAR_FIELD+=("${NEW_STAR_X} ${NEW_STAR_Y} ${NEW_STAR_TYPE}")
       ((TOTAL_STARS++))
     fi
 
@@ -343,11 +327,19 @@ animate-starfield() {
       STAR_INSTANCE=(${STAR_FIELD[${STAR_LOOP}]})
       STAR_X=${STAR_INSTANCE[0]}
       STAR_Y=${STAR_INSTANCE[1]}
-      STAR_SPRITE_INDEX=${STAR_INSTANCE[2]}
-      STAR_SPRITE=(
-        "${SPC} "
-        "${STAR_SPRITES[${STAR_SPRITE_INDEX}]}"
-        )
+      STAR_TYPE=${STAR_INSTANCE[2]}
+      case ${STAR_TYPE} in
+        0) STAR_SPRITE=("${STAR_0[@]}");;
+        1) STAR_SPRITE=("${STAR_1[@]}");;
+        2) STAR_SPRITE=("${STAR_2[@]}");;
+        3) STAR_SPRITE=("${STAR_3[@]}");;
+        4) STAR_SPRITE=("${STAR_4[@]}");;
+        5) STAR_SPRITE=("${STAR_5[@]}");;
+        6) STAR_SPRITE=("${STAR_6[@]}");;
+        7) STAR_SPRITE=("${STAR_7[@]}");;
+        8) STAR_SPRITE=("${STAR_8[@]}");;
+      esac
+
       if ((STAR_Y >= STAR_FLOOR)); then
         # Remove the dead star
         erase-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
@@ -357,9 +349,9 @@ animate-starfield() {
         continue
       else
         ((STAR_Y++))
-        STAR_FIELD[${STAR_LOOP}]="${STAR_X} ${STAR_Y} ${STAR_SPRITE_INDEX}"
+        STAR_FIELD[${STAR_LOOP}]="${STAR_X} ${STAR_Y} ${STAR_TYPE}"
+        draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
       fi
-      draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
     done
   fi
 
