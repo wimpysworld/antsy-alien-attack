@@ -996,7 +996,7 @@ game-loop() {
       if ((P2_RECENTLY_FIRED == 0 && P2_DEAD == 0)); then
         sound player2-laser
         case ${P2_FIRE_POWER} in
-          1) P2_LASERS+=("$((P2_X + 4)) $((P1_Y - 1))")
+          1) P2_LASERS+=("$((P2_X + 4)) $((P2_Y - 1))")
              ;;
           2) P2_LASERS+=("$((P2_X + 3)) $((P2_Y - 1))")
              P2_LASERS+=("$((P2_X + 5)) $((P2_Y - 1))")
