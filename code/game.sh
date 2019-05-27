@@ -86,14 +86,31 @@ level-up() {
   GAME_MUSIC_THREAD=$!
 
   ((LEVEL++))
-  ((MAX_FIGHTERS++))
+  export MAX_FIGHTERS=$((LEVEL + 1))
+  case ${LEVEL} in
+    1) export LEVEL_COMPENSATION=10
+       export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 3))
+       ;;
+    2) export LEVEL_COMPENSATION=9
+       export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
+       ;;
+    3) export LEVEL_COMPENSATION=8
+       export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
+       ;;
+    4) export LEVEL_COMPENSATION=8
+       export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 1))
+       ;;
+    5) export LEVEL_COMPENSATION=7
+       export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
+       ;;
+    *) export LEVEL_COMPENSATION=6
+       export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
+       ;;
+  esac
   # Number of fighters that need to be vaniquished to level-up
   export LEVEL_UP_KILLS=$((5 + (LEVEL * (MAX_FIGHTERS * 5)) ))
   export P1_KILLS=0
   export P2_KILLS=0
-
-  # Fighters have increased fire power as the levels progress.
-  export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + LEVEL))
 
   # More points for fighters as the levels progress.
   export FIGHTER_POINTS=$((LEVEL * 10))
@@ -120,8 +137,7 @@ level-up() {
 }
 
 reset-game() {
-  export LEVEL=0
-  export LEVEL_UP_KILLS=0
+  export LEVEL=4
   export LAST_LEVEL=5
   readonly P1=1
   readonly P2=2
@@ -178,7 +194,6 @@ reset-game() {
   export P1_FRAME=0
   export P2_FRAME=0
   export FIGHTERS=()
-  export MAX_FIGHTERS=0
   export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
   export FIGHTER_MAX_Y=$(( SCREEN_HEIGHT - FIGHTER_HEIGHT ))
   export FIGHTER_AIMING_FLOOR=$((SCREEN_HEIGHT - (FIGHTER_HEIGHT * 2) ))
@@ -511,7 +526,7 @@ fighter-lasers() {
             sound shield-impact
           fi
           continue
-        else
+        elif ((ANIMATION_KEYFRAME % 2 == 0)); then
           ((FIGHTER_LASER_Y++))
           FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
           draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
@@ -548,7 +563,7 @@ fighter-lasers() {
             sound shield-impact
           fi
           continue
-        else
+        elif ((ANIMATION_KEYFRAME % 4 == 0)); then
           if ((FIGHTER_LASER_X == FIGHTER_LASER_TARGET_X && FIGHTER_LASER_Y == FIGHTER_LASER_TARGET_Y)); then
             erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
             unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
@@ -618,7 +633,7 @@ fighter-ai() {
     FIGHTER_TYPE=${FIGHTER_INSTANCE[2]}
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
 
-    if ((ANIMATION_KEYFRAME % 10 == 0)); then
+    if ((ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
       if ((FIGHTER_FRAME == 0)); then
         if ((FIGHTER_Y > FIGHTER_FLOOR)); then
           # Remove the fighter
@@ -733,7 +748,7 @@ fighter-ai() {
 
       # If the fighter is exploding, advanced the frame to be rendered.
       ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
-      
+
       FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
 
       # Render the appropriate fighter sprite.
@@ -1080,10 +1095,7 @@ game-loop() {
   compose-sprites
   animate-starfield
   bonuses
-
-  if ((ANIMATION_KEYFRAME % 3 != 0)); then
-    fighter-lasers
-  fi
+  fighter-lasers
   fighter-ai
 
   player-lasers ${P1}
