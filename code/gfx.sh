@@ -223,35 +223,45 @@ draw-picture-centered() {
   draw-picture "${X_OFFSET}" "${Y_OFFSET}" "${FILENAME}"
 }
 
-draw-sprite() {
-  local MASK=${1}; shift
+draw-sprite-unmasked() {
   local X=${1}; shift
   local Y=${1}; shift
   local SPRITE=("$@")
-  local i=
+  local i=0
   for (( i=0; i< ${#SPRITE[@]}; i++ )); do
-    case ${MASK} in
-      # The spaces either side are to scrub old position.
-      1) raw-draw "${X}" "$((Y + i))" "$SPC ${SPRITE[${i}]}$SPC ";;
-      *) raw-draw "${X}" "$((Y + i))" "${SPRITE[${i}]}";;
-    esac
+      raw-draw "${X}" "$((Y + i))" "${SPRITE[${i}]}"
   done
 }
 
-erase-sprite() {
-  local MASK=${1}; shift
+draw-sprite-masked() {
   local X=${1}; shift
   local Y=${1}; shift
   local SPRITE=("$@")
-  local i=
-  local ERASE=""
-  ERASE=$(repeat " " "${#SPRITE[0]}")
+  local i=0
+  for (( i=0; i< ${#SPRITE[@]}; i++ )); do
+      raw-draw "${X}" "$((Y + i))" "$SPC ${SPRITE[${i}]}$SPC "
+  done
+}
+
+erase-sprite-unmasked() {
+  local X=${1}; shift
+  local Y=${1}; shift
+  local SPRITE=("$@")
+  local i=0
+  local ERASE=$(repeat " " "${#SPRITE[0]}")
   for (( i=0; i < ${#SPRITE[@]}; i++ )); do
-    case ${MASK} in
-      # The spaces either side are to scrub old position.
-      1) raw-draw "${X}" "$((Y + i))" "$SPC ${ERASE}$SPC ";;
-      *) raw-draw "${X}" "$((Y + i))" "${SPC}${ERASE}";;
-    esac
+    raw-draw "${X}" "$((Y + i))" "${SPC}${ERASE}"
+  done
+}
+
+erase-sprite-masked() {
+  local X=${1}; shift
+  local Y=${1}; shift
+  local SPRITE=("$@")
+  local i=0
+  local ERASE=$(repeat " " "${#SPRITE[0]}")
+  for (( i=0; i < ${#SPRITE[@]}; i++ )); do
+    raw-draw "${X}" "$((Y + i))" "$SPC ${ERASE}$SPC "
   done
 }
 
