@@ -352,7 +352,7 @@ animate-starfield() {
 
       if ((STAR_Y >= STAR_FLOOR)); then
         # Remove the dead star
-        erase-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
+        erase-sprite-unmasked "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
         unset STAR_FIELD[${STAR_LOOP}]
         STAR_FIELD=("${STAR_FIELD[@]}")
         ((TOTAL_STARS--))
@@ -360,7 +360,7 @@ animate-starfield() {
       else
         ((STAR_Y++))
         STAR_FIELD[${STAR_LOOP}]="${STAR_X} ${STAR_Y} ${STAR_TYPE}"
-        draw-sprite 0 "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
+        draw-sprite-unmasked "${STAR_X}" "${STAR_Y}" "${STAR_SPRITE[@]}"
       fi
     done
   fi

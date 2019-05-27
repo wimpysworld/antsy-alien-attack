@@ -27,8 +27,8 @@ attract-mode() {
     local SNIPER_Y=$(( (SCREEN_HEIGHT / 2) - (FIGHTER_HEIGHT * 2) ))
     local HUNTER_X=$(( (SCREEN_WIDTH / 2) + (FIGHTER_WIDTH * 5) ))
     local HUNTER_Y=$(( (SCREEN_HEIGHT / 2) - (FIGHTER_HEIGHT * 2) ))
-    draw-sprite 0 ${HUNTER_X} ${HUNTER_Y} "${HUNTER_SPRITE[@]}"
-    draw-sprite 0 ${SNIPER_X} ${HUNTER_Y} "${SNIPER_SPRITE[@]}"
+    draw-sprite-unmasked ${HUNTER_X} ${HUNTER_Y} "${HUNTER_SPRITE[@]}"
+    draw-sprite-unmasked ${SNIPER_X} ${HUNTER_Y} "${SNIPER_SPRITE[@]}"
     case ${TITLE_SCREEN_ATTRACT_MODE} in
       0) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P L A Y E R 1   C O N T R O L S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------------"
@@ -197,8 +197,8 @@ title-loop() {
     local P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
     local P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
     local P2_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
-    draw-sprite 0 ${P1_X} ${P1_Y} "${P1_SPRITE[@]}"
-    draw-sprite 0 ${P2_X} ${P2_Y} "${P2_SPRITE[@]}"
+    draw-sprite-unmasked ${P1_X} ${P1_Y} "${P1_SPRITE[@]}"
+    draw-sprite-unmasked ${P2_X} ${P2_Y} "${P2_SPRITE[@]}"
     render
   fi
   KEY=
