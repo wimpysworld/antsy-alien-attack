@@ -277,13 +277,13 @@ player-death() {
   local PLAYER=${1}
   case ${PLAYER} in
     1) sound-explosion
-       erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
+       erase-sprite-masked "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
        ((P1_LIVES--))
        P1_FRAME=1
        P1_FIRE_POWER=1
        ;;
     2) sound-explosion
-       erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+       erase-sprite-masked "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
        ((P2_LIVES--))
        P2_FRAME=1
        P2_FIRE_POWER=1
@@ -295,25 +295,25 @@ player-sprite() {
   local PLAYER=${1}
   case ${PLAYER} in
     1) case ${P1_FRAME} in
-         0) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}";;
-         1) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE1[@]}";;
-         2) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE2[@]}";;
-         3) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE3[@]}";;
-         4) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE4[@]}";;
-         5) draw-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE5[@]}";;
-         6) erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_EXPLODE5[@]}"
+         0) draw-sprite-masked "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}";;
+         1) draw-sprite-masked "${P1_X}" "${P1_Y}" "${P1_EXPLODE1[@]}";;
+         2) draw-sprite-masked "${P1_X}" "${P1_Y}" "${P1_EXPLODE2[@]}";;
+         3) draw-sprite-masked "${P1_X}" "${P1_Y}" "${P1_EXPLODE3[@]}";;
+         4) draw-sprite-masked "${P1_X}" "${P1_Y}" "${P1_EXPLODE4[@]}";;
+         5) draw-sprite-masked "${P1_X}" "${P1_Y}" "${P1_EXPLODE5[@]}";;
+         6) erase-sprite-masked "${P1_X}" "${P1_Y}" "${P1_EXPLODE5[@]}"
             player-respawn ${P1}
             ;;
        esac
        ;;
     2) case ${P2_FRAME} in
-         0) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}";;
-         1) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE1[@]}";;
-         2) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE2[@]}";;
-         3) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE3[@]}";;
-         4) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE4[@]}";;
-         5) draw-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE5[@]}";;
-         6) erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_EXPLODE5[@]}"
+         0) draw-sprite-masked "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}";;
+         1) draw-sprite-masked "${P2_X}" "${P2_Y}" "${P2_EXPLODE1[@]}";;
+         2) draw-sprite-masked "${P2_X}" "${P2_Y}" "${P2_EXPLODE2[@]}";;
+         3) draw-sprite-masked "${P2_X}" "${P2_Y}" "${P2_EXPLODE3[@]}";;
+         4) draw-sprite-masked "${P2_X}" "${P2_Y}" "${P2_EXPLODE4[@]}";;
+         5) draw-sprite-masked "${P2_X}" "${P2_Y}" "${P2_EXPLODE5[@]}";;
+         6) erase-sprite-masked "${P2_X}" "${P2_Y}" "${P2_EXPLODE5[@]}"
             player-respawn ${P2}
             ;;
        esac
@@ -338,8 +338,8 @@ deploy-smartbomb() {
     FIGHTER_FRAME=${FIGHTER_INSTANCE[3]}
     if ((FIGHTER_FRAME == 0)); then
       case ${FIGHTER_TYPE} in
-        $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-        $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+        $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+        $SNIPER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
       esac
       FIGHTER_FRAME=1
       FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
@@ -445,20 +445,20 @@ bonuses() {
            );;
       esac
       if ((BONUS_Y >= SCREEN_HEIGHT)); then
-        erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+        erase-sprite-unmasked "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
         BONUSES=("${BONUSES[@]}")
         ((TOTAL_BONUSES--))
         continue
       elif object-collides-player ${P1} "${BONUS_X}" "${BONUS_Y}"; then
-        erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+        erase-sprite-unmasked "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
         BONUSES=("${BONUSES[@]}")
         ((TOTAL_BONUSES--))
         activate-bonus ${P1} ${BONUS_TYPE}
         continue
       elif object-collides-player ${P2} "${BONUS_X}" "${BONUS_Y}"; then
-        erase-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+        erase-sprite-unmasked "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
         unset BONUSES[${BONUS_LOOP}]
         BONUSES=("${BONUSES[@]}")
         ((TOTAL_BONUSES--))
@@ -467,7 +467,7 @@ bonuses() {
       else
         ((BONUS_Y++))
         BONUSES[${BONUS_LOOP}]="${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}"
-        draw-sprite 0 "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
+        draw-sprite-unmasked "${BONUS_X}" "${BONUS_Y}" "${BONUS_SPRITE[@]}"
       fi
     done
   fi
@@ -497,13 +497,13 @@ fighter-lasers() {
     case ${FIGHTER_LASER_TYPE} in
       $HUNTER)
         if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT)); then
-          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+          erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
           unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
           FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
           ((TOTAL_FIGHTER_LASERS--))
           continue
         elif object-collides-player ${P1} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
-          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+          erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
           unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
           FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
           ((TOTAL_FIGHTER_LASERS--))
@@ -515,7 +515,7 @@ fighter-lasers() {
           fi
           continue
         elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
-          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+          erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
           unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
           FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
           ((TOTAL_FIGHTER_LASERS--))
@@ -529,18 +529,18 @@ fighter-lasers() {
         elif ((ANIMATION_KEYFRAME % 2 == 0)); then
           ((FIGHTER_LASER_Y++))
           FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
-          draw-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
+          draw-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${HUNTER_LASER_SPRITE[@]}"
         fi
         ;;
       $SNIPER)
         if ((FIGHTER_LASER_Y >= SCREEN_HEIGHT || FIGHTER_LASER_Y <= 1 || FIGHTER_LASER_X >= SCREEN_WIDTH || FIGHTER_LASER_X <= 0)); then
-          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
           unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
           FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
           ((TOTAL_FIGHTER_LASERS--))
           continue
         elif object-collides-player ${P1} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
-          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
           unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
           FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
           ((TOTAL_FIGHTER_LASERS--))
@@ -552,7 +552,7 @@ fighter-lasers() {
           fi
           continue
         elif object-collides-player ${P2} "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}"; then
-          erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+          erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
           unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
           FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
           ((TOTAL_FIGHTER_LASERS--))
@@ -565,7 +565,7 @@ fighter-lasers() {
           continue
         elif ((ANIMATION_KEYFRAME % 4 == 0)); then
           if ((FIGHTER_LASER_X == FIGHTER_LASER_TARGET_X && FIGHTER_LASER_Y == FIGHTER_LASER_TARGET_Y)); then
-            erase-sprite 0 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+            erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
             unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
             FIGHTER_LASERS=("${FIGHTER_LASERS[@]}")
             ((TOTAL_FIGHTER_LASERS--))
@@ -588,7 +588,7 @@ fighter-lasers() {
               fi
             fi
             FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]="${FIGHTER_LASER_X} ${FIGHTER_LASER_Y} ${FIGHTER_LASER_TYPE} ${FIGHTER_LASER_TARGET_X} ${FIGHTER_LASER_TARGET_Y}"
-            draw-sprite 1 "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
+            draw-sprite-masked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
           fi
         fi
         ;;
@@ -638,8 +638,8 @@ fighter-ai() {
         if ((FIGHTER_Y > FIGHTER_FLOOR)); then
           # Remove the fighter
           case ${FIGHTER_TYPE} in
-            $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-            $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+            $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+            $SNIPER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
           esac
           unset FIGHTERS[${FIGHTER_LOOP}]
           FIGHTERS=("${FIGHTERS[@]}")
@@ -649,8 +649,8 @@ fighter-ai() {
         elif object-collides-player ${P1} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
           # Remove the fighter
           case ${FIGHTER_TYPE} in
-            $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-            $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+            $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+            $SNIPER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
           esac
           FIGHTER_FRAME=1
           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
@@ -668,8 +668,8 @@ fighter-ai() {
         elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
           # Remove the fighter
           case ${FIGHTER_TYPE} in
-            $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-            $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+            $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+            $SNIPER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
           esac
           FIGHTER_FRAME=1
           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
@@ -685,6 +685,10 @@ fighter-ai() {
           player-increment-score ${P1} ${FIGHTER_POINTS}
           continue
         else
+          case ${FIGHTER_TYPE} in
+            $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+            $SNIPER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+          esac
           ((FIGHTER_Y++))
 
           # Go hunting
@@ -742,10 +746,11 @@ fighter-ai() {
           # Prevent leaving screen right
           ((FIGHTER_X > FIGHTER_MAX_X)) && FIGHTER_X=${FIGHTER_MAX_X}
 
-          FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
+          #FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
         fi
       fi
 
+      # FIXME - Frame 1 is always skipped!
       # If the fighter is exploding, advanced the frame to be rendered.
       ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
 
@@ -754,15 +759,15 @@ fighter-ai() {
       # Render the appropriate fighter sprite.
       case ${FIGHTER_FRAME} in
         0) case ${FIGHTER_TYPE} in
-              $HUNTER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-              $SNIPER) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+              $HUNTER) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+              $SNIPER) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
             esac
             ;;
-        1) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}";;
-        2) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}";;
-        3) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}";;
-        4) draw-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}";;
-        5) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
+        1) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}";;
+        2) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}";;
+        3) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}";;
+        4) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}";;
+        6) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
           unset FIGHTERS[${FIGHTER_LOOP}]
           FIGHTERS=("${FIGHTERS[@]}")
           ((TOTAL_FIGHTERS--))
@@ -827,8 +832,8 @@ player-laser-hit-fighter() {
         # Remove the fighter
         sound-explosion
         case ${FIGHTER_TYPE} in
-          $HUNTER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-          $SNIPER) erase-sprite 1 "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+          $HUNTER) erase-sprite-masked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+          $SNIPER) erase-sprite-masked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
         esac
         FIGHTER_FRAME=1
         FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
@@ -864,11 +869,11 @@ player-lasers() {
       LASER_Y=${LASER_INSTANCE[1]}
       if ((LASER_Y <= LASER_CEILING)); then
         case ${PLAYER} in
-          1) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+          1) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
             unset P1_LASERS[${LASER_LOOP}]
             P1_LASERS=("${P1_LASERS[@]}")
             ;;
-          2) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+          2) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
             unset P2_LASERS[${LASER_LOOP}]
             P2_LASERS=("${P2_LASERS[@]}")
             ;;
@@ -877,12 +882,12 @@ player-lasers() {
         continue
       elif player-laser-hit-fighter "${LASER_X}" "${LASER_Y}"; then
         case ${PLAYER} in
-          1) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+          1) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
             unset P1_LASERS[${LASER_LOOP}]
             P1_LASERS=("${P1_LASERS[@]}")
             ((P1_KILLS++))
             ;;
-          2) erase-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+          2) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
             unset P2_LASERS[${LASER_LOOP}]
             P2_LASERS=("${P2_LASERS[@]}")
             ((P2_KILLS++))
@@ -894,10 +899,10 @@ player-lasers() {
       else
         ((LASER_Y--))
         case ${PLAYER} in
-          1) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+          1) draw-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
              P1_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
              ;;
-          2) draw-sprite 0 "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+          2) draw-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
              P2_LASERS[$LASER_LOOP]="${LASER_X} ${LASER_Y}"
              ;;
         esac
@@ -1038,13 +1043,13 @@ game-loop() {
 
   # If player 1 is not registered dead but has no lives, then kill player 1.
   if ((P1_LIVES <= 0 && P1_DEAD == 0 && P1_FRAME == 0)); then
-    erase-sprite 1 "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
+    erase-sprite-masked "${P1_X}" "${P1_Y}" "${P1_SPRITE[@]}"
     P1_DEAD=1
   fi
 
   # If player 2 is not registered dead but has no lives, then kill player 2.
   if ((P2_LIVES <= 0 && P2_DEAD == 0 && P2_FRAME == 0)); then
-    erase-sprite 1 "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
+    erase-sprite-masked "${P2_X}" "${P2_Y}" "${P2_SPRITE[@]}"
     P2_DEAD=1
   fi
 
