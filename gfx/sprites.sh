@@ -97,52 +97,47 @@ readonly SNIPER_LASER_HEIGHT=$(( ${#SNIPER_LASER_SPRITE[@]} ))
 export FIGHTER_WIDTH=6
 export FIGHTER_HEIGHT=5
 readonly HUNTER_SPRITE=(
-"$SPC     "
 "$blk$BWHT░$blk$BBLK▌$SPC $blk▐$blk$BWHT░"
 "$MGN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$MGN$BBLK▀"
 "$SPC $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$SPC "
-"$SPC     "
 )
 
 readonly SNIPER_SPRITE=(
-"$SPC     "
 "$blk$BWHT░$blk$BBLK▌$SPC $blk▐$blk$BWHT░"
 "$GRN$BBLK▀$blk$BWHT▒$WHT█$blk$BWHT▒$GRN$BBLK▀"
 "$SPC $WHT$BBLK▀$RED$BWHT▀$WHT$BBLK▀$SPC "
-"$SPC     "
 )
 
 # 4 explosion frames
+#     
+#▒▌ ▐█
+#▀▐█▓
+# ▀▀▒
+#  ▀
+#     
 readonly FIGHTER_EXPLODE1=(
-"$SPC     "
-"$wht$BBLK▓▓▓▓▓"
-"$wht$BBLK▓▓▓▓▓"
-"$wht$BBLK▓▓▓▓▓"
-"$SPC     "
+"$blk$BWHT▒$blk$BBLK▌$SPC $blk$BBLK▐$WHT█"
+"$MGN$BBLK▀$blk$BWHT▐$WHT█$blk▓"
+"$SPC $blk$BWHT▀$RED$BBLK▀$WHT$BBLK▒"
+"$SPC  $WHT$BBLK▀"
 )
 
 readonly FIGHTER_EXPLODE2=(
-"$SPC     "
 "$ylw$BBLK▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓"
-"$SPC     "
 )
 
 readonly FIGHTER_EXPLODE3=(
-"$SPC     "
 "$ylw$BBLK▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒"
-"$SPC     "
 )
 
 readonly FIGHTER_EXPLODE4=(
-"$SPC     "
 "$ylw$BBLK░░░░░"
 "$ylw$BBLK░░░░░"
 "$ylw$BBLK░░░░░"
-"$SPC     "
 )
 
 # 5 player 1 explosion frames
