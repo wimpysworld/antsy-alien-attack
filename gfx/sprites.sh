@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-export P1_WIDTH=6
-export P1_HEIGHT=7
-export P2_WIDTH=6
-export P2_HEIGHT=7
-
-readonly THRUST=(
-"$SPC  $ylw▀$SPC $ylw▀  "
-"$SPC  $ylw$bred▓$SPC $ylw$bred▓$SPC  "
-"$SPC  $red$bylw▓$SPC $red$bylw▓$SPC  "
-)
-export THRUST_FRAME=0
-readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
-
 readonly STAR_0=(
 "$SPC "
 "$WHT·"
@@ -222,6 +209,20 @@ readonly P2_EXPLODE5=(
 "$ylw$BBLK░░░░░░░"
 "$SPC       "
 )
+
+export P1_WIDTH=7
+export P1_HEIGHT=7
+export P2_WIDTH=7
+export P2_HEIGHT=7
+
+readonly THRUST=(
+"$SPC  $ylw▀$SPC $ylw▀  "
+"$SPC  $ylw$bred▓$SPC $ylw$bred▓$SPC  "
+"$SPC  $red$bylw▓$SPC $red$bylw▓$SPC  "
+)
+export THRUST_FRAME=0
+readonly THRUST_FRAMES=$(( ${#THRUST[@]} + 1 ))
+
 
 compose-sprites() {
 #       
