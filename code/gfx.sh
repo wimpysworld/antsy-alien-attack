@@ -92,7 +92,7 @@ function fps-counter-erase() {
 }
 
 function fps-counter() {
-  if ((FPS_ENABLED == 1 && SECONDS > SEC)); then
+  if ((SECONDS > SEC)); then
     FPS=${FPSC}
     ((FPS > MAX_FPS)) && MAX_FPS=${FPS}
     ((FPS < LOW_FPS)) && LOW_FPS=${FPS}
@@ -105,7 +105,7 @@ function fps-counter() {
 }
 
 render() {
-  fps-counter
+  ((FPS_ENABLED)) && fps-counter
   echo -en "${FRAME_BUFFER}"
   unset FRAME_BUFFER
 }
