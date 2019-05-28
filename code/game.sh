@@ -88,22 +88,22 @@ level-up() {
   ((LEVEL++))
   export MAX_FIGHTERS=$((LEVEL + 1))
   case ${LEVEL} in
-    1) export LEVEL_COMPENSATION=10
+    1) export LEVEL_COMPENSATION=6
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 3))
        ;;
-    2) export LEVEL_COMPENSATION=9
+    2) export LEVEL_COMPENSATION=6
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
        ;;
-    3) export LEVEL_COMPENSATION=8
+    3) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
        ;;
-    4) export LEVEL_COMPENSATION=8
+    4) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 1))
        ;;
-    5) export LEVEL_COMPENSATION=7
+    5) export LEVEL_COMPENSATION=4
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
        ;;
-    *) export LEVEL_COMPENSATION=6
+    *) export LEVEL_COMPENSATION=3
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
        ;;
   esac
@@ -562,7 +562,7 @@ fighter-lasers() {
             sound shield-impact
           fi
           continue
-        elif ((ANIMATION_KEYFRAME % 4 == 0)); then
+        elif ((ANIMATION_KEYFRAME % 3 == 0)); then
           if ((FIGHTER_LASER_X == FIGHTER_LASER_TARGET_X && FIGHTER_LASER_Y == FIGHTER_LASER_TARGET_Y)); then
             erase-sprite-unmasked "${FIGHTER_LASER_X}" "${FIGHTER_LASER_Y}" "${SNIPER_LASER_SPRITE[@]}"
             unset FIGHTER_LASERS[${FIGHTER_LASER_LOOP}]
