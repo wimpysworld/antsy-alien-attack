@@ -137,7 +137,7 @@ level-up() {
 }
 
 reset-game() {
-  export LEVEL=4
+  export LEVEL=0
   export LAST_LEVEL=5
   readonly P1=1
   readonly P2=2
@@ -194,11 +194,10 @@ reset-game() {
   export P1_FRAME=0
   export P2_FRAME=0
   export FIGHTERS=()
-  export FIGHTER_MAX_X=$(( SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
-  export FIGHTER_MAX_Y=$(( SCREEN_HEIGHT - FIGHTER_HEIGHT ))
+  export FIGHTER_MAX_X=$((SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
+  export FIGHTER_MAX_Y=$((SCREEN_HEIGHT - FIGHTER_HEIGHT - 2))
   export FIGHTER_AIMING_FLOOR=$((SCREEN_HEIGHT - (FIGHTER_HEIGHT * 2) ))
   export FIGHTER_LASERS=()
-  readonly FIGHTER_FLOOR=$((SCREEN_HEIGHT + FIGHTER_HEIGHT))
   # Fighter types
   readonly SNIPER=1
   readonly HUNTER=2
@@ -402,7 +401,7 @@ spawn-bonus() {
     local BONUS_X="${1}"
     local BONUS_Y="${2}"
     local BONUS_TYPE=$((RANDOM % 5))
-    ((BONUS_X+=3))
+    ((BONUS_X+=2))
     BONUSES+=("${BONUS_X} ${BONUS_Y} ${BONUS_TYPE}")
   fi
 }
@@ -601,7 +600,7 @@ fighter-ai() {
   local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
-  local FIGHTER_Y=0
+  local FIGHTER_Y=1
   local TARGET_X=0
   local TARGET_Y=0
   local TARGET_PLAYER=0
@@ -635,7 +634,7 @@ fighter-ai() {
 
     if ((ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
       if ((FIGHTER_FRAME == 0)); then
-        if ((FIGHTER_Y > FIGHTER_FLOOR)); then
+        if ((FIGHTER_Y >= FIGHTER_MAX_Y)); then
           # Remove the fighter
           case ${FIGHTER_TYPE} in
             $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
@@ -716,15 +715,15 @@ fighter-ai() {
             fi
 
             if ((HUNT_P1 == 1)); then
-              if ((FIGHTER_X <= P1_X)); then
+              if (( (FIGHTER_X - 1) <= P1_X)); then
                 ((FIGHTER_X++))
-              elif ((FIGHTER_X >= P1_X)); then
+              elif (( (FIGHTER_X - 1) >= P1_X)); then
                 ((FIGHTER_X--))
               fi
             elif ((HUNT_P2 == 1)); then
-              if ((FIGHTER_X <= P2_X)); then
+              if (( (FIGHTER_X - 1 ) <= P2_X)); then
                 ((FIGHTER_X++))
-              elif ((FIGHTER_X >= P2_X)); then
+              elif (( (FIGHTER_X - 1 ) >= P2_X)); then
                 ((FIGHTER_X--))
               fi
             else
@@ -781,7 +780,7 @@ fighter-ai() {
         $HUNTER)
           if (( FIGHTER_Y <= (P1_Y - P1_HEIGHT) || FIGHTER_Y <= (P2_Y - P2_HEIGHT) )); then
             sound fighter-laser
-            FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} 0 0")
+            FIGHTER_LASERS+=("$((FIGHTER_X + 1)) $((FIGHTER_Y + 3)) ${FIGHTER_TYPE} 0 0")
             ((FIGHTER_LASER_COUNT++))
           fi
           ;;
@@ -797,13 +796,13 @@ fighter-ai() {
             1) TARGET_X=$((P1_X + (P1_WIDTH / 2) ))
                TARGET_Y=$((P1_Y + (P1_HEIGHT / 2) ))
                sound fighter-laser
-               FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} ${TARGET_X} ${TARGET_Y}")
+               FIGHTER_LASERS+=("$((FIGHTER_X + 1)) $((FIGHTER_Y + 3)) ${FIGHTER_TYPE} ${TARGET_X} ${TARGET_Y}")
                ((FIGHTER_LASER_COUNT++))
                ;;
             2) TARGET_X=$((P2_X + (P2_WIDTH / 2) ))
                TARGET_Y=$((P2_Y + (P2_HEIGHT / 2) ))
                sound fighter-laser
-               FIGHTER_LASERS+=("$((FIGHTER_X + 3)) $((FIGHTER_Y + 4)) ${FIGHTER_TYPE} ${TARGET_X} ${TARGET_Y}")
+               FIGHTER_LASERS+=("$((FIGHTER_X + 1)) $((FIGHTER_Y + 3)) ${FIGHTER_TYPE} ${TARGET_X} ${TARGET_Y}")
                ((FIGHTER_LASER_COUNT++))
                ;;
           esac

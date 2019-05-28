@@ -23,9 +23,9 @@ attract-mode() {
     P2_SHIELDS=0
     HI_SCORE_PADDED=$(printf "%07d" ${HI_SCORE})
     draw-centered 0 "${WHT}${BBLK}" "HISCORE ${HI_SCORE_PADDED}"
-    local SNIPER_X=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 6) ))
+    local SNIPER_X=$(( (SCREEN_WIDTH / 2) - (FIGHTER_WIDTH * 7) ))
     local SNIPER_Y=$(( (SCREEN_HEIGHT / 2) - (FIGHTER_HEIGHT * 2) ))
-    local HUNTER_X=$(( (SCREEN_WIDTH / 2) + (FIGHTER_WIDTH * 5) ))
+    local HUNTER_X=$(( (SCREEN_WIDTH / 2) + (FIGHTER_WIDTH * 6) ))
     local HUNTER_Y=$(( (SCREEN_HEIGHT / 2) - (FIGHTER_HEIGHT * 2) ))
     draw-sprite-unmasked ${HUNTER_X} ${HUNTER_Y} "${HUNTER_SPRITE[@]}"
     draw-sprite-unmasked ${SNIPER_X} ${HUNTER_Y} "${SNIPER_SPRITE[@]}"
