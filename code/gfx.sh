@@ -265,13 +265,6 @@ erase-sprite-masked() {
   done
 }
 
-erase() {
-  local X=$(( ${1}+1 ))
-  local Y=$(( ${2}+1 ))
-  local LEN=${3}
-  FRAME_BUFFER+="\e[${Y};${X}H\e[${LEN}X"
-}
-
 repeat() {
   local CHAR=${1}
   local NUM=${2}
