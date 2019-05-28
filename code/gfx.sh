@@ -134,8 +134,8 @@ raw-draw() {
 }
 
 lol-draw() {
-  local X=$((${1} + 1))
-  local Y=$((${2} + 1))
+  local X=${1}
+  local Y=${2}
   local STR=$(echo "${3}" | lolcat -f -F 0.2)
   FRAME_BUFFER+="\e[${Y};${X}H${STR}"
 }
