@@ -171,10 +171,10 @@ reset-game() {
   export P1_Y=${P1_STARTY}
   export P2_X=${P2_STARTX}
   export P2_Y=${P2_STARTY}
-  export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH + 2) ))
-  export P1_MAX_Y=$(( SCREEN_HEIGHT - P1_HEIGHT ))
-  export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH + 2) ))
-  export P2_MAX_Y=$(( SCREEN_HEIGHT - P2_HEIGHT ))
+  export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH  + 1) ))
+  export P1_MAX_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT - 1) ))
+  export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH  + 1) ))
+  export P2_MAX_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT - 1) ))
   export P1_LASERS=()
   export P2_LASERS=()
   export P1_FIRE_POWER=1
@@ -194,8 +194,8 @@ reset-game() {
   export P1_FRAME=0
   export P2_FRAME=0
   export FIGHTERS=()
-  export FIGHTER_MAX_X=$((SCREEN_WIDTH  - (FIGHTER_WIDTH + 2) ))
-  export FIGHTER_MAX_Y=$((SCREEN_HEIGHT - FIGHTER_HEIGHT - 2))
+  export FIGHTER_MAX_X=$((SCREEN_WIDTH  - (FIGHTER_WIDTH + 1) ))
+  export FIGHTER_MAX_Y=$((SCREEN_HEIGHT - FIGHTER_HEIGHT - 1))
   export FIGHTER_AIMING_FLOOR=$((SCREEN_HEIGHT - (FIGHTER_HEIGHT * 2) ))
   export FIGHTER_LASERS=()
   # Fighter types
