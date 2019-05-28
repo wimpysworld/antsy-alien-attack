@@ -206,11 +206,11 @@ draw-picture() {
   local X=${1}
   local Y=${2}
   local FILENAME=gfx/${3}.ans
+  local LOOP=0
   local CONTENT=()
   readarray -t CONTENT < "${FILENAME}"
-  for LINE in "${CONTENT[@]}"; do
-    raw-draw "${X}" "${Y}" "${SPC}${LINE}"
-    ((Y++))
+  for LOOP in "${!CONTENT[@]}"; do
+    raw-draw "${X}" "$((Y + LOOP))" "${CONTENT[${LOOP}]}"
   done
 }
 
@@ -227,9 +227,9 @@ draw-sprite-unmasked() {
   local X=${1}; shift
   local Y=${1}; shift
   local SPRITE=("$@")
-  local i=0
-  for (( i=0; i< ${#SPRITE[@]}; i++ )); do
-      raw-draw "${X}" "$((Y + i))" "${SPRITE[${i}]}"
+  local LOOP=0
+  for LOOP in "${!SPRITE[@]}"; do
+      raw-draw "${X}" "$((Y + LOOP))" "${SPRITE[${LOOP}]}"
   done
 }
 
@@ -237,9 +237,9 @@ draw-sprite-masked() {
   local X=${1}; shift
   local Y=${1}; shift
   local SPRITE=("$@")
-  local i=0
-  for (( i=0; i< ${#SPRITE[@]}; i++ )); do
-      raw-draw "${X}" "$((Y + i))" "$SPC ${SPRITE[${i}]}$SPC "
+  local LOOP=0
+  for LOOP in "${!SPRITE[@]}"; do
+      raw-draw "${X}" "$((Y + LOOP))" "$SPC ${SPRITE[${LOOP}]}$SPC "
   done
 }
 
@@ -247,10 +247,10 @@ erase-sprite-unmasked() {
   local X=${1}; shift
   local Y=${1}; shift
   local SPRITE=("$@")
-  local i=0
+  local LOOP=0
   local ERASE=$(repeat " " "${#SPRITE[0]}")
-  for (( i=0; i < ${#SPRITE[@]}; i++ )); do
-    raw-draw "${X}" "$((Y + i))" "${SPC}${ERASE}"
+  for LOOP in "${!SPRITE[@]}"; do
+    raw-draw "${X}" "$((Y + LOOP))" "${SPC}${ERASE}"
   done
 }
 
@@ -258,10 +258,10 @@ erase-sprite-masked() {
   local X=${1}; shift
   local Y=${1}; shift
   local SPRITE=("$@")
-  local i=0
+  local LOOP=0
   local ERASE=$(repeat " " "${#SPRITE[0]}")
-  for (( i=0; i < ${#SPRITE[@]}; i++ )); do
-    raw-draw "${X}" "$((Y + i))" "$SPC ${ERASE}$SPC "
+  for LOOP in "${!SPRITE[@]}"; do
+    raw-draw "${X}" "$((Y + LOOP))" "$SPC ${ERASE}$SPC "
   done
 }
 
