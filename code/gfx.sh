@@ -118,19 +118,19 @@ blank-screen() {
   done
 }
 
+#X=$1
+#Y=$2
+#COLOR=$3
 draw() {
-  local X=$((${1} + 1))
-  local Y=$((${2} + 1))
-  local COLOR=${3}
   local STR=${*:4}
-  FRAME_BUFFER+="\e[${Y};${X}H\e[$COLOR${STR}\e[m"
+  FRAME_BUFFER+="\e[${2};${1}H\e[${3}${STR}\e[m"
 }
 
+#X=$1
+#Y=$2
+#STR=$3
 raw-draw() {
-  local X=$((${1} + 1))
-  local Y=$((${2} + 1))
-  local STR=${3}
-  FRAME_BUFFER+="\e[${Y};${X}H${STR}"
+  FRAME_BUFFER+="\e[${2};${1}H${3}"
 }
 
 lol-draw() {
