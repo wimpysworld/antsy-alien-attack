@@ -288,7 +288,7 @@ a-star-is-born() {
   local START_Y=${1}
   NEW_STAR_X=$((RANDOM % SCREEN_WIDTH))
   if (( START_Y != 0 )); then
-    NEW_STAR_Y=0
+    NEW_STAR_Y=2
   else
     NEW_STAR_Y=$((RANDOM % STAR_FLOOR))
   fi

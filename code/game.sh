@@ -179,8 +179,8 @@ reset-game() {
   export P2_LASERS=()
   export P1_FIRE_POWER=1
   export P2_FIRE_POWER=1
-  export P1_LASER_CEILING=1
-  export P2_LASER_CEILING=1
+  export P1_LASER_CEILING=2
+  export P2_LASER_CEILING=2
   export P1_RECENTLY_FIRED=0
   export P2_RECENTLY_FIRED=0
   export P1_LASER_LATENCY=20
@@ -194,8 +194,8 @@ reset-game() {
   export P1_FRAME=0
   export P2_FRAME=0
   export FIGHTERS=()
-  export FIGHTER_MAX_X=$((SCREEN_WIDTH  - (FIGHTER_WIDTH + 1) ))
-  export FIGHTER_MAX_Y=$((SCREEN_HEIGHT - FIGHTER_HEIGHT - 1))
+  export FIGHTER_MAX_X=$((SCREEN_WIDTH  - FIGHTER_WIDTH  + 1))
+  export FIGHTER_MAX_Y=$((SCREEN_HEIGHT - FIGHTER_HEIGHT - 2))
   export FIGHTER_AIMING_FLOOR=$((SCREEN_HEIGHT - (FIGHTER_HEIGHT * 2) ))
   export FIGHTER_LASERS=()
   # Fighter types
@@ -600,7 +600,7 @@ fighter-ai() {
   local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
   local FIGHTER_INSTANCE=()
   local FIGHTER_X=0
-  local FIGHTER_Y=1
+  local FIGHTER_Y=2
   local TARGET_X=0
   local TARGET_Y=0
   local TARGET_PLAYER=0
