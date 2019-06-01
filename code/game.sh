@@ -831,8 +831,8 @@ player-laser-hit-fighter() {
         # Remove the fighter
         sound-explosion
         case ${FIGHTER_TYPE} in
-          $HUNTER) erase-sprite-masked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-          $SNIPER) erase-sprite-masked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+          $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+          $SNIPER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
         esac
         FIGHTER_FRAME=1
         FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
