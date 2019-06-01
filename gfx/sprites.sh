@@ -107,6 +107,25 @@ readonly BOSS_SMALL_1=(
 "$WHT█$MGN$BBLK◘$WHT█$SPC $RED$BWHT▀▀$SPC $WHT█$MGN$BBLK◘$WHT█"
 "$WHT$BBLK▀▀▀$SPC    $WHT$BBLK▀▀▀")
 
+# ░░░░░         ░░░░░
+#░░▒▒▒░░  ░░░  ░░▒▒▒░░
+#░▒███▒░▄░▒▒▒░▄░▒███▒░
+#▒█████▒ ▒▒█▒▒ ▒█████▒
+#▒█████▒ ▒███▒ ▒█████▒
+#▒█████▒▄█◘◘◘█▄▒█████▒
+#█◘◘█◘◘█  ▀▀▀  █◘◘█◘◘█
+# ▀▀▀▀▀         ▀▀▀▀▀
+
+readonly BOSS_MEDIUM_1=(
+"$SPC $blk$BBLK░░░░░$SPC         $blk$BBLK░░░░░"
+"$blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC  $blk$BBLK░░░$SPC  $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░"
+"$blk$BBLK░$WHT$BBLK▒███▒$blk$BBLK░▄░▒▒▒$blk$BBLK░▄░$WHT$BBLK▒███▒$blk$BBLK░"
+"$WHT$BBLK▓█████▓$SPC $WHT$BBLK▓▓█▓▓$SPC $WHT$BBLK▓█████▓"
+"$WHT$BBLK▓$RED█████$WHT$BBLK▓$SPC $WHT$BBLK▓███▓$SPC $WHT$BBLK▓$RED█████$WHT$BBLK▓"
+"$WHT$BBLK▓█████▓$blk$BBLK▄$WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$blk$BBLK▄$WHT$BBLK▓█████▓"
+"$WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC  $WHT$BBLK▀▀▀$SPC  $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█"
+"$SPC $WHT$BBLK▀▀▀▀▀$SPC         $WHT$BBLK▀▀▀▀▀"
+)
 
 #               ░░░░░   ░░░░░
 # ░░░   ░░░    ░░▒▒▒░░ ░░▒▒▒░░    ░░░   ░░░
