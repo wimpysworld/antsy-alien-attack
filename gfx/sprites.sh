@@ -134,31 +134,33 @@ readonly P1_EXPLODE1=(
 "$WHT$BBLK▓▓▓▓▓▓▓"
 "$WHT$BBLK▓▓▓▓▓▓▓"
 "$WHT$BBLK▓▓▓▓▓▓▓"
-"$SPC       "
-)
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$SPC       ")
 
 readonly P1_EXPLODE2=(
 "$SPC       "
 "$wht$BBLK▓▓▓▓▓▓▓"
 "$wht$BBLK▓▓▓▓▓▓▓"
 "$wht$BBLK▓▓▓▓▓▓▓"
-"$SPC       "
-)
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$SPC       ")
 
 readonly P1_EXPLODE3=(
-"$SPC       "
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
-"$SPC       "
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓"
 )
 
 readonly P1_EXPLODE4=(
-"$SPC       "
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
-"$SPC       "
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒"
 )
 
 readonly P1_EXPLODE5=(
@@ -166,8 +168,9 @@ readonly P1_EXPLODE5=(
 "$ylw$BBLK░░░░░░░"
 "$ylw$BBLK░░░░░░░"
 "$ylw$BBLK░░░░░░░"
-"$SPC       "
-)
+"$ylw$BBLK░░░░░░░"
+"$ylw$BBLK░░░░░░░"
+"$SPC       ")
 
 # 5 player 2 explosion frames
 readonly P2_EXPLODE1=(
@@ -175,40 +178,45 @@ readonly P2_EXPLODE1=(
 "$WHT$BBLK▓▓▓▓▓▓▓"
 "$WHT$BBLK▓▓▓▓▓▓▓"
 "$WHT$BBLK▓▓▓▓▓▓▓"
-"$SPC       "
-)
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓"
+"$SPC       ")
 
 readonly P2_EXPLODE2=(
 "$SPC       "
 "$wht$BBLK▓▓▓▓▓▓▓"
 "$wht$BBLK▓▓▓▓▓▓▓"
 "$wht$BBLK▓▓▓▓▓▓▓"
-"$SPC       "
-)
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$wht$BBLK▓▓▓▓▓▓▓"
+"$SPC       ")
 
 readonly P2_EXPLODE3=(
 "$SPC       "
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
-"$SPC       "
-)
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓"
+"$SPC       ")
 
 readonly P2_EXPLODE4=(
 "$SPC       "
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
-"$SPC       "
-)
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒"
+"$SPC       ")
 
 readonly P2_EXPLODE5=(
 "$SPC       "
 "$ylw$BBLK░░░░░░░"
 "$ylw$BBLK░░░░░░░"
 "$ylw$BBLK░░░░░░░"
-"$SPC       "
-)
+"$ylw$BBLK░░░░░░░"
+"$ylw$BBLK░░░░░░░"
+"$SPC       ")
 
 export P1_WIDTH=7
 export P1_HEIGHT=7
