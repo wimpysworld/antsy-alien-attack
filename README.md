@@ -9,11 +9,11 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
   - [x] Input handler
     - [x] Keyboard
     - [x] Xbox360 Controller
-  - [ ] Graphics
+  - [x] Graphics
     - [x] Framebuffer
     - [x] Sprite engine
     - [x] Sprite collision detection
-    - [ ] Sprite overlays
+    - [X] Sprite overlays
     - [x] Starfield
     - [x] Performance metrics
   - [ ] Animators
@@ -57,8 +57,6 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Configuration
     - [x] Credits
   - [ ] Snap
-    - [ ] Bundle alacritty and fonts
-    - [ ] Desktop Launcher
 
 ## Requirements
 
