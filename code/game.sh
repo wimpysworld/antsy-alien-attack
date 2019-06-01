@@ -1041,9 +1041,9 @@ game-loop() {
 
   # Victory condition stub
   if ((LEVEL > LAST_LEVEL)); then
-      kill-thread ${GAME_MUSIC_THREAD}
-      victory-mode
-      return 1
+    kill-thread ${GAME_MUSIC_THREAD}
+    victory-mode
+    return 1
   fi
 
   # If player 1 is not registered dead but has no lives, then kill player 1.
