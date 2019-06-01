@@ -172,9 +172,9 @@ reset-game() {
   export P2_X=${P2_STARTX}
   export P2_Y=${P2_STARTY}
   export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH  + 1) ))
-  export P1_MAX_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT - 1) ))
+  export P1_MAX_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT) ))
   export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH  + 1) ))
-  export P2_MAX_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT - 1) ))
+  export P2_MAX_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT) ))
   export P1_LASERS=()
   export P2_LASERS=()
   export P1_FIRE_POWER=1
@@ -922,7 +922,7 @@ game-loop() {
       'w')
         ((P1_Y--))
         # Prevent leaving the top of the screen
-        ((P1_Y < 1)) && P1_Y=1
+        ((P1_Y < 2)) && P1_Y=2
         P1_LAST_KEY=${KEY}
         ;;
       's')
@@ -970,7 +970,7 @@ game-loop() {
     'i')
       ((P2_Y--))
       # Prevent leaving the top of the screen
-      ((P2_Y < 1)) && P2_Y=1
+      ((P2_Y < 2)) && P2_Y=2
       P2_LAST_KEY=${KEY}
       ;;
     'k')
