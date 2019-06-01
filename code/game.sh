@@ -90,21 +90,27 @@ level-up() {
   case ${LEVEL} in
     1) export LEVEL_COMPENSATION=6
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 3))
+       export DELAY=0.005
        ;;
     2) export LEVEL_COMPENSATION=6
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
+       export DELAY=0.004
        ;;
     3) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
+       export DELAY=0.003
        ;;
     4) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 1))
+       export DELAY=0.003
        ;;
     5) export LEVEL_COMPENSATION=4
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
+       export DELAY=0.002
        ;;
     *) export LEVEL_COMPENSATION=3
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
+       export DELAY=0.002
        ;;
   esac
   # Number of fighters that need to be vaniquished to level-up
