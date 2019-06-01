@@ -224,7 +224,7 @@ export P2_WIDTH=7
 export P2_HEIGHT=7
 
 readonly THRUST=(
-"$SPC  $ylw▀$SPC $ylw▀  "
+"$SPC  $ylw▀$SPC $ylw▀$SPC  "
 "$SPC  $ylw$bred▓$SPC $ylw$bred▓$SPC  "
 "$SPC  $red$bylw▓$SPC $red$bylw▓$SPC  "
 )
@@ -261,19 +261,19 @@ compose-sprites() {
 
 export P1_SPRITE=(
 "$SPC       "
-"$SPC   $COL1▄$SPC   "
-"$SPC  $blk▄$red█$blk▄  "
-"$SPC $COL1▄$blk█$COL1█$blk█$COL1▄ "
-"$COL1▐█$blk█$COL1█$blk█$COL1█▌"
+"$SPC   $COL1▄$SPC "
+"$SPC  $blk▄$red█$blk▄$SPC "
+"$SPC $COL1▄$blk█$COL1█$blk█$COL1▄$SPC "
+"$COL1▐█$blk█$COL1█$blk█$COL1█▌$SPC "
 "${THRUST[${THRUST_FRAME}]}"
 "$SPC       ")
 
 export P2_SPRITE=(
 "$SPC       "
-"$SPC   $COL2▄$SPC   "
-"$SPC  $blk▄$blu█$blk▄  "
-"$SPC $COL2▄$blk█$COL2█$blk█$COL2▄ "
-"$COL2▐█$blk█$COL2█$blk█$COL2█▌"
+"$SPC   $COL2▄$SPC "
+"$SPC  $blk▄$blu█$blk▄$SPC "
+"$SPC $COL2▄$blk█$COL2█$blk█$COL2▄$SPC "
+"$COL2▐█$blk█$COL2█$blk█$COL2█▌$SPC "
 "${THRUST[${THRUST_FRAME}]}"
 "$SPC       ")
 
