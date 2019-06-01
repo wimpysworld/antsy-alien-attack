@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "cfg"
+		},
+		{
+			"path": "code"
+		},
+		{
+			"path": "gfx"
+		},
+		{
+			"path": "img"
+		},
+		{
+			"path": "music"
+		},
+		{
+			"path": "sfx"
+		},
+		{
+			"path": "tools"
+		},
+		{
+			"path": "."
+		}
+	]
+}
