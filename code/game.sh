@@ -1088,12 +1088,8 @@ game-loop() {
   fi
 
   if ((ANIMATION_KEYFRAME % 5 == 0)); then
-    if ((P1_FRAME > 0)); then
-      ((P1_FRAME++))
-    fi
-    if ((P2_FRAME > 0)); then
-      ((P2_FRAME++))
-    fi
+    ((P1_FRAME > 0)) && ((P1_FRAME++))
+    ((P2_FRAME > 0)) && ((P2_FRAME++))
   fi
 
   compose-sprites
