@@ -90,26 +90,38 @@ level-up() {
   case ${LEVEL} in
     1) export LEVEL_COMPENSATION=6
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 3))
+       export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_SMALL_WIDTH / 2) ))
+       export BOSS_Y=5
        export DELAY=0.005
        ;;
     2) export LEVEL_COMPENSATION=6
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
+       export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_SMALL_WIDTH / 2) ))
+       export BOSS_Y=5
        export DELAY=0.004
        ;;
     3) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
+       export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_MEDIUM_WIDTH / 2) ))
+       export BOSS_Y=5
        export DELAY=0.003
        ;;
     4) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 1))
+       export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_MEDIUM_WIDTH / 2) ))
+       export BOSS_Y=5
        export DELAY=0.003
        ;;
     5) export LEVEL_COMPENSATION=4
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
+       export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_LARGE_WIDTH / 2) ))
+       export BOSS_Y=5
        export DELAY=0.002
        ;;
     *) export LEVEL_COMPENSATION=3
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
+       export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_LARGE_WIDTH / 2) ))
+       export BOSS_Y=5
        export DELAY=0.002
        ;;
   esac
@@ -117,6 +129,9 @@ level-up() {
   export LEVEL_UP_KILLS=$((5 + (LEVEL * (MAX_FIGHTERS * 5)) ))
   export P1_KILLS=0
   export P2_KILLS=0
+  export BOSS_KILLS=0
+  export BOSS_X_INCR=0
+  export BOSS_FIGHT=0
 
   # More points for fighters as the levels progress.
   export FIGHTER_POINTS=$((LEVEL * 10))
@@ -601,6 +616,42 @@ fighter-lasers() {
   done
 }
 
+boss-up() {
+  sound go
+  export BOSS_FIGHT=1
+}
+
+boss-pattern() {
+  local BOSS_WIDTH=${1}
+  if ((BOSS_X_INCR == 0)); then
+    BOSS_X_INCR=1
+  elif ((BOSS_X + BOSS_WIDTH >= SCREEN_WIDTH)); then
+    BOSS_X_INCR=-1
+  elif ((BOSS_X <= 1)); then
+    BOSS_X_INCR=1
+  fi
+  ((BOSS_X+=BOSS_X_INCR))
+}
+
+boss-ai() {
+  if ((ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
+    case ${LEVEL} in
+      1 | 2) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
+             boss-pattern ${BOSS_SMALL_WIDTH}
+             draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
+             ;;
+      3 | 4) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
+             boss-pattern ${BOSS_MEDIUM_WIDTH}
+             draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
+             ;;
+      *)     erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
+             boss-pattern ${BOSS_LARGE_WIDTH}
+             draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
+             ;;
+    esac
+  fi
+}
+
 fighter-ai() {
   local TOTAL_FIGHTERS=${#FIGHTERS[@]}
   local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
@@ -615,7 +666,7 @@ fighter-ai() {
   local FIGHTER_LOOP=0
 
   # Is it time to spawn a new alien fighter?
-  if ((TOTAL_FIGHTERS < MAX_FIGHTERS)); then
+  if (( (TOTAL_FIGHTERS < MAX_FIGHTERS) && BOSS_FIGHT == 0)); then
     if ((RANDOM % ALIEN_SPAWN_RATE == 0)); then
       FIGHTER_X=$((RANDOM % FIGHTER_MAX_X))
 
@@ -1033,11 +1084,16 @@ game-loop() {
     ((P2_RECENTLY_FIRED--))
   fi
 
-  # Level up
   if ((P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS)); then
-    round-up
-    level-up
-  fi
+    # Killed all the fighters, then bring on the boss!
+    if ((BOSS_FIGHT == 0)); then
+      boss-up
+    elif ((BOSS_KILLS >= 1)); then
+      # Boss thawted too? Then level up the player.
+      round-up
+      level-up
+    fi
+  fi 
 
   # Victory condition stub
   if ((LEVEL > LAST_LEVEL)); then
@@ -1103,6 +1159,9 @@ game-loop() {
   bonuses
   fighter-lasers
   fighter-ai
+  if ((BOSS_FIGHT == 1)); then
+    boss-ai
+  fi
 
   player-lasers ${P1}
   player-lasers ${P2}
