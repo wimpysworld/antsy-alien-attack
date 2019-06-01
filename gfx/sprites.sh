@@ -106,6 +106,8 @@ readonly BOSS_SMALL_1=(
 "$WHT███$blk$BBLK▄$WHT██$blk$BBLK▄$WHT███"
 "$WHT█$MGN$BBLK◘$WHT█$SPC $RED$BWHT▀▀$SPC $WHT█$MGN$BBLK◘$WHT█"
 "$WHT$BBLK▀▀▀$SPC    $WHT$BBLK▀▀▀")
+export BOSS_SMALL_WIDTH=10
+export BOSS_SMALL_HEIGHT=${#BOSS_SMALL_1[@]}
 
 # ░░░░░         ░░░░░
 #░░▒▒▒░░  ░░░  ░░▒▒▒░░
@@ -124,8 +126,9 @@ readonly BOSS_MEDIUM_1=(
 "$WHT$BBLK▓$RED█████$WHT$BBLK▓$SPC $WHT$BBLK▓███▓$SPC $WHT$BBLK▓$RED█████$WHT$BBLK▓"
 "$WHT$BBLK▓█████▓$blk$BBLK▄$WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$blk$BBLK▄$WHT$BBLK▓█████▓"
 "$WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC  $WHT$BBLK▀▀▀$SPC  $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█"
-"$SPC $WHT$BBLK▀▀▀▀▀$SPC         $WHT$BBLK▀▀▀▀▀"
-)
+"$SPC $WHT$BBLK▀▀▀▀▀$SPC         $WHT$BBLK▀▀▀▀▀")
+export BOSS_MEDIUM_WIDTH=21
+export BOSS_MEDIUM_HEIGHT=${#BOSS_MEDIUM_1[@]}
 
 #               ░░░░░   ░░░░░
 # ░░░   ░░░    ░░▒▒▒░░ ░░▒▒▒░░    ░░░   ░░░
@@ -144,8 +147,9 @@ readonly BOSS_LARGE_1=(
 "$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓$RED█████$WHT$BBLK▓$SPC $WHT$BBLK▓$RED█████$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓███▓$blk$BBLK▄$WHT$BBLK▓███▓"
 "$WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC   $WHT$BBLK▓█████▓$SPC $WHT$BBLK▓█████▓$SPC   $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█"
 "$SPC $WHT$BBLK▀▀▀$SPC   $WHT$BBLK▀▀▀$SPC    $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC    $WHT$BBLK▀▀▀$SPC   $WHT$BBLK▀▀▀"
-"$SPC               $WHT$BBLK▀▀▀▀▀$SPC   $WHT$BBLK▀▀▀▀▀"
-)
+"$SPC               $WHT$BBLK▀▀▀▀▀$SPC   $WHT$BBLK▀▀▀▀▀")
+export BOSS_LARGE_WIDTH=43
+export BOSS_LARGE_HEIGHT=${#BOSS_LARGE_1[@]}
 
 # 4 explosion frames
 #     
