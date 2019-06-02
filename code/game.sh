@@ -902,7 +902,7 @@ player-laser-hit-boss() {
       if ((LASER_Y >= BOSS_Y && LASER_Y <= BOSS_Y + BOSS_HEIGHT)); then
         sound-explosion
         ((BOSS_HEALTH--))
-        if ((BOSS_HEALTH == 0)); then
+        if ((BOSS_HEALTH <= 0)); then
           # Remove the boss
           erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SPRITE[@]}"
         fi
@@ -1144,16 +1144,15 @@ game-loop() {
     ((P2_RECENTLY_FIRED--))
   fi
 
-  if ((P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS)); then
-    # Killed all the fighters, then bring on the boss!
-    if ((BOSS_FIGHT == 0)); then
+  if (( (P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS) && BOSS_FIGHT == 0)); then
       boss-up
-    elif ((BOSS_HEALTH == 0)); then
-      # Boss thawted too? Then level up the player.
-      round-up
-      level-up
-    fi
   fi 
+
+  if ((BOSS_FIGHT == 1 && BOSS_HEALTH <= 0)); then
+    # Boss thawted too? Then level up the player.
+    round-up
+    level-up
+  fi
 
   # Victory condition stub
   if ((LEVEL > LAST_LEVEL)); then
