@@ -818,7 +818,6 @@ fighter-ai() {
           fi
           ((P1_KILLS++))
           player-increment-score ${P1} ${FIGHTER_POINTS}
-          continue
         elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
           # Remove the fighter
           case ${FIGHTER_TYPE} in
@@ -837,7 +836,6 @@ fighter-ai() {
           fi
           ((P2_KILLS++))
           player-increment-score ${P1} ${FIGHTER_POINTS}
-          continue
         else
           case ${FIGHTER_TYPE} in
             $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
@@ -899,33 +897,35 @@ fighter-ai() {
           ((FIGHTER_X < 0)) && FIGHTER_X=0
           # Prevent leaving screen right
           ((FIGHTER_X > FIGHTER_MAX_X)) && FIGHTER_X=${FIGHTER_MAX_X}
-
-          #FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
         fi
       fi
-
-      # FIXME - Frame 1 is always skipped!
-      # If the fighter is exploding, advanced the frame to be rendered.
-      ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
-
-      FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
 
       # Render the appropriate fighter sprite.
       case ${FIGHTER_FRAME} in
         0) case ${FIGHTER_TYPE} in
-              $HUNTER) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
-              $SNIPER) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
-            esac
-            ;;
-        1) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}";;
-        2) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}";;
-        3) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}";;
-        4) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}";;
-        6) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
-          unset FIGHTERS[${FIGHTER_LOOP}]
-          FIGHTERS=("${FIGHTERS[@]}")
-          ((TOTAL_FIGHTERS--))
-          ;;
+             $HUNTER) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
+             $SNIPER) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${SNIPER_SPRITE[@]}";;
+           esac
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
+           ;;
+        1) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE1[@]}"
+           ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}"
+           ;;
+        2) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE2[@]}"
+           ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}";;
+        3) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE3[@]}"
+           ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}";;
+        4) draw-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
+           ((FIGHTER_FRAME >= 1)) && ((FIGHTER_FRAME++))
+           FIGHTERS[${FIGHTER_LOOP}]="${FIGHTER_X} ${FIGHTER_Y} ${FIGHTER_TYPE} ${FIGHTER_FRAME}";;
+        5) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${FIGHTER_EXPLODE4[@]}"
+           unset FIGHTERS[${FIGHTER_LOOP}]
+           FIGHTERS=("${FIGHTERS[@]}")
+           ((TOTAL_FIGHTERS--))
+           ;;
       esac
     fi
     # Should the fighter unleash a laser?
