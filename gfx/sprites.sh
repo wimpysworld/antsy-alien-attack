@@ -105,7 +105,7 @@ readonly BOSS_SMALL_1=(
 "$SPC $WHT$BBLK▓$SPC  $WHT$BBLK▓▓$SPC  $WHT$BBLK▓$SPC  "
 "$WHT$BBLK▓$WHT█$WHT$BBLK▓$blk$BBLK▄$WHT██$blk$BBLK▄$WHT$BBLK▓$WHT█$WHT$BBLK▓"
 "$WHT███$blk$BBLK▄$WHT██$blk$BBLK▄$WHT███"
-"$WHT█$MGN$BBLK◘$WHT█$SPC $RED$BWHT▀▀$SPC $WHT█$MGN$BBLK◘$WHT█"
+"$WHT█$MGN$BBLK◘$WHT█$SPC $GRN$BWHT▀▀$SPC $WHT█$MGN$BBLK◘$WHT█"
 "$WHT$BBLK▀▀▀$SPC    $WHT$BBLK▀▀▀")
 export BOSS_SMALL_WIDTH=10
 export BOSS_SMALL_HEIGHT=${#BOSS_SMALL_1[@]}
@@ -125,7 +125,7 @@ readonly BOSS_MEDIUM_1=(
 "$blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC  $blk$BBLK░░░$SPC  $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░"
 "$blk$BBLK░$WHT$BBLK▒███▒$blk$BBLK░▄░▒▒▒$blk$BBLK░▄░$WHT$BBLK▒███▒$blk$BBLK░"
 "$WHT$BBLK▓█████▓$SPC $WHT$BBLK▓▓█▓▓$SPC $WHT$BBLK▓█████▓"
-"$WHT$BBLK▓$RED█████$WHT$BBLK▓$SPC $WHT$BBLK▓███▓$SPC $WHT$BBLK▓$RED█████$WHT$BBLK▓"
+"$WHT$BBLK▓$GRN█████$WHT$BBLK▓$SPC $WHT$BBLK▓███▓$SPC $WHT$BBLK▓$GRN█████$WHT$BBLK▓"
 "$WHT$BBLK▓█████▓$blk$BBLK▄$WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$blk$BBLK▄$WHT$BBLK▓█████▓"
 "$WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC  $WHT$BBLK▀▀▀$SPC  $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█"
 "$SPC $WHT$BBLK▀▀▀▀▀$SPC         $WHT$BBLK▀▀▀▀▀")
@@ -147,7 +147,7 @@ readonly BOSS_LARGE_1=(
 "$SPC $blk$BBLK░░░$SPC   $blk$BBLK░░░$SPC    $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC    $blk$BBLK░░░$SPC   $blk$BBLK░░░"
 "$blk$BBLK░▒▒▒$blk$BBLK░▄$blk$BBLK░▒▒▒$blk$BBLK░▄▄▄$blk$BBLK░$WHT$BBLK▒███▒$blk$BBLK░▄░$WHT$BBLK▒███▒$blk$BBLK░▄▄▄$blk$BBLK░▒▒▒$blk$BBLK░▄░▒▒▒$blk$BBLK░"
 "$WHT$BBLK▓▓█▓▓$SPC $WHT$BBLK▓▓█▓▓$SPC $blk$BBLK█$SPC $WHT$BBLK▓█████▓$SPC $WHT$BBLK▓█████▓$SPC $blk$BBLK█$SPC $WHT$BBLK▓▓█▓▓$SPC $WHT$BBLK▓▓█▓▓"
-"$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓$RED█████$WHT$BBLK▓$SPC $WHT$BBLK▓$RED█████$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓███▓$blk$BBLK▄$WHT$BBLK▓███▓"
+"$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓$GRN█████$WHT$BBLK▓$SPC $WHT$BBLK▓$GRN█████$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓███▓$blk$BBLK▄$WHT$BBLK▓███▓"
 "$WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC   $WHT$BBLK▓█████▓$SPC $WHT$BBLK▓█████▓$SPC   $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█"
 "$SPC $WHT$BBLK▀▀▀$SPC   $WHT$BBLK▀▀▀$SPC    $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC    $WHT$BBLK▀▀▀$SPC   $WHT$BBLK▀▀▀"
 "$SPC               $WHT$BBLK▀▀▀▀▀$SPC   $WHT$BBLK▀▀▀▀▀")
