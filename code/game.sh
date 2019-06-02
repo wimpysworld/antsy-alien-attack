@@ -92,36 +92,42 @@ level-up() {
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 3))
        export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_SMALL_WIDTH / 2) ))
        export BOSS_Y=5
+       export BOSS_TYPE=0
        export DELAY=0.005
        ;;
     2) export LEVEL_COMPENSATION=6
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
        export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_SMALL_WIDTH / 2) ))
        export BOSS_Y=5
+       export BOSS_TYPE=0
        export DELAY=0.004
        ;;
     3) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 2))
        export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_MEDIUM_WIDTH / 2) ))
        export BOSS_Y=5
+       export BOSS_TYPE=1
        export DELAY=0.003
        ;;
     4) export LEVEL_COMPENSATION=5
        export MAX_FIGHTER_LASERS=$((MAX_FIGHTERS + 1))
        export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_MEDIUM_WIDTH / 2) ))
        export BOSS_Y=5
+       export BOSS_TYPE=1
        export DELAY=0.003
        ;;
     5) export LEVEL_COMPENSATION=4
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
        export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_LARGE_WIDTH / 2) ))
        export BOSS_Y=5
+       export BOSS_TYPE=2
        export DELAY=0.002
        ;;
     *) export LEVEL_COMPENSATION=3
        export MAX_FIGHTER_LASERS=${MAX_FIGHTERS}
        export BOSS_X=$(( (SCREEN_WIDTH / 2) - (BOSS_LARGE_WIDTH / 2) ))
        export BOSS_Y=5
+       export BOSS_TYPE=2
        export DELAY=0.002
        ;;
   esac
@@ -129,12 +135,13 @@ level-up() {
   export LEVEL_UP_KILLS=$((5 + (LEVEL * (MAX_FIGHTERS * 5)) ))
   export P1_KILLS=0
   export P2_KILLS=0
-  export BOSS_KILLS=0
+  export BOSS_HEALTH=$((LEVEL * 20))
   export BOSS_X_INCR=0
   export BOSS_FIGHT=0
 
-  # More points for fighters as the levels progress.
+  # More points as the levels progress.
   export FIGHTER_POINTS=$((LEVEL * 10))
+  export BOSS_POINTS=$((LEVEL * 100))
 
   # Alien spawn rate and fire rate increase with level progression
   export ALIEN_FIRE_RATE=$((200 / LEVEL))
@@ -635,19 +642,19 @@ boss-pattern() {
 
 boss-ai() {
   if ((ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
-    case ${LEVEL} in
-      1 | 2) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
-             boss-pattern ${BOSS_SMALL_WIDTH}
-             draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
-             ;;
-      3 | 4) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
-             boss-pattern ${BOSS_MEDIUM_WIDTH}
-             draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
-             ;;
-      *)     erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
-             boss-pattern ${BOSS_LARGE_WIDTH}
-             draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
-             ;;
+    case ${BOSS_TYPE} in
+      0) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
+         boss-pattern ${BOSS_SMALL_WIDTH}
+         draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
+         ;;
+      1) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
+         boss-pattern ${BOSS_MEDIUM_WIDTH}
+         draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
+         ;;
+      *) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
+         boss-pattern ${BOSS_LARGE_WIDTH}
+         draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
+         ;;
     esac
   fi
 }
@@ -869,6 +876,45 @@ fighter-ai() {
   done
 }
 
+player-laser-hit-boss() {
+  if ((BOSS_FIGHT == 1)); then
+    local LASER_X=${1}
+    local LASER_Y=${2}
+    local BOSS_WIDTH=0
+    local BOSS_HEIGHT=0
+    local BOSS_SPRITE=()
+
+    case ${BOSS_TYPE} in
+      0) BOSS_WIDTH=${BOSS_SMALL_WIDTH}
+         BOSS_HEIGHT=${BOSS_SMALL_HEIGHT}
+         BOSS_SPRITE="${BOSS_SMALL_1[@]}"
+         ;;
+      1) BOSS_WIDTH=${BOSS_MEDIUM_WIDTH}
+         BOSS_HEIGHT=${BOSS_MEDIUM_HEIGHT}
+         BOSS_SPRITE="${BOSS_MEDIUM_1[@]}"
+         ;;
+      2) BOSS_WIDTH=${BOSS_LARGE_WIDTH}
+         BOSS_HEIGHT=${BOSS_LARGE_HEIGHT}
+         BOSS_SPRITE="${BOSS_LARGE_1[@]}"
+         ;;
+    esac
+    if ((LASER_X >= BOSS_X && LASER_X <= BOSS_X + BOSS_WIDTH)); then
+      if ((LASER_Y >= BOSS_Y && LASER_Y <= BOSS_Y + BOSS_HEIGHT)); then
+        sound-explosion
+        ((BOSS_HEALTH--))
+        if ((BOSS_HEALTH == 0)); then
+          # Remove the boss
+          erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SPRITE[@]}"
+        fi
+        return 0
+      fi
+    fi
+    return 1
+  else
+    return 1
+  fi
+}
+
 player-laser-hit-fighter() {
   local LASER_X=${1}
   local LASER_Y=${2}
@@ -951,6 +997,20 @@ player-lasers() {
         esac
         ((TOTAL_LASERS--))
         player-increment-score ${PLAYER} ${FIGHTER_POINTS}
+        continue
+      elif player-laser-hit-boss "${LASER_X}" "${LASER_Y}"; then
+        case ${PLAYER} in
+          1) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
+            unset P1_LASERS[${LASER_LOOP}]
+            P1_LASERS=("${P1_LASERS[@]}")
+            ;;
+          2) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
+            unset P2_LASERS[${LASER_LOOP}]
+            P2_LASERS=("${P2_LASERS[@]}")
+            ;;
+        esac
+        ((TOTAL_LASERS--))
+        player-increment-score ${PLAYER} ${BOSS_POINTS}
         continue
       else
         ((LASER_Y--))
@@ -1088,7 +1148,7 @@ game-loop() {
     # Killed all the fighters, then bring on the boss!
     if ((BOSS_FIGHT == 0)); then
       boss-up
-    elif ((BOSS_KILLS >= 1)); then
+    elif ((BOSS_HEALTH == 0)); then
       # Boss thawted too? Then level up the player.
       round-up
       level-up
