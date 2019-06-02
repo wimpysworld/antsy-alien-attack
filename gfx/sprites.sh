@@ -162,10 +162,9 @@ export BOSS_LARGE_HEIGHT=${#BOSS_LARGE_1[@]}
 #  ▀
 #     
 readonly FIGHTER_EXPLODE1=(
-"$blk$BWHT▒$blk$BBLK▌$SPC $blk$BBLK▐$WHT█"
-"$MGN$BBLK▀$blk$BWHT▐$WHT█$blk▓"
-"$SPC $blk$BWHT▀$RED$BBLK▀$WHT$BBLK▒"
-"$SPC  $WHT$BBLK▀"
+"$WHT$BBLK▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓"
 )
 
 readonly FIGHTER_EXPLODE2=(
