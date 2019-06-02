@@ -659,7 +659,7 @@ aquire-target() {
 
 boss-salvo() {
   local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
-  if ((BOSS_FIGHT == 1 && FIGHTER_LASER_COUNT == 0)); then
+  if ((BOSS_FIGHT == 1 && FIGHTER_LASER_COUNT == 0 && ANIMATION_KEYFRAME == 0)); then
     case ${BOSS_TYPE} in
       0) case ${BOSS_SALVO_PATTERN} in
            0) aquire-target "$((BOSS_X))" "$((BOSS_Y + BOSS_SMALL_HEIGHT - 1))" "${P1_MIN_X}" "${P1_MAX_Y}"
@@ -746,8 +746,8 @@ boss-ai() {
          draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
          ;;
     esac
-    boss-salvo
   fi
+  boss-salvo
 }
 
 fighter-ai() {
