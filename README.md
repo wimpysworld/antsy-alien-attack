@@ -16,7 +16,7 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [X] Sprite overlays
     - [x] Starfield
     - [x] Performance metrics
-  - [ ] Animators
+  - [x] Animators
     - [x] Player thrust
     - [ ] Player roll
     - [x] Explosion animations
@@ -28,19 +28,19 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] Main screen artwork
     - [x] Game over artwork
     - [x] Victory artwork
-  - [ ] Enemies
+  - [x] Enemies
     - [x] Fighters
     - [x] Hunter Fighter AI
     - [x] Sniper Fighter AI
-    - [ ] Boss ships
-    - [ ] Boss ship AI
+    - [x] Boss ships
+    - [x] Boss ship AI
   - [x] Power ups
     - [x] Bonus points
     - [x] Weapon upgrades
     - [x] Shields
     - [x] Smartbomb
     - [x] Extra life
-  - [ ] Level progression
+  - [x] Level progression
     - [x] Number of enemies rises
     - [x] Enemy firepower increases
     - [x] Enemy speed increases
@@ -49,14 +49,16 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [ ] Canyon levels, narrow playable area
     - [x] Level progression announcements
     - [x] Level-up skill points
-  - [ ] 2P
+  - [x] 2P
     - [x] Local
     - [ ] Network
   - [x] Title screen attract mode
     - [x] High score
     - [x] Configuration
     - [x] Credits
-  - [ ] Snap
+  - [ ] Packaging
+    - [ ] PPA
+    - [ ] Snap
 
 ## Requirements
 
