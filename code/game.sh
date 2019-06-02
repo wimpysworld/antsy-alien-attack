@@ -138,6 +138,7 @@ level-up() {
   export P2_KILLS=0
   export BOSS_HEALTH=$((LEVEL * 20))
   export BOSS_X_INCR=0
+  export BOSS_SALVO_PATTERN=0
   export BOSS_FIGHT=0
 
   # More points as the levels progress.
@@ -200,8 +201,10 @@ reset-game() {
   export P1_Y=${P1_STARTY}
   export P2_X=${P2_STARTX}
   export P2_Y=${P2_STARTY}
+  export P1_MIN_X=$(( P1_WIDTH ))
   export P1_MAX_X=$(( SCREEN_WIDTH  - (P1_WIDTH  + 1) ))
   export P1_MAX_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT) ))
+  export P2_MIN_X=$(( P2_WIDTH ))
   export P2_MAX_X=$(( SCREEN_WIDTH  - (P2_WIDTH  + 1) ))
   export P2_MAX_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT) ))
   export P1_LASERS=()
@@ -624,6 +627,97 @@ fighter-lasers() {
   done
 }
 
+aquire-target() {
+  local LASER_X=${1}
+  local LASER_Y=${2}
+  local TARGET_X=${3}
+  local TARGET_Y=${4}
+  local TARGET_PLAYER=0
+
+  if ((TARGET_X > 0 && TARGET_Y > 0)); then
+    FIGHTER_LASERS+=("${LASER_X} ${LASER_Y} ${SNIPER} ${TARGET_X} ${TARGET_Y}")
+  else
+    if ((P1_DEAD == 0 && P2_DEAD == 1)); then
+      TARGET_PLAYER=1
+    elif ((P1_DEAD == 1 && P2_DEAD == 0)); then
+      TARGET_PLAYER=2
+    else
+      TARGET_PLAYER=$(((RANDOM % 2) + 1))
+    fi
+    case ${TARGET_PLAYER} in
+      1) TARGET_X=$((P1_X + (P1_WIDTH / 2) ))
+        TARGET_Y=$((P1_Y + (P1_HEIGHT / 2) ))
+        FIGHTER_LASERS+=("${LASER_X} ${LASER_Y} ${SNIPER} ${TARGET_X} ${TARGET_Y}")
+        ;;
+      2) TARGET_X=$((P2_X + (P2_WIDTH / 2) ))
+        TARGET_Y=$((P2_Y + (P2_HEIGHT / 2) ))
+        FIGHTER_LASERS+=("${LASER_X} ${LASER_Y} ${SNIPER} ${TARGET_X} ${TARGET_Y}")
+        ;;
+    esac
+  fi
+}
+
+boss-salvo() {
+  local FIGHTER_LASER_COUNT=${#FIGHTER_LASERS[@]}
+  if ((BOSS_FIGHT == 1 && FIGHTER_LASER_COUNT == 0)); then
+    case ${BOSS_TYPE} in
+      0) case ${BOSS_SALVO_PATTERN} in
+           0) aquire-target "$((BOSS_X))" "$((BOSS_Y + BOSS_SMALL_HEIGHT - 1))" "${P1_MIN_X}" "${P1_MAX_Y}"
+              FIGHTER_LASERS+=("$((BOSS_X + 1)) $((BOSS_Y + BOSS_SMALL_HEIGHT - 1)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + 4))" "$((BOSS_Y + BOSS_SMALL_HEIGHT - 2))" 0 0
+              FIGHTER_LASERS+=("$((BOSS_X + 8)) $((BOSS_Y + BOSS_SMALL_HEIGHT - 1)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + BOSS_SMALL_WIDTH))" "$((BOSS_Y + BOSS_SMALL_HEIGHT - 1))" "${P1_MAX_X}" "${P1_MAX_Y}"
+              sound fighter-laser
+              ;;
+           1) aquire-target "$((BOSS_X + 1))" "$((BOSS_Y + BOSS_SMALL_HEIGHT - 1))" 0 0
+              FIGHTER_LASERS+=("$((BOSS_X + 5)) $((BOSS_Y + BOSS_SMALL_HEIGHT - 2)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + 8))" "$((BOSS_Y + BOSS_SMALL_HEIGHT - 1))" 0 0
+              sound fighter-laser
+              ;;
+         esac
+         ;;
+      1) case ${BOSS_SALVO_PATTERN} in
+           0) aquire-target "$((BOSS_X))" "$((BOSS_Y + BOSS_MEDIUM_HEIGHT - 1))" "${P1_MIN_X}" "${P1_MAX_Y}"
+              FIGHTER_LASERS+=("$((BOSS_X + 3)) $((BOSS_Y + BOSS_MEDIUM_HEIGHT - 1)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + 10))" "$((BOSS_Y + BOSS_MEDIUM_HEIGHT - 2))" 0 0
+              FIGHTER_LASERS+=("$((BOSS_X + 17)) $((BOSS_Y + BOSS_MEDIUM_HEIGHT - 1)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + BOSS_MEDIUM_WIDTH))" "$((BOSS_Y + BOSS_MEDIUM_HEIGHT - 1))" "${P1_MAX_X}" "${P1_MAX_Y}"
+              sound fighter-laser
+              ;;
+           1) aquire-target "$((BOSS_X + 3))"  "$((BOSS_Y + BOSS_MEDIUM_HEIGHT - 1))" 0 0
+              FIGHTER_LASERS+=("$((BOSS_X + 9)) $((BOSS_Y + BOSS_MEDIUM_HEIGHT - 2)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + 10))" "$((BOSS_Y + BOSS_MEDIUM_HEIGHT - 2))" 0 0
+              FIGHTER_LASERS+=("$((BOSS_X + 11)) $((BOSS_Y + BOSS_MEDIUM_HEIGHT - 2)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + 17))" "$((BOSS_Y + BOSS_MEDIUM_HEIGHT - 1))" 0 0
+              sound fighter-laser
+              ;;
+         esac
+         ;;
+      2) case ${BOSS_SALVO_PATTERN} in
+           0) FIGHTER_LASERS+=("$((BOSS_X + 2)) $((BOSS_Y + BOSS_LARGE_HEIGHT - 2)) ${HUNTER} 0 0")
+              FIGHTER_LASERS+=("$((BOSS_X + 8)) $((BOSS_Y + BOSS_LARGE_HEIGHT - 2)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + 17))" "$((BOSS_Y + BOSS_LARGE_HEIGHT - 1))" "${P1_MIN_X}" "${P1_MAX_Y}"
+              aquire-target "$((BOSS_X + 25))" "$((BOSS_Y + BOSS_LARGE_HEIGHT - 1))" "${P1_MAX_X}" "${P1_MAX_Y}"
+              FIGHTER_LASERS+=("$((BOSS_X + 34)) $((BOSS_Y + BOSS_LARGE_HEIGHT - 2)) ${HUNTER} 0 0")
+              FIGHTER_LASERS+=("$((BOSS_X + 40)) $((BOSS_Y + BOSS_LARGE_HEIGHT - 2)) ${HUNTER} 0 0")
+              sound fighter-laser
+              ;;
+           1) aquire-target "$((BOSS_X + 2))" "$((BOSS_Y + BOSS_LARGE_HEIGHT - 2))" "${P1_MIN_X}" "${P1_MAX_Y}"
+              aquire-target "$((BOSS_X + 8))" "$((BOSS_Y + BOSS_LARGE_HEIGHT - 2))" 0 0
+              FIGHTER_LASERS+=("$((BOSS_X + 17)) $((BOSS_Y + BOSS_LARGE_HEIGHT - 1)) ${HUNTER} 0 0")
+              FIGHTER_LASERS+=("$((BOSS_X + 25)) $((BOSS_Y + BOSS_LARGE_HEIGHT - 1)) ${HUNTER} 0 0")
+              aquire-target "$((BOSS_X + 34))" "$((BOSS_Y + BOSS_LARGE_HEIGHT - 2))" 0 0
+              aquire-target "$((BOSS_X + 40))" "$((BOSS_Y + BOSS_LARGE_HEIGHT - 2))" "${P1_MAX_X}" "${P1_MAX_Y}"
+              sound fighter-laser
+              ;;
+         esac
+         ;;
+    esac
+    # After each salvo toggle the salvo pattern
+    ((BOSS_SALVO_PATTERN ^= 1))
+  fi
+}
+
 boss-pattern() {
   local BOSS_WIDTH=${1}
   if ((BOSS_X_INCR == 0)); then
@@ -652,6 +746,7 @@ boss-ai() {
          draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
          ;;
     esac
+    boss-salvo
   fi
 }
 
