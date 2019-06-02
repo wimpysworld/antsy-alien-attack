@@ -95,6 +95,7 @@ readonly SNIPER_SPRITE=(
 export FIGHTER_WIDTH=5
 export FIGHTER_HEIGHT=${#FIGHTER_SNIPER[@]}
 
+# Management Class
 # ▒  ▒▒  ▒
 #▒█▒▄██▄▒█▒
 #███▄██▄███
@@ -109,6 +110,7 @@ readonly BOSS_SMALL_1=(
 export BOSS_SMALL_WIDTH=10
 export BOSS_SMALL_HEIGHT=${#BOSS_SMALL_1[@]}
 
+# Director Class
 # ░░░░░         ░░░░░
 #░░▒▒▒░░  ░░░  ░░▒▒▒░░
 #░▒███▒░▄░▒▒▒░▄░▒███▒░
@@ -130,6 +132,7 @@ readonly BOSS_MEDIUM_1=(
 export BOSS_MEDIUM_WIDTH=21
 export BOSS_MEDIUM_HEIGHT=${#BOSS_MEDIUM_1[@]}
 
+# El Presidente
 #               ░░░░░   ░░░░░
 # ░░░   ░░░    ░░▒▒▒░░ ░░▒▒▒░░    ░░░   ░░░
 #░▒▒▒░▄░▒▒ ░▄▄▄░▒███▒░▄░▒███▒░▄▄▄░▒▒▒░▄░▒▒▒░
