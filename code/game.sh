@@ -81,8 +81,9 @@ level-up() {
   export FIGHTERS=()
   export FIGHTER_LASERS=()
 
+  kill-thread ${GAME_MUSIC_THREAD}
   MUSIC_TRACK=$(((RANDOM % 3) + 1))
-  music "level${MUSIC_TRACK}"
+  music "track-${MUSIC_TRACK}"
   GAME_MUSIC_THREAD=$!
 
   ((LEVEL++))
@@ -623,11 +624,6 @@ fighter-lasers() {
   done
 }
 
-boss-up() {
-  sound go
-  export BOSS_FIGHT=1
-}
-
 boss-pattern() {
   local BOSS_WIDTH=${1}
   if ((BOSS_X_INCR == 0)); then
@@ -1145,7 +1141,11 @@ game-loop() {
   fi
 
   if (( (P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS) && BOSS_FIGHT == 0)); then
-      boss-up
+    export BOSS_FIGHT=1
+    kill-thread ${GAME_MUSIC_THREAD}
+    sound go
+    music boss-fight
+    GAME_MUSIC_THREAD=$!
   fi 
 
   if ((BOSS_FIGHT == 1 && BOSS_HEALTH <= 0)); then
