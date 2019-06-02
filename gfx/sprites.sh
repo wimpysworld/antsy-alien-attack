@@ -206,20 +206,22 @@ readonly P1_EXPLODE2=(
 "$SPC       ")
 
 readonly P1_EXPLODE3=(
+"$SPC       "
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
 "$ylw$BBLK▓▓▓▓▓▓▓"
-)
+"$SPC       ")
 
 readonly P1_EXPLODE4=(
+"$SPC       "
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
 "$ylw$BBLK▒▒▒▒▒▒▒"
-)
+"$SPC       ")
 
 readonly P1_EXPLODE5=(
 "$SPC       "
