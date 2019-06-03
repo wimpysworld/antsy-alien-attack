@@ -113,7 +113,7 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "M A N A G E R   C L A S S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
          draw-sprite-unmasked ${MANAGER_X} ${MANAGER_Y} "${BOSS_SMALL_1[@]}"
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Flies from left to right."
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Evasive latreal flight path."
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Fires a modest salvo of lasers and homing missles."
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
@@ -122,7 +122,7 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "D I R E C T O R   C L A S S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "---------------------------"
          draw-sprite-unmasked ${DIRECTOR_X} ${DIRECTOR_Y} "${BOSS_MEDIUM_1[@]}"
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Flies from left to right."
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Evasive latreal flight path."
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Fires a considerable salvo of lasers and homing missles."
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
@@ -131,7 +131,7 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "E L   P R E S I D E N T E"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
          draw-sprite-unmasked ${PRESIDENT_X} ${PRESIDENT_Y} "${BOSS_LARGE_1[@]}"
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Flies from left to right."
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Evasive latreal flight path."
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Fires a devasting salvo of lasers and homing missles."
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
