@@ -154,13 +154,6 @@ readonly BOSS_LARGE_1=(
 export BOSS_LARGE_WIDTH=43
 export BOSS_LARGE_HEIGHT=${#BOSS_LARGE_1[@]}
 
-# 4 explosion frames
-#     
-#▒▌ ▐█
-#▀▐█▓
-# ▀▀▒
-#  ▀
-#     
 readonly FIGHTER_EXPLODE1=(
 "$WHT$BBLK▓▓▓▓▓"
 "$WHT$BBLK▓▓▓▓▓"
