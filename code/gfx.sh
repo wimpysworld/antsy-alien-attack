@@ -188,7 +188,7 @@ wave-picture() {
   local OFFSET=${1}; shift
   local PICTURE=("$@")
   local X=0
-  local Y=1
+  local Y=2
   local i=0
   for LINE in "${PICTURE[@]}"; do
     i=$(((WAVE_CYCLE / 2 + Y) % SIN_SIZE))
