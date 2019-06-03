@@ -7,72 +7,97 @@ round-up() {
   local TEMP_BONUS_PADDED=0
   local Y_CENTER=$((SCREEN_HEIGHT / 2 ))
   TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+  PERC_BONUS_PADDED=$(printf "%06d" ${TEMP_BONUS})
 
   sound round ${LEVEL} objective-achieved
   draw-picture-centered level-${LEVEL}
-  lol-draw-centered $((Y_CENTER - 2)) "SKILL BONUS"
-  lol-draw-centered $((Y_CENTER - 1)) "-----------"
-  if ((P1_DEAD ==0)); then
-    lol-draw-centered $((Y_CENTER + 0)) "PLAYER 1 KILL BONUS : ${TEMP_BONUS_PADDED}"
-    lol-draw-centered $((Y_CENTER + 2)) "PLAYER 1 LIFE BONUS : ${TEMP_BONUS_PADDED}"
+  lol-draw-centered $((Y_CENTER - 2)) "P E R F O R M A N C E   B O N U S"
+  lol-draw-centered $((Y_CENTER - 1)) "---------------------------------"
+  if ((P2_DEAD == 0)); then
+    P1_SHIELDS=150
+    lol-draw-centered $((Y_CENTER + 0)) "P1 KILL BONUS:       ${TEMP_BONUS_PADDED}"
+    lol-draw-centered $((Y_CENTER + 1)) "P1 ACCURACY BONUS:   ${PERC_BONUS_PADDED}%"
+    lol-draw-centered $((Y_CENTER + 2)) "P1 VITALITY BONUS:   ${TEMP_BONUS_PADDED}"
+    lol-draw-centered $((Y_CENTER + 3)) "P1 ESCAPEES PENALTY: ${TEMP_BONUS_PADDED}"
   fi
-  if ((P2_DEAD ==0)); then
-    lol-draw-centered $((Y_CENTER + 4)) "PLAYER 2 KILL BONUS : ${TEMP_BONUS_PADDED}"
-    lol-draw-centered $((Y_CENTER + 6)) "PLAYER 2 LIFE BONUS : ${TEMP_BONUS_PADDED}"
+  if ((P2_DEAD == 0)); then
+    P2_SHIELDS=150
+    lol-draw-centered $((Y_CENTER + 4)) "P2 KILL BONUS:       ${TEMP_BONUS_PADDED}"
+    lol-draw-centered $((Y_CENTER + 5)) "P2 ACCURACY BONUS:   ${PERC_BONUS_PADDED}%"
+    lol-draw-centered $((Y_CENTER + 6)) "P2 VITALITY BONUS:   ${TEMP_BONUS_PADDED}"
+    lol-draw-centered $((Y_CENTER + 7)) "P2 ESCAPEES PENALTY: ${TEMP_BONUS_PADDED}"
   fi
   render
-  sleep 0.5
+  sleep 1
 
   if ((P1_DEAD == 0)); then
-    P1_SHIELDS=150
-    TEMP_BONUS=0
-    for (( LOOP=0; LOOP < P1_KILLS; LOOP++ )); do
-      sound zap
-      ((TEMP_BONUS+=FIGHTER_POINTS))
-      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
-      lol-draw-centered $((Y_CENTER + 0)) "PLAYER 1 KILL BONUS : ${TEMP_BONUS_PADDED}"
-      render
-      sleep 0.1
-    done
+    TEMP_BONUS=$((P1_KILLS * FIGHTER_POINTS))
+    TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+    lol-draw-centered $((Y_CENTER + 0)) "P1 KILL BONUS:       ${TEMP_BONUS_PADDED}"
+    render
+    sound zap
+    sleep 0.5
     ((P1_SCORE+=TEMP_BONUS))
 
-    TEMP_BONUS=0
-    for (( LOOP=0; LOOP < P1_LIVES; LOOP++ )); do
-      sound zap
-      ((TEMP_BONUS+=BONUS_POINTS))
-      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
-      lol-draw-centered $((Y_CENTER + 2)) "PLAYER 1 LIFE BONUS : ${TEMP_BONUS_PADDED}"
-      render
-      sleep 0.1
-    done
+    PERC_BONUS=$(echo "${P1_MISSES}/${P1_FIRED}*100" | bc -l | cut -d'.' -f1)
+    PERC_BONUS_PADDED=$(printf "%06d" ${PERC_BONUS})
+    lol-draw-centered $((Y_CENTER + 1)) "P1 ACCURACY BONUS:   ${PERC_BONUS_PADDED}%"
+    render
+    sound zap
+    sleep 0.5
+    ((P1_SCORE+=PERC_BONUS * FIGHTER_POINTS))
+
+    TEMP_BONUS=$((P1_LIVES * BONUS_POINTS))
+    TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+    lol-draw-centered $((Y_CENTER + 2)) "P1 VITALITY BONUS:   ${TEMP_BONUS_PADDED}"
+    render
+    sound zap
+    sleep 0.5
     ((P1_SCORE+=TEMP_BONUS))
+
+    TEMP_BONUS=$((FIGHTERS_ESCAPED * FIGHTER_POINTS * 10))
+    TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+    lol-draw-centered $((Y_CENTER + 3)) "P1 ESCAPEES PENALTY: ${TEMP_BONUS_PADDED}"
+    render
+    sound zap
+    sleep 0.5
+    ((P1_SCORE-=TEMP_BONUS))
   fi
 
   if ((P2_DEAD == 0)); then
-    P2_SHIELDS=150
-    TEMP_BONUS=0
-    for (( LOOP=0; LOOP < P2_KILLS; LOOP++ )); do
-      sound zap
-      ((TEMP_BONUS+=FIGHTER_POINTS))
-      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
-      lol-draw-centered $((Y_CENTER + 4)) "PLAYER 2 KILL BONUS : ${TEMP_BONUS_PADDED}"
-      render
-      sleep 0.1
-    done
+    TEMP_BONUS=$((P2_KILLS * FIGHTER_POINTS))
+    TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+    lol-draw-centered $((Y_CENTER + 4)) "P2 KILL BONUS:       ${TEMP_BONUS_PADDED}"
+    render
+    sound zap
+    sleep 0.5
     ((P2_SCORE+=TEMP_BONUS))
 
-    TEMP_BONUS=0
-    for (( LOOP=0; LOOP < P2_LIVES; LOOP++ )); do
-      sound zap
-      ((TEMP_BONUS+=BONUS_POINTS))
-      TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
-      lol-draw-centered $((Y_CENTER + 6)) "PLAYER 2 LIFE BONUS : ${TEMP_BONUS_PADDED}"
-      render
-      sleep 0.1
-    done
+    PERC_BONUS=$(echo "${P2_MISSES}/${P2_FIRED}*100" | bc -l | cut -d'.' -f1)
+    PERC_BONUS_PADDED=$(printf "%06d" ${PERC_BONUS})
+    lol-draw-centered $((Y_CENTER + 5)) "P2 ACCURACY BONUS:   ${PERC_BONUS_PADDED}%"
+    render
+    sound zap
+    sleep 0.5
+    ((P2_SCORE+=PERC_BONUS * FIGHTER_POINTS))
+
+    TEMP_BONUS=$((P2_LIVES * BONUS_POINTS))
+    TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+    lol-draw-centered $((Y_CENTER + 6)) "P2 VITALITY BONUS:   ${TEMP_BONUS_PADDED}"
+    render
+    sound zap
+    sleep 0.5
     ((P2_SCORE+=TEMP_BONUS))
+
+    TEMP_BONUS=$((FIGHTERS_ESCAPED * FIGHTER_POINTS * 10))
+    TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
+    lol-draw-centered $((Y_CENTER + 7)) "P2 ESCAPEES PENALTY: ${TEMP_BONUS_PADDED}"
+    render
+    sound zap
+    sleep 0.5
+    ((P2_SCORE-=TEMP_BONUS))
   fi
-  sleep 3
+  sleep 5
   blank-screen
 }
 
@@ -136,6 +161,10 @@ level-up() {
   export LEVEL_UP_KILLS=$((5 + (LEVEL * (MAX_FIGHTERS * 5)) ))
   export P1_KILLS=0
   export P2_KILLS=0
+  export P1_FIRED=0
+  export P2_FIRED=0
+  export P1_MISSES=0
+  export P2_MISSES=0
   export BOSS_HEALTH=$((LEVEL * 20))
   export BOSS_X_INCR=0
   export BOSS_SALVO_PATTERN=0
@@ -1063,13 +1092,15 @@ player-lasers() {
       if ((LASER_Y <= LASER_CEILING)); then
         case ${PLAYER} in
           1) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P1_LASER_SPRITE[@]}"
-            unset P1_LASERS[${LASER_LOOP}]
-            P1_LASERS=("${P1_LASERS[@]}")
-            ;;
+             unset P1_LASERS[${LASER_LOOP}]
+             P1_LASERS=("${P1_LASERS[@]}")
+             ((P1_MISSES++))
+             ;;
           2) erase-sprite-unmasked "${LASER_X}" "${LASER_Y}" "${P2_LASER_SPRITE[@]}"
-            unset P2_LASERS[${LASER_LOOP}]
-            P2_LASERS=("${P2_LASERS[@]}")
-            ;;
+             unset P2_LASERS[${LASER_LOOP}]
+             P2_LASERS=("${P2_LASERS[@]}")
+             ((P2_MISSES++))
+             ;;
         esac
         ((TOTAL_LASERS--))
         continue
@@ -1156,13 +1187,16 @@ game-loop() {
           sound player1-laser
           case ${P1_FIRE_POWER} in
             1) P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
+               ((P1_FIRED++))
                ;;
             2) P1_LASERS+=("$((P1_X + 3)) $((P1_Y - 1))")
                P1_LASERS+=("$((P1_X + 5)) $((P1_Y - 1))")
+               ((P1_FIRED+=2))
                ;;
             3) P1_LASERS+=("$((P1_X + 2)) $((P1_Y - 1))")
                P1_LASERS+=("$((P1_X + 4)) $((P1_Y - 1))")
                P1_LASERS+=("$((P1_X + 6)) $((P1_Y - 1))")
+               ((P1_FIRED+=3))
                ;;
           esac
           ((P1_RECENTLY_FIRED+=P1_LASER_LATENCY))
@@ -1204,13 +1238,16 @@ game-loop() {
         sound player2-laser
         case ${P2_FIRE_POWER} in
           1) P2_LASERS+=("$((P2_X + 4)) $((P2_Y - 1))")
+             ((P2_FIRED++))
              ;;
           2) P2_LASERS+=("$((P2_X + 3)) $((P2_Y - 1))")
              P2_LASERS+=("$((P2_X + 5)) $((P2_Y - 1))")
+             ((P2_FIRED+=2))
              ;;
           3) P2_LASERS+=("$((P2_X + 2)) $((P2_Y - 1))")
              P2_LASERS+=("$((P2_X + 4)) $((P2_Y - 1))")
              P2_LASERS+=("$((P2_X + 6)) $((P2_Y - 1))")
+             ((P2_FIRED+=3))
              ;;
         esac
         ((P2_RECENTLY_FIRED+=P2_LASER_LATENCY))
@@ -1236,9 +1273,10 @@ game-loop() {
   fi
 
   if (( (P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS) && BOSS_FIGHT == 0)); then
-    export BOSS_FIGHT=1
     kill-thread ${GAME_MUSIC_THREAD}
+    export BOSS_FIGHT=1
     sound go
+    sleep 0.25
     music boss-fight
     GAME_MUSIC_THREAD=$!
   fi 
