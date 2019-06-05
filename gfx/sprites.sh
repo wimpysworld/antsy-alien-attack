@@ -102,6 +102,122 @@ export BOSS_MEDIUM_HEIGHT=8
 export BOSS_LARGE_WIDTH=43
 export BOSS_LARGE_HEIGHT=8
 
+readonly BOSS_SMALL_1=(
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓"
+)
+
+readonly BOSS_SMALL_2=(
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓"
+)
+
+readonly BOSS_SMALL_3=(
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒"
+)
+
+readonly BOSS_SMALL_4=(
+"$ylw$BBLK░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░"
+)
+
+readonly BOSS_MEDIUM_1=(
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+)
+
+readonly BOSS_MEDIUM_2=(
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+)
+
+readonly BOSS_MEDIUM_3=(
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+)
+
+readonly BOSS_MEDIUM_4=(
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░")
+
+readonly BOSS_LARGE_1=(
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$WHT$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓")
+
+readonly BOSS_LARGE_2=(
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"
+"$ylw$BBLK▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓")
+
+readonly BOSS_LARGE_3=(
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒"
+"$ylw$BBLK▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒")
+
+readonly BOSS_LARGE_4=(
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+"$ylw$BBLK░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
+
 readonly FIGHTER_EXPLODE1=(
 "$WHT$BBLK▓▓▓▓▓"
 "$WHT$BBLK▓▓▓▓▓"
@@ -262,7 +378,7 @@ compose-sprites() {
   local HIT=${WHT}
 
   # Impact flashes when boss ships take laser fire
-  if ((BOSS_FIGHT == 1 && BOSS_HIT ==1 && ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
+  if ((BOSS_FIGHT == 1 && BOSS_HIT == 1 && ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
     case ${THRUST_FRAME} in
         1) HIT=${ylw}
            ((BOSS_HIT ^= 1))
@@ -301,7 +417,7 @@ case ${BOSS_TYPE} in
 #███▄██▄███
 #▀◘▀ ▀▀ ▀◘▀
 #▀▀▀    ▀▀▀
-  0) export BOSS_SMALL_1=(
+  0) export BOSS_SMALL_0=(
 "$SPC $WHT$BBLK▓$SPC  $WHT$BBLK▓▓$SPC  $WHT$BBLK▓$SPC  "
 "$WHT$BBLK▓$HIT█$WHT$BBLK▓$blk$BBLK▄$HIT██$blk$BBLK▄$WHT$BBLK▓$HIT█$WHT$BBLK▓"
 "$HIT███$blk$BBLK▄$HIT██$blk$BBLK▄$HIT███"
@@ -316,7 +432,7 @@ case ${BOSS_TYPE} in
 #▒█████▒▄█◘◘◘█▄▒█████▒
 #█◘◘█◘◘█  ▀▀▀  █◘◘█◘◘█
 # ▀▀▀▀▀         ▀▀▀▀▀
-  1) export BOSS_MEDIUM_1=(
+  1) export BOSS_MEDIUM_0=(
 "$SPC $blk$BBLK░░░░░$SPC         $blk$BBLK░░░░░"
 "$blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC  $blk$BBLK░░░$SPC  $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░"
 "$blk$BBLK░$HIT$BBLK▒███▒$blk$BBLK░▄░▒▒▒$blk$BBLK░▄░$HIT$BBLK▒███▒$blk$BBLK░"
@@ -334,7 +450,7 @@ case ${BOSS_TYPE} in
 #█◘◘◘█ █◘◘◘█   ▒█████▒ ▒█████▒   █◘◘◘█ █◘◘◘█
 # ▀▀▀   ▀▀▀    ███████ ███████    ▀▀▀   ▀▀▀
 #               ▀▀▀▀▀   ▀▀▀▀▀
-  *) export BOSS_LARGE_1=(
+  *) export BOSS_LARGE_0=(
 "$SPC               $blk$BBLK░░░░░$SPC   $blk$BBLK░░░░░"
 "$SPC $blk$BBLK░░░$SPC   $blk$BBLK░░░$SPC    $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC    $blk$BBLK░░░$SPC   $blk$BBLK░░░"
 "$blk$BBLK░▒▒▒$blk$BBLK░▄$blk$BBLK░▒▒▒$blk$BBLK░▄▄▄$blk$BBLK░$WHT$BBLK▒$HIT$BBLK███$WHT$BBLK▒$blk$BBLK░▄░$WHT$BBLK▒$HIT$BBLK███$WHT$BBLK▒$blk$BBLK░▄▄▄$blk$BBLK░▒▒▒$blk$BBLK░▄░▒▒▒$blk$BBLK░"
