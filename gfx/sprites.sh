@@ -95,64 +95,12 @@ readonly SNIPER_SPRITE=(
 export FIGHTER_WIDTH=5
 export FIGHTER_HEIGHT=${#FIGHTER_SNIPER[@]}
 
-# Management Class
-# ▒  ▒▒  ▒
-#▒█▒▄██▄▒█▒
-#███▄██▄███
-#▀◘▀ ▀▀ ▀◘▀
-#▀▀▀    ▀▀▀
-readonly BOSS_SMALL_1=(
-"$SPC $WHT$BBLK▓$SPC  $WHT$BBLK▓▓$SPC  $WHT$BBLK▓$SPC  "
-"$WHT$BBLK▓$WHT█$WHT$BBLK▓$blk$BBLK▄$WHT██$blk$BBLK▄$WHT$BBLK▓$WHT█$WHT$BBLK▓"
-"$WHT███$blk$BBLK▄$WHT██$blk$BBLK▄$WHT███"
-"$WHT█$MGN$BBLK◘$WHT█$SPC $GRN$BWHT▀▀$SPC $WHT█$MGN$BBLK◘$WHT█"
-"$WHT$BBLK▀▀▀$SPC    $WHT$BBLK▀▀▀")
 export BOSS_SMALL_WIDTH=10
-export BOSS_SMALL_HEIGHT=${#BOSS_SMALL_1[@]}
-
-# Director Class
-# ░░░░░         ░░░░░
-#░░▒▒▒░░  ░░░  ░░▒▒▒░░
-#░▒███▒░▄░▒▒▒░▄░▒███▒░
-#▒█████▒ ▒▒█▒▒ ▒█████▒
-#▒█████▒ ▒███▒ ▒█████▒
-#▒█████▒▄█◘◘◘█▄▒█████▒
-#█◘◘█◘◘█  ▀▀▀  █◘◘█◘◘█
-# ▀▀▀▀▀         ▀▀▀▀▀
-
-readonly BOSS_MEDIUM_1=(
-"$SPC $blk$BBLK░░░░░$SPC         $blk$BBLK░░░░░"
-"$blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC  $blk$BBLK░░░$SPC  $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░"
-"$blk$BBLK░$WHT$BBLK▒███▒$blk$BBLK░▄░▒▒▒$blk$BBLK░▄░$WHT$BBLK▒███▒$blk$BBLK░"
-"$WHT$BBLK▓█████▓$SPC $WHT$BBLK▓▓█▓▓$SPC $WHT$BBLK▓█████▓"
-"$WHT$BBLK▓$GRN█████$WHT$BBLK▓$SPC $WHT$BBLK▓███▓$SPC $WHT$BBLK▓$GRN█████$WHT$BBLK▓"
-"$WHT$BBLK▓█████▓$blk$BBLK▄$WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$blk$BBLK▄$WHT$BBLK▓█████▓"
-"$WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC  $WHT$BBLK▀▀▀$SPC  $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█"
-"$SPC $WHT$BBLK▀▀▀▀▀$SPC         $WHT$BBLK▀▀▀▀▀")
+export BOSS_SMALL_HEIGHT=5
 export BOSS_MEDIUM_WIDTH=21
-export BOSS_MEDIUM_HEIGHT=${#BOSS_MEDIUM_1[@]}
-
-# El Presidente
-#               ░░░░░   ░░░░░
-# ░░░   ░░░    ░░▒▒▒░░ ░░▒▒▒░░    ░░░   ░░░
-#░▒▒▒░▄░▒▒ ░▄▄▄░▒███▒░▄░▒███▒░▄▄▄░▒▒▒░▄░▒▒▒░
-#▒▒█▒▒ ▒▒█▒▒ █ ▒█████▒ ▒█████▒ █ ▒▒█▒▒ ▒▒█▒▒
-#▒███▒▄▒███▒▄█▄▒█████▒ ▒█████▒▄█▄▒███▒▄▒███▒
-#█◘◘◘█ █◘◘◘█   ▒█████▒ ▒█████▒   █◘◘◘█ █◘◘◘█
-# ▀▀▀   ▀▀▀    ███████ ███████    ▀▀▀   ▀▀▀
-#               ▀▀▀▀▀   ▀▀▀▀▀
-
-readonly BOSS_LARGE_1=(
-"$SPC               $blk$BBLK░░░░░$SPC   $blk$BBLK░░░░░"
-"$SPC $blk$BBLK░░░$SPC   $blk$BBLK░░░$SPC    $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC    $blk$BBLK░░░$SPC   $blk$BBLK░░░"
-"$blk$BBLK░▒▒▒$blk$BBLK░▄$blk$BBLK░▒▒▒$blk$BBLK░▄▄▄$blk$BBLK░$WHT$BBLK▒███▒$blk$BBLK░▄░$WHT$BBLK▒███▒$blk$BBLK░▄▄▄$blk$BBLK░▒▒▒$blk$BBLK░▄░▒▒▒$blk$BBLK░"
-"$WHT$BBLK▓▓█▓▓$SPC $WHT$BBLK▓▓█▓▓$SPC $blk$BBLK█$SPC $WHT$BBLK▓█████▓$SPC $WHT$BBLK▓█████▓$SPC $blk$BBLK█$SPC $WHT$BBLK▓▓█▓▓$SPC $WHT$BBLK▓▓█▓▓"
-"$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄$WHT$BBLK▓███$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓$GRN█████$WHT$BBLK▓$SPC $WHT$BBLK▓$GRN█████$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓███▓$blk$BBLK▄$WHT$BBLK▓███▓"
-"$WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC   $WHT$BBLK▓█████▓$SPC $WHT$BBLK▓█████▓$SPC   $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘◘$WHT$BBLK█"
-"$SPC $WHT$BBLK▀▀▀$SPC   $WHT$BBLK▀▀▀$SPC    $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC $WHT$BBLK█$MGN◘◘$WHT$BBLK█$MGN◘◘$WHT$BBLK█$SPC    $WHT$BBLK▀▀▀$SPC   $WHT$BBLK▀▀▀"
-"$SPC               $WHT$BBLK▀▀▀▀▀$SPC   $WHT$BBLK▀▀▀▀▀")
+export BOSS_MEDIUM_HEIGHT=8
 export BOSS_LARGE_WIDTH=43
-export BOSS_LARGE_HEIGHT=${#BOSS_LARGE_1[@]}
+export BOSS_LARGE_HEIGHT=8
 
 readonly FIGHTER_EXPLODE1=(
 "$WHT$BBLK▓▓▓▓▓"
@@ -311,6 +259,23 @@ compose-sprites() {
     esac
   fi
 
+  local HIT=${WHT}
+
+  # Impact flashes when boss ships take laser fire
+  if ((BOSS_FIGHT == 1 && BOSS_HIT ==1 && ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
+    case ${THRUST_FRAME} in
+        1) HIT=${ylw}
+           ((BOSS_HIT ^= 1))
+           ;;
+        2) HIT=${YLW}
+           ((BOSS_HIT ^= 1))
+           ;;
+        3) HIT=${wht}
+           ((BOSS_HIT ^= 1))
+           ;;
+    esac
+  fi
+
 export P1_SPRITE=(
 "$SPC       "
 "$SPC   $COL1▄$SPC "
@@ -328,6 +293,57 @@ export P2_SPRITE=(
 "$COL2▐█$blk█$COL2█$blk█$COL2█▌$SPC "
 "${THRUST[${THRUST_FRAME}]}"
 "$SPC       ")
+
+case ${BOSS_TYPE} in
+# Management Class
+# ▒  ▒▒  ▒
+#▒█▒▄██▄▒█▒
+#███▄██▄███
+#▀◘▀ ▀▀ ▀◘▀
+#▀▀▀    ▀▀▀
+  0) export BOSS_SMALL_1=(
+"$SPC $WHT$BBLK▓$SPC  $WHT$BBLK▓▓$SPC  $WHT$BBLK▓$SPC  "
+"$WHT$BBLK▓$HIT█$WHT$BBLK▓$blk$BBLK▄$HIT██$blk$BBLK▄$WHT$BBLK▓$HIT█$WHT$BBLK▓"
+"$HIT███$blk$BBLK▄$HIT██$blk$BBLK▄$HIT███"
+"$HIT█$MGN$BBLK◘$HIT█$SPC $GRN$BWHT▀▀$SPC $HIT█$MGN$BBLK◘$HIT█"
+"$HIT$BBLK▀▀▀$SPC    $HIT$BBLK▀▀▀");;
+# Director Class
+# ░░░░░         ░░░░░
+#░░▒▒▒░░  ░░░  ░░▒▒▒░░
+#░▒███▒░▄░▒▒▒░▄░▒███▒░
+#▒█████▒ ▒▒█▒▒ ▒█████▒
+#▒█████▒ ▒███▒ ▒█████▒
+#▒█████▒▄█◘◘◘█▄▒█████▒
+#█◘◘█◘◘█  ▀▀▀  █◘◘█◘◘█
+# ▀▀▀▀▀         ▀▀▀▀▀
+  1) export BOSS_MEDIUM_1=(
+"$SPC $blk$BBLK░░░░░$SPC         $blk$BBLK░░░░░"
+"$blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC  $blk$BBLK░░░$SPC  $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░"
+"$blk$BBLK░$HIT$BBLK▒███▒$blk$BBLK░▄░▒▒▒$blk$BBLK░▄░$HIT$BBLK▒███▒$blk$BBLK░"
+"$WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓$SPC $WHT$BBLK▓▓$HIT$BBLK█$WHT$BBLK▓▓$SPC $WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓"
+"$WHT$BBLK▓$GRN█████$WHT$BBLK▓$SPC $WHT$BBLK▓$HIT$BBLK███$WHT$BBLK▓$SPC $WHT$BBLK▓$GRN█████$WHT$BBLK▓"
+"$WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓$blk$BBLK▄$HIT$BBLK█$MGN◘◘◘$HIT$BBLK█$blk$BBLK▄$WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓"
+"$HIT$BBLK█$MGN◘◘$HIT$BBLK█$MGN◘◘$HIT$BBLK█$SPC  $HIT$BBLK▀▀▀$SPC  $HIT$BBLK█$MGN◘◘$HIT$BBLK█$MGN◘◘$HIT$BBLK█"
+"$SPC $HIT$BBLK▀▀▀▀▀$SPC         $HIT$BBLK▀▀▀▀▀");;
+# El Presidente
+#               ░░░░░   ░░░░░
+# ░░░   ░░░    ░░▒▒▒░░ ░░▒▒▒░░    ░░░   ░░░
+#░▒▒▒░▄░▒▒ ░▄▄▄░▒███▒░▄░▒███▒░▄▄▄░▒▒▒░▄░▒▒▒░
+#▒▒█▒▒ ▒▒█▒▒ █ ▒█████▒ ▒█████▒ █ ▒▒█▒▒ ▒▒█▒▒
+#▒███▒▄▒███▒▄█▄▒█████▒ ▒█████▒▄█▄▒███▒▄▒███▒
+#█◘◘◘█ █◘◘◘█   ▒█████▒ ▒█████▒   █◘◘◘█ █◘◘◘█
+# ▀▀▀   ▀▀▀    ███████ ███████    ▀▀▀   ▀▀▀
+#               ▀▀▀▀▀   ▀▀▀▀▀
+  *) export BOSS_LARGE_1=(
+"$SPC               $blk$BBLK░░░░░$SPC   $blk$BBLK░░░░░"
+"$SPC $blk$BBLK░░░$SPC   $blk$BBLK░░░$SPC    $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC $blk$BBLK░░$WHT$BBLK▒▒▒$blk$BBLK░░$SPC    $blk$BBLK░░░$SPC   $blk$BBLK░░░"
+"$blk$BBLK░▒▒▒$blk$BBLK░▄$blk$BBLK░▒▒▒$blk$BBLK░▄▄▄$blk$BBLK░$WHT$BBLK▒$HIT$BBLK███$WHT$BBLK▒$blk$BBLK░▄░$WHT$BBLK▒$HIT$BBLK███$WHT$BBLK▒$blk$BBLK░▄▄▄$blk$BBLK░▒▒▒$blk$BBLK░▄░▒▒▒$blk$BBLK░"
+"$WHT$BBLK▓▓$HIT$BBLK█$WHT$BBLK▓▓$SPC $WHT$BBLK▓▓$HIT$BBLK█$WHT$BBLK▓▓$SPC $blk$BBLK█$SPC $WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓$SPC $WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓$SPC $blk$BBLK█$SPC $WHT$BBLK▓▓$HIT$BBLK█$WHT$BBLK▓▓$SPC $WHT$BBLK▓▓$HIT$BBLK█$WHT$BBLK▓▓"
+"$WHT$BBLK▓$HIT$BBLK███$WHT$BBLK▓$blk$BBLK▄$WHT$BBLK▓$HIT$BBLK███$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓$GRN█████$WHT$BBLK▓$SPC $WHT$BBLK▓$GRN█████$WHT$BBLK▓$blk$BBLK▄█▄$WHT$BBLK▓$HIT$BBLK███$WHT$BBLK▓$blk$BBLK▄$WHT$BBLK▓$HIT$BBLK███$WHT$BBLK▓"
+"$HIT$BBLK█$MGN◘◘◘$HIT$BBLK█$SPC $HIT$BBLK█$MGN◘◘◘$HIT$BBLK█$SPC   $WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓$SPC $WHT$BBLK▓$HIT$BBLK█████$WHT$BBLK▓$SPC   $HIT$BBLK█$MGN◘◘◘$HIT$BBLK█$SPC $HIT$BBLK█$MGN◘◘◘$HIT$BBLK█"
+"$SPC $HIT$BBLK▀▀▀$SPC   $HIT$BBLK▀▀▀$SPC    $HIT$BBLK█$MGN◘◘$HIT$BBLK█$MGN◘◘$HIT$BBLK█$SPC $HIT$BBLK█$MGN◘◘$HIT$BBLK█$MGN◘◘$HIT$BBLK█$SPC    $HIT$BBLK▀▀▀$SPC   $HIT$BBLK▀▀▀"
+"$SPC               $HIT$BBLK▀▀▀▀▀$SPC   $HIT$BBLK▀▀▀▀▀");;
+esac
 
   # Increment the play thrust animation speed control
   ((THRUST_FRAME >= THRUST_FRAMES)) && THRUST_FRAME=0 || ((THRUST_FRAME++))
