@@ -56,7 +56,8 @@ A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully
     - [x] High score
     - [x] Configuration
     - [x] Credits
-  - [ ] Packaging
+  - [ ] Install
+    - [ ] Script
     - [ ] PPA
     - [ ] Snap
 
