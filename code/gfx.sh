@@ -357,7 +357,6 @@ animate-starfield() {
       fi
     done
   fi
-
 }
 
 reset-gfx-timers() {
