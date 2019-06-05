@@ -165,7 +165,7 @@ level-up() {
   export P2_FIRED=0
   export P1_MISSES=0
   export P2_MISSES=0
-  export BOSS_HEALTH=$((LEVEL * 20))
+  export BOSS_HEALTH=$((LEVEL * 25))
   export BOSS_X_INCR=0
   export BOSS_SALVO_PATTERN=0
   export BOSS_FIGHT=0
