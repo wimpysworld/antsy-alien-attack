@@ -169,6 +169,7 @@ level-up() {
   export BOSS_X_INCR=0
   export BOSS_SALVO_PATTERN=0
   export BOSS_FIGHT=0
+  export BOSS_HIT=0
 
   # More points as the levels progress.
   export FIGHTER_POINTS=$((LEVEL * 10))
@@ -1025,6 +1026,8 @@ player-laser-hit-boss() {
         if ((BOSS_HEALTH <= 0)); then
           # Remove the boss
           erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SPRITE[@]}"
+        else
+          BOSS_HIT=1
         fi
         return 0
       fi
@@ -1274,7 +1277,7 @@ game-loop() {
 
   if (( (P1_KILLS + P2_KILLS >= LEVEL_UP_KILLS) && BOSS_FIGHT == 0)); then
     kill-thread ${GAME_MUSIC_THREAD}
-    export BOSS_FIGHT=1
+    BOSS_FIGHT=1
     sound go
     sleep 0.25
     music boss-fight
