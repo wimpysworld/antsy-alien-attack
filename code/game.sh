@@ -166,6 +166,7 @@ level-up() {
   export P1_MISSES=0
   export P2_MISSES=0
   export BOSS_HEALTH=$((LEVEL * 25))
+  export BOSS_FRAME=0
   export BOSS_X_INCR=0
   export BOSS_SALVO_PATTERN=0
   export BOSS_FIGHT=0
@@ -763,21 +764,49 @@ boss-pattern() {
 boss-ai() {
   if ((ANIMATION_KEYFRAME % LEVEL_COMPENSATION == 0)); then
     case ${BOSS_TYPE} in
-      0) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
-         boss-pattern ${BOSS_SMALL_WIDTH}
-         draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}"
+      0) case ${BOSS_FRAME} in
+           0) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_0[@]}"
+              boss-pattern ${BOSS_SMALL_WIDTH}
+              draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_0[@]}"
+              ;;
+           1) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_1[@]}";;
+           2) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_2[@]}";;
+           3) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_3[@]}";;
+           4) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_4[@]}";;
+           5) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SMALL_4[@]}";;
+         esac
          ;;
-      1) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
-         boss-pattern ${BOSS_MEDIUM_WIDTH}
-         draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}"
+      1) case ${BOSS_FRAME} in
+           0) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_0[@]}"
+              boss-pattern ${BOSS_MEDIUM_WIDTH}
+              draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_0[@]}"
+              ;;
+           1) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_1[@]}";;
+           2) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_2[@]}";;
+           3) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_3[@]}";;
+           4) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_4[@]}";;
+           5) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_MEDIUM_4[@]}";;
+         esac
          ;;
-      *) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
-         boss-pattern ${BOSS_LARGE_WIDTH}
-         draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}"
+      *) case ${BOSS_FRAME} in
+           0) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_0[@]}"
+              boss-pattern ${BOSS_LARGE_WIDTH}
+              draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_0[@]}"
+              ;;
+           1) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_1[@]}";;
+           2) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_2[@]}";;
+           3) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_3[@]}";;
+           4) draw-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_4[@]}";;
+           5) erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_LARGE_4[@]}";;
+         esac
          ;;
     esac
   fi
-  boss-salvo
+  if ((BOSS_FRAME == 0)); then
+    boss-salvo
+  else
+    sound-explosion
+  fi
 }
 
 fighter-ai() {
@@ -998,7 +1027,7 @@ fighter-ai() {
 }
 
 player-laser-hit-boss() {
-  if ((BOSS_FIGHT == 1)); then
+  if ((BOSS_FIGHT == 1 && BOSS_FRAME == 0)); then
     local LASER_X=${1}
     local LASER_Y=${2}
     local BOSS_WIDTH=0
@@ -1008,15 +1037,15 @@ player-laser-hit-boss() {
     case ${BOSS_TYPE} in
       0) BOSS_WIDTH=${BOSS_SMALL_WIDTH}
          BOSS_HEIGHT=${BOSS_SMALL_HEIGHT}
-         BOSS_SPRITE="${BOSS_SMALL_1[@]}"
+         BOSS_SPRITE="${BOSS_SMALL_0[@]}"
          ;;
       1) BOSS_WIDTH=${BOSS_MEDIUM_WIDTH}
          BOSS_HEIGHT=${BOSS_MEDIUM_HEIGHT}
-         BOSS_SPRITE="${BOSS_MEDIUM_1[@]}"
+         BOSS_SPRITE="${BOSS_MEDIUM_0[@]}"
          ;;
       2) BOSS_WIDTH=${BOSS_LARGE_WIDTH}
          BOSS_HEIGHT=${BOSS_LARGE_HEIGHT}
-         BOSS_SPRITE="${BOSS_LARGE_1[@]}"
+         BOSS_SPRITE="${BOSS_LARGE_0[@]}"
          ;;
     esac
     if ((LASER_X >= BOSS_X && LASER_X <= BOSS_X + BOSS_WIDTH)); then
@@ -1026,6 +1055,7 @@ player-laser-hit-boss() {
         if ((BOSS_HEALTH <= 0)); then
           # Remove the boss
           erase-sprite-unmasked "${BOSS_X}" "${BOSS_Y}" "${BOSS_SPRITE[@]}"
+          BOSS_FRAME=1
         else
           BOSS_HIT=1
         fi
@@ -1284,7 +1314,7 @@ game-loop() {
     GAME_MUSIC_THREAD=$!
   fi 
 
-  if ((BOSS_FIGHT == 1 && BOSS_HEALTH <= 0)); then
+  if ((BOSS_FIGHT == 1 && BOSS_HEALTH <= 0 && BOSS_FRAME >= 7)); then
     # Boss thawted too? Then level up the player.
     round-up
     level-up
@@ -1344,9 +1374,11 @@ game-loop() {
     player-sprite ${P2}
   fi
 
-  if ((ANIMATION_KEYFRAME % 5 == 0)); then
+  # Increment explosion animations
+  if ((ANIMATION_KEYFRAME % 12 == 0)); then
     ((P1_FRAME > 0)) && ((P1_FRAME++))
     ((P2_FRAME > 0)) && ((P2_FRAME++))
+    ((BOSS_FRAME > 0)) && ((BOSS_FRAME++))
   fi
 
   compose-sprites
