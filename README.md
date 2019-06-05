@@ -76,7 +76,18 @@ The following will get you want you need on Ubuntu.
 
     sudo apt install lolcat mpg123 ncurses-bin procps vorbis-tools
 
-### Compile joy2key
+## Title Screen
+
+The title graphics are using `toilet` and `lolcat` via [tools/render-titles.sh](tools/render-titles.sh).
+You can preview of all the `toilet` font styles using this:
+
+```
+for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $(basename $FONT) --filter border "Antsy Alien Attack!" | lolcat -f -F 0.2; done
+```
+
+## XBox controller support
+
+### joy2key
 
 ```
 sudo apt install libx11-dev x11-utils
@@ -90,9 +101,7 @@ make
 sudo make install
 ```
 
-### Xbox 360
-
-#### AXIS
+### AXIS
 
   * 0 = left analog stick X-axis
   * 1 = left analog stick Y-axis
@@ -103,7 +112,7 @@ sudo make install
   * 6 = hat (d-pad) X-axis
   * 7 = hat (d-pad) Y-axis
 
-#### Buttons
+### Buttons
 
   * 0 = A
   * 1 = B
@@ -112,14 +121,6 @@ sudo make install
   * 5 = left shoulder
   * 6 = right shoulder
 
-## Title Screen
-
-The title graphics are using `toilet` and `lolcat` via [tools/render-titles.sh](tools/render-titles.sh).
-You can preview of all the `toilet` font styles using this:
-
-```
-for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $(basename $FONT) --filter border "Antsy Alien Attack!" | lolcat -f -F 0.2; done
-```
 
 ## References
 
@@ -136,27 +137,9 @@ for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $
 
 ### Game Assets
 
-  * https://opengameart.org
-
-#### Music
-
-  * [Patrick de Arteaga](https://patrickdearteaga.com)
-    * Chiptronical           - `title.ogg`
-    * Intergalactic Odyssey  - `level1.ogg`
-    * Interstellar Odyssey   - `level2.ogg`
-    * Interplanetary Odyssey - `level3.ogg`
-    * Ruined Planet          - `gameover.ogg`
-    * Friends                - `victory.ogg`
-
-#### Sound effects
-
-  * [Kenney Vleugels](http://www.kenney.nl)
-    * `laser.mp3`
-    * `game-over.mp3`
-    * `congratulations.mp3`
-    * `bonus-points.mp3`
-  * Viktor Hahn
-    * `fighter-explosion.mp3`
+I found music and sound effects on [Open Game Art](https://opengameart.org).
+I ended up using Creative COmmons licensed mmusic from [Patrick de Arteaga](https://patrickdearteaga.com)
+and sound effects from [Kenney Vleugels](http://www.kenney.nl) and Viktor Hahn.
 
 ### Fonts
 
@@ -173,19 +156,12 @@ for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $
 #### Editors
 
   * http://bruxy.regnet.cz/web/linux/EN/ansi-art-sh-paint/
-  * http://www.syaross.org/thedraw/
   * http://picoe.ca/products/pablodraw/
   * http://tetradraw.sourceforge.net/
   * https://sourceforge.net/projects/tundradraw/
   * https://sourceforge.net/projects/mysticdraw/
   * http://syncdraw.bbsdev.net/
   * https://www.gridsagegames.com/rexpaint/index.html
-
-#### Fonts
-
-  * http://patorjk.com/blog/2014/01/22/thedraws-lost-ansi-art-fonts/
-    * http://patorjk.com/software/taag
-  * https://www.roysac.com/thedrawfonts-tdf.html
 
 #### Artwork
 
