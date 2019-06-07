@@ -16,10 +16,10 @@ export LOOP=
 
 setup() {
   music-teardown
-  trap teardown EXIT INT TERM
-  trap start-loop USR1
   cfg-load
   gfx-setup
+  trap teardown EXIT INT TERM
+  trap start-loop USR1
   sound-setup
   music-setup
   joystick-setup

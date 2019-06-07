@@ -44,19 +44,21 @@ gfx-setup() {
   readonly SIN=(3 3 2 2 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 -0 1 2 2 3 3 3 2 1 1 -0 -1 -2 -3 -3 -3 -3 -2 -1 0 1 2 3)
   readonly SIN_SIZE=${#SIN[@]}
 
+  readonly SCREEN_WIDTH=$(tput cols)
+  readonly SCREEN_HEIGHT=$(tput lines)
   readonly ORIGINAL_TTY=$(stty -g)
-  readonly ORIGINAL_SCREEN_WIDTH=$(tput cols)
-  readonly ORIGINAL_SCREEN_HEIGHT=$(tput lines)
+  readonly ORIGINAL_SCREEN_WIDTH=${SCREEN_WIDTH}
+  readonly ORIGINAL_SCREEN_HEIGHT=${SCREEN_HEIGHT}
+
+  # Make sure the minimum terminal size has been met.
+  if ((SCREEN_WIDTH < 85 || SCREEN_HEIGHT < 43)); then
+    echo "ERROR! You must have a terminal with a minimum of 85 x 43 characters."
+    exit 1
+  fi
 
   stty raw -echo
   tput civis
   tput rmam
-
-  # TODO - Perhaps set the terminal size to something game optimised?
-  #resize-term 80 60
-
-  readonly SCREEN_WIDTH=$(tput cols)
-  readonly SCREEN_HEIGHT=$(tput lines)
 
   echo -ne "\e]0;${GAME_TITLE}\007"
 }
