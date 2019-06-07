@@ -60,17 +60,17 @@ attract-mode() {
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 8)) ""
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
-      3) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "P O W E R   U P S"
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-----------------"
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 1)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 2)) "    $ylw\$   Bonus Points"
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 3)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 4)) "    $red♥   Extra Life  "
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 5)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 6)) "    $cyn☼   Smart Bomb  "
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 7)) ""
-         raw-draw-centered $((SCREEN_HEIGHT / 2 + 8)) "    $grn≡   Shields     "
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 9)) ""
+      3) lol-draw-centered $((SCREEN_HEIGHT / 2 -  1)) "P O W E R   U P S"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 +  0)) "-----------------"
+         lol-draw-centered $((SCREEN_HEIGHT / 2 +  1)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 +  2)) "    $ylw\$   Bonus      "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 +  3)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 +  4)) "    $red♥   Extra Life  "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 +  5)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 +  6)) "    $cyn☼   Smart Bomb  "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 +  7)) ""
+         raw-draw-centered $((SCREEN_HEIGHT / 2 +  8)) "    $grn≡   Shields     "
+         lol-draw-centered $((SCREEN_HEIGHT / 2 +  9)) ""
          raw-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "    $mgn‼   Fire Power  "
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
@@ -110,29 +110,35 @@ attract-mode() {
          ;;
       6) local MANAGER_X=$(( (SCREEN_WIDTH / 2) - (BOSS_SMALL_WIDTH / 2) ))
          local MANAGER_Y=$(( SCREEN_HEIGHT / 2 + 2 ))
+         BOSS_TYPE=0
+         compose-sprites
          lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "M A N A G E R   C L A S S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
-         draw-sprite-unmasked ${MANAGER_X} ${MANAGER_Y} "${BOSS_SMALL_1[@]}"
+         draw-sprite-unmasked ${MANAGER_X} ${MANAGER_Y} "${BOSS_SMALL_0[@]}"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Evasive latreal flight path."
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Fires a modest salvo of lasers and homing missles."
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Unleashes a modest salvo."
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       7) local DIRECTOR_X=$(( (SCREEN_WIDTH / 2) - (BOSS_MEDIUM_WIDTH / 2) ))
-         local DIRECTOR_Y=$(( SCREEN_HEIGHT / 2 + 2 ))
+         local DIRECTOR_Y=$(( SCREEN_HEIGHT / 2 + 1 ))
+         BOSS_TYPE=1
+         compose-sprites
          lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "D I R E C T O R   C L A S S"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "---------------------------"
-         draw-sprite-unmasked ${DIRECTOR_X} ${DIRECTOR_Y} "${BOSS_MEDIUM_1[@]}"
+         draw-sprite-unmasked ${DIRECTOR_X} ${DIRECTOR_Y} "${BOSS_MEDIUM_0[@]}"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Evasive latreal flight path."
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Fires a considerable salvo of lasers and homing missles."
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Unleashes a considerable salvo."
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       8) local PRESIDENT_X=$(( (SCREEN_WIDTH / 2) - (BOSS_LARGE_WIDTH / 2) ))
-         local PRESIDENT_Y=$(( SCREEN_HEIGHT / 2 + 2 ))
+         local PRESIDENT_Y=$(( SCREEN_HEIGHT / 2 + 1 ))
+         BOSS_TYPE=2
+         compose-sprites
          lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "E L   P R E S I D E N T E"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 0)) "-------------------------"
-         draw-sprite-unmasked ${PRESIDENT_X} ${PRESIDENT_Y} "${BOSS_LARGE_1[@]}"
+         draw-sprite-unmasked ${PRESIDENT_X} ${PRESIDENT_Y} "${BOSS_LARGE_0[@]}"
          lol-draw-centered $((SCREEN_HEIGHT / 2 + 10)) "Evasive latreal flight path."
-         lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Fires a devasting salvo of lasers and homing missles."
+         lol-draw-centered $((SCREEN_HEIGHT / 2 + 12)) "Unleashes a devasting salvo."
          lol-draw-centered $((SCREEN_HEIGHT - 4)) "Press [1] for one player, [2] for two player or [Q] to Quit"
          ;;
       9) lol-draw-centered $((SCREEN_HEIGHT / 2 - 1)) "C O N F I G U R A T I O N"
@@ -259,11 +265,12 @@ title-loop() {
   else
     attract-mode
     wave-picture "${TITLE_SCREEN_OFFSET}" "${TITLE_SCREEN[@]}"
-    compose-sprites
-    local P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * 4) ))
+    local MULTIPLIER=4
+    local P1_X=$(( (SCREEN_WIDTH / 2) - (P1_WIDTH * MULTIPLIER) ))
     local P1_Y=$(( SCREEN_HEIGHT - (P1_HEIGHT * 2) ))
-    local P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * 3) ))
+    local P2_X=$(( (SCREEN_WIDTH / 2) + (P2_WIDTH * (MULTIPLIER - 1)) ))
     local P2_Y=$(( SCREEN_HEIGHT - (P2_HEIGHT * 2) ))
+    compose-sprites
     draw-sprite-unmasked ${P1_X} ${P1_Y} "${P1_SPRITE[@]}"
     draw-sprite-unmasked ${P2_X} ${P2_Y} "${P2_SPRITE[@]}"
     render
