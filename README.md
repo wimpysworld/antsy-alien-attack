@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="data/avatar.png" alt="Antsy Alien Attack!">
+  <img src="img/avatar.png" alt="Antsy Alien Attack!">
   <br />
   Antsy Alient Attack!
 </h1>
@@ -170,5 +170,5 @@ and sound effects from [Kenney Vleugels](http://www.kenney.nl) and Viktor Hahn.
 
 Slides from a presentation I gave at [FOSS Talk Live](https://fosstalk.com/) 2019 as part of the [Ubuntu Podcast](https://ubuntupodcast.org) live show are also available:
 
-  * [slides/fosstalklive-2019-06.odp](fosstalklive-2019-06.odp)
-  * [slides/fosstalklive-2019-06.pdf](fosstalklive-2019-06.pdf)
+  * [fosstalklive-2019-06.odp](slides/fosstalklive-2019-06.odp)
+  * [fosstalklive-2019-06.pdf](slides/fosstalklive-2019-06.pdf)
