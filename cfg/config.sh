@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export GAME_TITLE="Antsy Alien Attack!"
-export FPS_ENABLED=1
+export FPS_ENABLED=0
 export MUSIC_ENABLED=1
 export SFX_ENABLED=1
 export HI_SCORE=1000
