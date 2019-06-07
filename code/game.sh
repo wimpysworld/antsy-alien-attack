@@ -8,7 +8,7 @@ round-up() {
   local Y_CENTER=$((SCREEN_HEIGHT / 2 ))
   TEMP_BONUS_PADDED=$(printf "%07d" ${TEMP_BONUS})
   PERC_BONUS_PADDED=$(printf "%06d" ${TEMP_BONUS})
-
+  sleep 2
   sound round ${LEVEL} objective-achieved
   draw-picture-centered level-${LEVEL}
   lol-draw-centered $((Y_CENTER - 2)) "P E R F O R M A N C E   B O N U S"
