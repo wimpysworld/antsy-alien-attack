@@ -11,10 +11,6 @@
         "BACK": {
             "action": "button(Keys.KEY_1)"
         }, 
-        "C": {
-            "action": "button(Keys.KEY_LEFTCTRL) and button(Keys.KEY_C)", 
-            "name": "CTRL + C"
-        }, 
         "CPADPRESS": {
             "action": "button(Keys.BTN_LEFT)"
         }, 
