@@ -291,14 +291,14 @@ object-collides-player() {
 
   if ((PLAYER == 1 && P1_DEAD == 0 && P1_FRAME == 0)); then
     if ((OBJECT_X >= P1_X && OBJECT_X <= P1_X + P1_WIDTH )); then
-      if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT)); then
+      if ((OBJECT_Y >= P1_Y && OBJECT_Y <= P1_Y + P1_HEIGHT - 1)); then
         return 0
       fi
     fi
     return 1
   elif ((PLAYER == 2 && P2_DEAD == 0 && P2_FRAME == 0)); then
     if ((OBJECT_X >= P2_X && OBJECT_X <= P2_X + P2_WIDTH )); then
-      if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT)); then
+      if ((OBJECT_Y >= P2_Y && OBJECT_Y <= P2_Y + P2_HEIGHT - 1)); then
         return 0
       fi
     fi
@@ -859,7 +859,7 @@ fighter-ai() {
           ((TOTAL_FIGHTERS--))
           ((FIGHTERS_ESCAPED++))
           continue
-        elif object-collides-player ${P1} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
+        elif object-collides-player ${P1} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 2))"; then
           # Remove the fighter
           case ${FIGHTER_TYPE} in
             $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
@@ -877,7 +877,7 @@ fighter-ai() {
           fi
           ((P1_KILLS++))
           player-increment-score ${P1} ${FIGHTER_POINTS}
-        elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 4))"; then
+        elif object-collides-player ${P2} "$((FIGHTER_X + 3))" "$((FIGHTER_Y + 2))"; then
           # Remove the fighter
           case ${FIGHTER_TYPE} in
             $HUNTER) erase-sprite-unmasked "${FIGHTER_X}" "${FIGHTER_Y}" "${HUNTER_SPRITE[@]}";;
