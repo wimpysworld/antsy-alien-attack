@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="img/avatar.png" alt="Antsy Alien Attack!">
+  <img src="img/avatar.png" width="128" height="128" alt="Antsy Alien Attack!">
   <br />
   Antsy Alient Attack!
 </h1>
