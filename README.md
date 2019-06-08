@@ -1,7 +1,7 @@
 <h1 align="center">
   <img src="img/avatar.png" width="128" height="128" alt="Antsy Alien Attack!">
   <br />
-  Antsy Alient Attack!
+  Antsy Alien Attack!
 </h1>
 
 <p align="center"><b>A game, written in Bash, that is a somewhat retro-a-like shoot 'em up. Hopefully.</b></p>
