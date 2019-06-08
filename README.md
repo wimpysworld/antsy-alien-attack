@@ -112,7 +112,7 @@ Player 1 and Player 2 control profiles for [sc-controller](https://github.com/ko
     - [x] Configuration
     - [x] Credits
   - [ ] Install
-    - [ ] Script
+    - [x] Script
     - [ ] PPA
     - [ ] Snap
 
