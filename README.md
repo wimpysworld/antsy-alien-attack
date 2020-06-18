@@ -160,7 +160,7 @@ and sound effects from [Kenney Vleugels](http://www.kenney.nl) and Viktor Hahn.
 
   * subshells and traps.
   * `case` is twice as fast as `if`, `elif`, `else`, `fi`.
-  * `echo -e` is fast than `tput` and `tput` is faster that `printf`.
+  * `echo -e` is faster than `tput` and `tput` is faster that `printf`.
   * Arithmetic comparison are faster than tests
     * For example `if ((HUNT_P1 == 1)); then` is faster than `if [ ${HUNT_P1} -eq 1]; then`
   * Bash has C style loops
