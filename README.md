@@ -129,7 +129,7 @@ for FONT in /usr/share/figlet/*.tlf; do echo $(basename $FONT) && toilet -t -f $
 ## Game Assets
 
 I found music and sound effects on [Open Game Art](https://opengameart.org).
-I ended up using Creative COmmons licensed mmusic from [Patrick de Arteaga](https://patrickdearteaga.com)
+I ended up using Creative Commons licensed music from [Patrick de Arteaga](https://patrickdearteaga.com)
 and sound effects from [Kenney Vleugels](http://www.kenney.nl) and Viktor Hahn.
 
 ## Fonts
