@@ -28,6 +28,12 @@ You'll need the following dependencies:
 sudo apt install coreutils lolcat mpg123 ncurses-bin procps vorbis-tools
 ```
 
+Or with Nix:
+
+```
+nix shell nixpkgs#lolcat nixpkgs#mpg123 nixpkgs#ncurses nixpkgs#procps nixpkgs#vorbis-tools --command ./aaa.sh
+```
+
 Execute `./aaa.sh` to run the game.
 
 ```bash
