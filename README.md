@@ -40,9 +40,21 @@ Execute `./aaa.sh` to run the game.
 ./aaa.sh
 ```
 
-## XBox controller support
+## Gamepad/Controller support
 
-This step is optional.
+This step is optional. You need a tool to map gamepad inputs to keyboard keys.
+
+### input-remapper (recommended)
+
+[input-remapper](https://github.com/sezanzeb/input-remapper) is an actively maintained GUI tool for remapping input devices.
+
+```bash
+sudo apt install input-remapper
+```
+
+### joy2key
+
+Alternatively, build [joy2key](https://sourceforge.net/projects/joy2key/) from source:
 
 ```
 sudo apt install libx11-dev x11-utils
